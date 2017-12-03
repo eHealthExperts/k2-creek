@@ -12,7 +12,7 @@ fn write_string_to_file(string: &str, dest: &str) {
 fn create_result_xml_string(cardType: &str, iccsn: &str, errorText: &str, instruction: &str,
     errorCode: &Option<String>) -> String {
     String::from(format!(
-r#"<?xml version=\"1.0\"?>
+r#"<?xml version="1.0"?>
 <Results>
     <cardType>{}</cardType>
     <iccsn>{}</iccsn>

@@ -1,7 +1,5 @@
 extern crate reqwest;
 
-use std::io::Error;
-
 #[derive(Deserialize)]
 pub struct ProofOfTest {
     pub xml: String
@@ -29,15 +27,12 @@ pub struct K2Response {
     pub geteGKData: GetEgkData
 }
 
-pub fn request_egk_data(url: &str) -> Result<K2Response, Error> {
-    let resp : K2Response = reqwest::get(url).unwrap().json().unwrap();
-
-    /*println!("vd: {},\ngvd: {},\npd: {},\nstatusVd: {},\nkvkdata: {:?},\npn.xml: {}",
-    &resp.geteGKData.vd,
-    &resp.geteGKData.gvd,
-    &resp.geteGKData.pd,
-    &resp.geteGKData.statusVd,
-    &resp.geteGKData.kvkdata,
-    &resp.geteGKData.pn.xml);*/
-    Ok(resp)
+pub fn request_egk_data(url: &str) -> Option<K2Response> {
+    match reqwest::get(url) {
+        Ok(ref mut resp) => match resp.json() {
+            Ok(json) => Some(json),
+            Err(e) => panic!("parsing response failed: {:?}", e)
+        },
+        Err(e) => panic!("request failed: {:?}", e)
+    }
 }
