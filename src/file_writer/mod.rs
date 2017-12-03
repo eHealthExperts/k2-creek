@@ -43,9 +43,8 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
     write_string_to_file(&resp.geteGKData.gvd, "eGK_geschuetzteVersichertendaten.xml");
     write_string_to_file(&resp.geteGKData.pd, "eGK_PersoenlicheVersichertendaten.xml");
     write_string_to_file(&resp.geteGKData.statusVd, "eGK_MFDF_HCA_EF_StatusVD.xml");
-    if resp.geteGKData.kvkdata.is_some() {
-        let kvkdata_ref = resp.geteGKData.kvkdata.as_ref().unwrap();
-        write_string_to_file(&kvkdata_ref, "eGK_allgemeineVersicherungsdaten.xml");
+    if let Some(ref kvkdata) = resp.geteGKData.kvkdata {
+        write_string_to_file(&kvkdata, "eGK_allgemeineVersicherungsdaten.xml");
     }
     write_string_to_file(&resp.geteGKData.pn.xml, "eGK_Pruefungsnachweis.xml");
     write_string_to_file(&create_result_xml_string(&resp.cardType,
