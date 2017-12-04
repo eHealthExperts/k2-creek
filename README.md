@@ -17,7 +17,7 @@ The `config.ini` allows to configure the URL to work with. The commented out lin
   * install Rust toolchain ([rustup.rs](https://rustup.rs/))
   * install [Visual C++ Build Tools 2015](http://landinghub.visualstudio.com/visual-cpp-build-tools)
   * install Virtualbox guest additions
-    * you need to add a CD drive to the VM before you can inject them
+     * you need to add a CD drive to the VM before you can inject them
   * `net use x: \\vboxsrv\vagrant` or access via "Network" and map it to a drive
   * in the mounted project folder execute `cargo build --release`
   * archive the binary together with a `config.ini`
