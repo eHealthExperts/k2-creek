@@ -9,6 +9,5 @@ def home():
         return Response(example_resp.read(), mimetype="application/json")
 
 
-
 if __name__ == '__main__':
     app.run()
