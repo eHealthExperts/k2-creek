@@ -3,14 +3,29 @@ use std::io::Write;
 
 use request::K2Response;
 
+macro_rules! unwrap_or_null {
+    ($option:ident) => (
+        $option.as_ref().unwrap_or(&String::from("null"))
+    )
+}
+
+macro_rules! write_file_if_some {
+    ($filename:expr,$option:expr) => (
+        if let Some(ref field_var) = $option {
+            write_string_to_file(&field_var, $filename);
+        }
+    )
+}
+
 fn write_string_to_file(string: &str, dest: &str) {
     let mut f = File::create(dest).expect("Unable to create file");
     f.write_all(string.as_bytes()).expect("Unable to write data");
 }
 
 #[allow(non_snake_case)]
-fn create_result_xml_string(cardType: &str, iccsn: &str, errorText: &str, instruction: &str,
-    errorCode: &Option<String>) -> String {
+fn create_result_xml_string(cardType: &Option<String>, iccsn: &Option<String>,
+                            errorText: &Option<String>, instruction: &Option<String>,
+                            errorCode: &Option<String>) -> String {
     String::from(format!(
 r#"<?xml version="1.0"?>
 <Results>
@@ -20,14 +35,14 @@ r#"<?xml version="1.0"?>
     <instruction>{}</instruction>
     <errorCode>{}</errorCode>
 </Results>"#,
-    cardType,
-    iccsn,
-    errorText,
-    instruction,
-    errorCode.as_ref().unwrap_or(&String::from("null"))))
+    unwrap_or_null!(cardType),
+    unwrap_or_null!(iccsn),
+    unwrap_or_null!(errorText),
+    unwrap_or_null!(instruction),
+    unwrap_or_null!(errorCode)))
 }
 
-fn create_mfefgdo_xml_string(iccsn: &str) -> String {
+fn create_mfefgdo_xml_string(iccsn: &Option<String>) -> String {
     String::from(format!(
 r#"<?xml version="1.0"?>
 <eGK_MFEF_GDO_Hexadezimal>
@@ -35,18 +50,21 @@ r#"<?xml version="1.0"?>
     <MFEF_GDO_Length_ICCSN>0A</MFEF_GDO_Length_ICCSN>
     <MFEF_GDO_Value_ICCSN>{}</MFEF_GDO_Value_ICCSN>
 </eGK_MFEF_GDO_Hexadezimal>"#,
-    iccsn))
+    unwrap_or_null!(iccsn)))
 }
 
+#[allow(non_snake_case)]
 pub fn dump_egk_data_to_files(resp: &K2Response) {
-    write_string_to_file(&resp.geteGKData.vd, "eGK_allgemeineVersicherungsdaten.xml");
-    write_string_to_file(&resp.geteGKData.gvd, "eGK_geschuetzteVersichertendaten.xml");
-    write_string_to_file(&resp.geteGKData.pd, "eGK_PersoenlicheVersichertendaten.xml");
-    write_string_to_file(&resp.geteGKData.statusVd, "eGK_MFDF_HCA_EF_StatusVD.xml");
-    if let Some(ref kvkdata) = resp.geteGKData.kvkdata {
-        write_string_to_file(&kvkdata, "eGK_allgemeineVersicherungsdaten.xml");
+    if let Some (ref ged) = resp.eGKData {
+        write_file_if_some!("eGK_allgemeineVersicherungsdaten.xml", ged.vd);
+        write_file_if_some!("eGK_geschuetzteVersichertendaten.xml", ged.gvd);
+        write_file_if_some!("eGK_PersoenlicheVersichertendaten.xml", ged.pd);
+        write_file_if_some!("eGK_MFDF_HCA_EF_StatusVD.xml", ged.statusVd);
+        write_file_if_some!("eGK_allgemeineVersicherungsdaten.xml", ged.kvkdata);
+        if let Some(ref pn) = ged.pn {
+            write_file_if_some!("eGK_Pruefungsnachweis.xml", pn.xml);
+        }
     }
-    write_string_to_file(&resp.geteGKData.pn.xml, "eGK_Pruefungsnachweis.xml");
     write_string_to_file(&create_result_xml_string(&resp.cardType,
                                                    &resp.iccsn,
                                                    &resp.errorText,
