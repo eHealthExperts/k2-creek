@@ -32,3 +32,8 @@ To allow independent development there's a simple HTTP server script included. F
 
 ## Running the mock on Windows
 If you want to run the `k2_mock.py` on Windows, you need to install [Python](https://www.python.org/downloads/release) (make sure to check the checkbox to add it to the env vars) and run `pip install flask` on the command line, just as the UNIX users do.
+
+## Requesting certain example responses
+You can request different kinds of mock responses by configuring the query parameter `resp_type`. See `k2_mock.py` for the available responses.
+
+Example: `path=/k2/public/api/1/carddata?resp_type=with_many_nulls`

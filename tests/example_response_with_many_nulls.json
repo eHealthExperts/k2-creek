@@ -1,0 +1,25 @@
+{
+  "cardHandle": "77b3f61b-8aaf-46f8-8e43-e5f0a406233f",
+  "cardType": "EHC",
+  "iccsn": "80276991110000000028",
+  "name": "Helmut Sébastian Fridolin Frankenstein",
+  "errorText": null,
+  "instruction": null,
+  "errorCode": null,
+  "insurantId": null,
+  "insertTime": 1512742017530,
+  "terminalId": "T1",
+  "slot": 1,
+  "pinResult": null,
+  "status": "PENDING",
+  "lastReadDate": 1512742312215,
+  "lastReadDuration": 2520,
+  "eGKData": {
+    "statusVd": "<StatusVD><UpdateTimestamp>20161017000000</UpdateTimestamp><Transaction>0</Transaction><Version><XML>5.2.0</XML></Version></StatusVD>",
+    "pd": "<?xml version=\"1.0\" encoding=\"ISO-8859-15\" standalone=\"yes\"?><UC_PersoenlicheVersichertendatenXML CDM_VERSION=\"5.2.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/vsd/v5.2\"><Versicherter><Versicherten_ID>X110414620</Versicherten_ID><Person><Geburtsdatum>19840113</Geburtsdatum><Vorname>Helmut Sébastian Fridolin</Vorname><Nachname>Frankenstein</Nachname><Geschlecht>M</Geschlecht><StrassenAdresse><Postleitzahl>99974</Postleitzahl><Ort>Mühlhausen</Ort><Land><Wohnsitzlaendercode>D</Wohnsitzlaendercode></Land><Strasse>Langensalzaer Str.</Strasse><Hausnummer>25</Hausnummer></StrassenAdresse></Person></Versicherter></UC_PersoenlicheVersichertendatenXML>",
+    "vd": "<?xml version=\"1.0\" encoding=\"ISO-8859-15\" standalone=\"yes\"?><UC_AllgemeineVersicherungsdatenXML CDM_VERSION=\"5.2.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/vsd/v5.2\"><Versicherter><Versicherungsschutz><Beginn>20170309</Beginn><Kostentraeger><Kostentraegerkennung>107202793</Kostentraegerkennung><Kostentraegerlaendercode>D</Kostentraegerlaendercode><Name>IKK Classic</Name></Kostentraeger></Versicherungsschutz><Zusatzinfos><ZusatzinfosGKV><Versichertenart>5</Versichertenart><Zusatzinfos_Abrechnung_GKV><WOP>93</WOP></Zusatzinfos_Abrechnung_GKV></ZusatzinfosGKV></Zusatzinfos></Versicherter></UC_AllgemeineVersicherungsdatenXML>",
+    "gvd": "<?xml version=\"1.0\" encoding=\"ISO-8859-15\" standalone=\"yes\"?><UC_GeschuetzteVersichertendatenXML CDM_VERSION=\"5.2.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/vsd/v5.2\"><Zuzahlungsstatus><Status>0</Status></Zuzahlungsstatus><Selektivvertraege><Aerztlich>0</Aerztlich><Zahnaerztlich>0</Zahnaerztlich></Selektivvertraege></UC_GeschuetzteVersichertendatenXML>",
+    "pn": null
+  },
+  "kvkdata": null
+}

@@ -2,29 +2,29 @@ extern crate reqwest;
 
 #[derive(Deserialize)]
 pub struct ProofOfTest {
-    pub xml: String
+    pub xml: Option<String>
 }
 
 #[allow(non_snake_case)]
 #[derive(Deserialize)]
-pub struct GetEgkData {
-    pub vd: String,
-    pub gvd: String,
-    pub pd: String,
-    pub statusVd: String,
+pub struct EgkData {
+    pub vd: Option<String>,
+    pub gvd: Option<String>,
+    pub pd: Option<String>,
+    pub statusVd: Option<String>,
     pub kvkdata: Option<String>,
-    pub pn: ProofOfTest
+    pub pn: Option<ProofOfTest>
 }
 
 #[allow(non_snake_case)]
 #[derive(Deserialize)]
 pub struct K2Response {
-    pub cardType: String,
-    pub iccsn: String,
-    pub errorText: String,
-    pub instruction: String,
+    pub cardType: Option<String>,
+    pub iccsn: Option<String>,
+    pub errorText: Option<String>,
+    pub instruction: Option<String>,
     pub errorCode: Option<String>,
-    pub geteGKData: GetEgkData
+    pub eGKData: Option<EgkData>
 }
 
 pub fn request_egk_data(url: &str) -> Option<K2Response> {
