@@ -3,6 +3,7 @@ A binary that retrieves JSON from a URL via HTTP. It then extracts relevant fiel
 
 ## Releases
 
+* [0.2.0](https://httpd.ehex.de/internal/egk_xml_dump-0.2.0.zip) JSON null field tolerance
 * [0.1.0](https://httpd.ehex.de/internal/egk_xml_dump-0.1.0.zip) Initial release
 
 ## Configuration
