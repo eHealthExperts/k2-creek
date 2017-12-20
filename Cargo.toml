@@ -1,6 +1,6 @@
 [package]
-name = "egk_xml_dump"
-version = "0.2.0"
+name = "k2creek"
+version = "0.2.1"
 authors = ["Benjamin Wenzel <wenzel@ehealthexperts.de>"]
 
 [dependencies]

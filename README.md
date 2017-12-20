@@ -1,10 +1,11 @@
-# eGK xml dump
+# K2 creek
 A binary that retrieves JSON from a URL via HTTP. It then extracts relevant fields and writes out some XML files.
 
 ## Releases
 
-* [0.2.0](https://httpd.ehex.de/internal/egk_xml_dump-0.2.0.zip) JSON null field tolerance
-* [0.1.0](https://httpd.ehex.de/internal/egk_xml_dump-0.1.0.zip) Initial release
+* [0.2.1](https://httpd.ehex.de/internal/k2creek/k2creek-0.2.1.zip) Statically linked C runtime
+* [0.2.0](https://httpd.ehex.de/internal/k2creek/egk_xml_dump-0.2.0.zip) JSON null field tolerance
+* [0.1.0](https://httpd.ehex.de/internal/k2creek/egk_xml_dump-0.1.0.zip) Initial release
 
 ## Configuration
 The `config.ini` allows to configure the URL to work with. The commented out lines in it are the defaults.
@@ -16,6 +17,12 @@ The `config.ini` allows to configure the URL to work with. The commented out lin
   * it appears desirable to have autoamtic access to the project files, but it causes trouble with the rust toolchain inside the VM, so just do a separate clone in the build_vm folder and work with that
 * in the started VM
   * install Rust toolchain ([rustup.rs](https://rustup.rs/))
+  * create the a file named `config` in `%USERPROFILE%\.cargo\` with content
+  ``` ini
+  [target.x86_64-pc-windows-msvc]
+  rustflags = ["-Ctarget-feature=+crt-static"]
+  ```
+  to cause the C runtime getting statically linked into the binary. Else you'd have to bundle `vcruntime140.dll` with it.
   * install [Visual C++ Build Tools 2015](http://landinghub.visualstudio.com/visual-cpp-build-tools)
   * install Virtualbox guest additions
      * you need to add a CD drive to the VM before you can inject them

@@ -100,17 +100,6 @@ version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
-name = "egk_xml_dump"
-version = "0.2.0"
-dependencies = [
- "reqwest 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "rust-ini 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde 1.0.23 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_derive 1.0.23 (registry+https://github.com/rust-lang/crates.io-index)",
- "serde_json 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "foreign-types"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -218,6 +207,17 @@ dependencies = [
 name = "itoa"
 version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "k2creek"
+version = "0.2.1"
+dependencies = [
+ "reqwest 0.8.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rust-ini 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde 1.0.23 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_derive 1.0.23 (registry+https://github.com/rust-lang/crates.io-index)",
+ "serde_json 1.0.6 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "kernel32-sys"
