@@ -18,7 +18,7 @@ The `config.ini` allows to configure the URL to work with. The commented out lin
 * in the started VM
   * install Rust toolchain ([rustup.rs](https://rustup.rs/))
   * create the a file named `config` in `%USERPROFILE%\.cargo\` with content
-  ``` ini
+  ```
   [target.x86_64-pc-windows-msvc]
   rustflags = ["-Ctarget-feature=+crt-static"]
   ```
