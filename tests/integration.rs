@@ -1,8 +1,11 @@
+extern crate encoding;
 extern crate nv_xml;
 extern crate reqwest;
 extern crate serde_json;
 extern crate test_server;
 
+use encoding::{DecoderTrap, Encoding};
+use encoding::all::ISO_8859_15;
 use nv_xml::XmlParser;
 use serde_json::Value;
 use std::fs::{self, File};
@@ -34,9 +37,9 @@ macro_rules! first_child_data {
 
 fn read_file(file: &str) -> String {
     let mut file = File::open(file).unwrap();
-    let mut contents = String::new();
-    file.read_to_string(&mut contents).unwrap();
-    contents
+    let mut ret = Vec::new();
+    file.read_to_end(&mut ret).unwrap();
+    ISO_8859_15.decode(&ret[..], DecoderTrap::Strict).unwrap()
 }
 
 fn delete_files() {
