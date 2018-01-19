@@ -1,7 +1,6 @@
+use request::K2Response;
 use std::fs::File;
 use std::io::Write;
-
-use request::K2Response;
 
 macro_rules! unwrap_or_null {
     ($option:ident) => (
@@ -19,15 +18,20 @@ macro_rules! write_file_if_some {
 
 fn write_string_to_file(string: &str, dest: &str) {
     let mut f = File::create(dest).expect("Unable to create file");
-    f.write_all(string.as_bytes()).expect("Unable to write data");
+    f.write_all(string.as_bytes())
+        .expect("Unable to write data");
 }
 
 #[allow(non_snake_case)]
-fn create_result_xml_string(cardType: &Option<String>, iccsn: &Option<String>,
-                            errorText: &Option<String>, instruction: &Option<String>,
-                            errorCode: &Option<String>) -> String {
+fn create_result_xml_string(
+    cardType: &Option<String>,
+    iccsn: &Option<String>,
+    errorText: &Option<String>,
+    instruction: &Option<String>,
+    errorCode: &Option<String>,
+) -> String {
     String::from(format!(
-r#"<?xml version="1.0"?>
+        r#"<?xml version="1.0"?>
 <Results>
     <cardType>{}</cardType>
     <iccsn>{}</iccsn>
@@ -35,41 +39,47 @@ r#"<?xml version="1.0"?>
     <instruction>{}</instruction>
     <errorCode>{}</errorCode>
 </Results>"#,
-    unwrap_or_null!(cardType),
-    unwrap_or_null!(iccsn),
-    unwrap_or_null!(errorText),
-    unwrap_or_null!(instruction),
-    unwrap_or_null!(errorCode)))
+        unwrap_or_null!(cardType),
+        unwrap_or_null!(iccsn),
+        unwrap_or_null!(errorText),
+        unwrap_or_null!(instruction),
+        unwrap_or_null!(errorCode)
+    ))
 }
 
 fn create_mfefgdo_xml_string(iccsn: &Option<String>) -> String {
     String::from(format!(
-r#"<?xml version="1.0"?>
+        r#"<?xml version="1.0"?>
 <eGK_MFEF_GDO_Hexadezimal>
     <MFEF_GDO_Tag_ICCSN>5A</MFEF_GDO_Tag_ICCSN>
     <MFEF_GDO_Length_ICCSN>0A</MFEF_GDO_Length_ICCSN>
     <MFEF_GDO_Value_ICCSN>{}</MFEF_GDO_Value_ICCSN>
 </eGK_MFEF_GDO_Hexadezimal>"#,
-    unwrap_or_null!(iccsn)))
+        unwrap_or_null!(iccsn)
+    ))
 }
 
 #[allow(non_snake_case)]
 pub fn dump_egk_data_to_files(resp: &K2Response) {
-    if let Some (ref ged) = resp.eGKData {
+    if let Some(ref ged) = resp.eGKData {
         write_file_if_some!("eGK_allgemeineVersicherungsdaten.xml", ged.vd);
         write_file_if_some!("eGK_geschuetzteVersichertendaten.xml", ged.gvd);
         write_file_if_some!("eGK_PersoenlicheVersichertendaten.xml", ged.pd);
         write_file_if_some!("eGK_MFDF_HCA_EF_StatusVD.xml", ged.statusVd);
-        write_file_if_some!("eGK_allgemeineVersicherungsdaten.xml", ged.kvkdata);
+        write_file_if_some!("KVK_Daten.xml", ged.kvkdata);
         if let Some(ref pn) = ged.pn {
             write_file_if_some!("eGK_Pruefungsnachweis.xml", pn.xml);
         }
     }
-    write_string_to_file(&create_result_xml_string(&resp.cardType,
-                                                   &resp.iccsn,
-                                                   &resp.errorText,
-                                                   &resp.instruction,
-                                                   &resp.errorCode),
-                                                   "Result.xml");
+    write_string_to_file(
+        &create_result_xml_string(
+            &resp.cardType,
+            &resp.iccsn,
+            &resp.errorText,
+            &resp.instruction,
+            &resp.errorCode,
+        ),
+        "Result.xml",
+    );
     write_string_to_file(&create_mfefgdo_xml_string(&resp.iccsn), "eGK_MFEFGDO.xml");
 }
