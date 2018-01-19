@@ -1,0 +1,163 @@
+extern crate nv_xml;
+extern crate reqwest;
+extern crate serde_json;
+extern crate test_server;
+
+use nv_xml::XmlParser;
+use serde_json::Value;
+use std::fs::{self, File};
+use std::io::prelude::*;
+use std::path::Path;
+use std::process::Command;
+use test_server::http::StatusCode;
+
+const BIN_PATH: &'static str = concat!(
+    env!("CARGO_MANIFEST_DIR"),
+    "/target/debug/",
+    env!("CARGO_PKG_NAME")
+);
+
+const AVD: &'static str = "eGK_allgemeineVersicherungsdaten.xml";
+const GVD: &'static str = "eGK_geschuetzteVersichertendaten.xml";
+const STATUSVD: &'static str = "eGK_MFDF_HCA_EF_StatusVD.xml";
+const PVD: &'static str = "eGK_PersoenlicheVersichertendaten.xml";
+const PN: &'static str = "eGK_Pruefungsnachweis.xml";
+const MFEFGDO: &'static str = "eGK_MFEFGDO.xml";
+const DATEN: &'static str = "KVK_Daten.xml";
+const RESULT: &'static str = "Result.xml";
+
+macro_rules! first_child_data {
+    ($element:ident) => {
+        $element.first().unwrap().data().unwrap()
+    };
+}
+
+fn read_file(file: &str) -> String {
+    let mut file = File::open(file).unwrap();
+    let mut contents = String::new();
+    file.read_to_string(&mut contents).unwrap();
+    contents
+}
+
+fn delete_files() {
+    for file in vec![AVD, GVD, STATUSVD, PVD, PN, MFEFGDO, DATEN, RESULT] {
+        match fs::remove_file(file) {
+            Ok(_) => {}
+            _ => {}
+        }
+    }
+}
+
+#[test]
+fn example_response() {
+    delete_files();
+
+    let contents = read_file("tests/example_response.json");
+
+    let server = test_server::serve(Some(String::from("127.0.0.1:5000")));
+    server.reply().status(StatusCode::OK).body(contents.clone());
+
+    let _ = Command::new(BIN_PATH).output().unwrap();
+
+    let json: Value = serde_json::from_str(&contents).unwrap();
+
+    assert!(Path::new(AVD).exists());
+    let vd = read_file(AVD);
+    assert_eq!(vd, json["eGKData"]["vd"]);
+
+    assert!(Path::new(GVD).exists());
+    let gvd = read_file(GVD);
+    assert_eq!(gvd, json["eGKData"]["gvd"]);
+
+    assert!(Path::new(STATUSVD).exists());
+    let status_vd = read_file(STATUSVD);
+    assert_eq!(status_vd, json["eGKData"]["statusVd"]);
+
+    assert!(Path::new(PVD).exists());
+    let pd = read_file(PVD);
+    assert_eq!(pd, json["eGKData"]["pd"]);
+
+    assert!(Path::new(PN).exists());
+    let xml = read_file(PN);
+    assert_eq!(xml, json["eGKData"]["pn"]["xml"]);
+
+    assert_eq!(false, Path::new(DATEN).exists());
+
+    assert!(Path::new(MFEFGDO).exists());
+    let mfefgdo_xml = read_file(MFEFGDO);
+    let mfefgdo = XmlParser::parse(&mfefgdo_xml).unwrap();
+    let mfefgdo_iccsn = mfefgdo.children_with_name("MFEF_GDO_Value_ICCSN");
+    assert_eq!(first_child_data!(mfefgdo_iccsn), json["iccsn"]);
+
+    assert!(Path::new(RESULT).exists());
+    let result_xml = read_file(RESULT);
+    let result = XmlParser::parse(&result_xml).unwrap();
+    let result_card_type = result.children_with_name("cardType");
+    assert_eq!(first_child_data!(result_card_type), json["cardType"]);
+    let result_iccsn = result.children_with_name("iccsn");
+    assert_eq!(first_child_data!(result_iccsn), json["iccsn"]);
+    let result_error_text = result.children_with_name("errorText");
+    assert_eq!(first_child_data!(result_error_text), json["errorText"]);
+    let result_instruction = result.children_with_name("instruction");
+    assert_eq!(first_child_data!(result_instruction), json["instruction"]);
+    let result_error_code = result.children_with_name("errorCode");
+    assert_eq!(first_child_data!(result_error_code), "null");
+    assert_eq!(None, json["errorCode"].as_str());
+}
+
+#[test]
+fn example_response_with_many_nulls() {
+    delete_files();
+
+    let contents = read_file("tests/example_response_with_many_nulls.json");
+
+    let server = test_server::serve(Some(String::from("127.0.0.1:5000")));
+    server.reply().status(StatusCode::OK).body(contents.clone());
+
+    let _ = Command::new(BIN_PATH).output().unwrap();
+
+    let json: Value = serde_json::from_str(&contents).unwrap();
+
+    assert!(Path::new(AVD).exists());
+    let vd = read_file(AVD);
+    assert_eq!(vd, json["eGKData"]["vd"]);
+
+    assert!(Path::new(GVD).exists());
+    let gvd = read_file(GVD);
+    assert_eq!(gvd, json["eGKData"]["gvd"]);
+
+    assert!(Path::new(STATUSVD).exists());
+    let status_vd = read_file(STATUSVD);
+    assert_eq!(status_vd, json["eGKData"]["statusVd"]);
+
+    assert!(Path::new(PVD).exists());
+    let pd = read_file(PVD);
+    assert_eq!(pd, json["eGKData"]["pd"]);
+
+    assert_eq!(false, Path::new(PN).exists());
+
+    assert_eq!(false, Path::new(DATEN).exists());
+
+    assert!(Path::new(MFEFGDO).exists());
+    let mfefgdo_xml = read_file(MFEFGDO);
+    let mfefgdo = XmlParser::parse(&mfefgdo_xml).unwrap();
+    let mfefgdo_iccsn = mfefgdo.children_with_name("MFEF_GDO_Value_ICCSN");
+    assert_eq!(first_child_data!(mfefgdo_iccsn), json["iccsn"]);
+
+    assert!(Path::new(RESULT).exists());
+    let result_xml = read_file(RESULT);
+    let result = XmlParser::parse(&result_xml).unwrap();
+    let result_card_type = result.children_with_name("cardType");
+    assert_eq!(first_child_data!(result_card_type), json["cardType"]);
+    let result_iccsn = result.children_with_name("iccsn");
+    assert_eq!(first_child_data!(result_iccsn), json["iccsn"]);
+    let result_error_text = result.children_with_name("errorText");
+    assert_eq!(first_child_data!(result_error_text), "null");
+    assert_eq!(None, json["errorText"].as_str());
+    let result_instruction = result.children_with_name("instruction");
+    assert_eq!(first_child_data!(result_instruction), "null");
+    assert_eq!(None, json["instruction"].as_str());
+    let result_error_code = result.children_with_name("errorCode");
+    assert_eq!(first_child_data!(result_error_code), "null");
+    assert_eq!(None, json["errorCode"].as_str());
+}
