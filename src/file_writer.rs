@@ -1,3 +1,5 @@
+use encoding::{EncoderTrap, Encoding};
+use encoding::all::ISO_8859_15;
 use request::K2Response;
 use std::fs::File;
 use std::io::Write;
@@ -17,9 +19,12 @@ macro_rules! write_file_if_some {
 }
 
 fn write_string_to_file(string: &str, dest: &str) {
-    let mut f = File::create(dest).expect("Unable to create file");
-    f.write_all(string.as_bytes())
-        .expect("Unable to write data");
+    if let Ok(encoded) = ISO_8859_15.encode(string, EncoderTrap::Strict) {
+        let mut f = File::create(dest).expect("Unable to create file");
+        f.write_all(&encoded[..]).expect("Unable to write data");
+    } else {
+        panic!("Failed to encode content for {}", dest)
+    }
 }
 
 #[allow(non_snake_case)]

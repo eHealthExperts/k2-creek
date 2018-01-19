@@ -5,6 +5,7 @@ authors = ["Benjamin Wenzel <wenzel@ehealthexperts.de>",
            "Christian Fochler <fochler@ehealthexperts.de>"]
 
 [dependencies]
+encoding = "0.2.33"
 reqwest = "0.8.1"
 rust-ini = "0.10.0"
 serde = "1.0.23"
