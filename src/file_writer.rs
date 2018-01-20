@@ -19,12 +19,13 @@ macro_rules! write_file_if_some {
 }
 
 fn write_string_to_file(string: &str, dest: &str) {
-    if let Ok(encoded) = ISO_8859_15.encode(string, EncoderTrap::Strict) {
-        let mut f = File::create(dest).expect("Unable to create file");
-        f.write_all(&encoded[..]).expect("Unable to write data");
-    } else {
-        panic!("Failed to encode content for {}", dest)
-    }
+    let encoded = match ISO_8859_15.encode(string, EncoderTrap::Strict) {
+        Ok(content) => content,
+        Err(why) => panic!("Failed to encode content for {}:\n{}", dest, why),
+    };
+
+    let mut file = File::create(dest).expect("Unable to create file");
+    file.write_all(&encoded[..]).expect("Unable to write data");
 }
 
 #[allow(non_snake_case)]
