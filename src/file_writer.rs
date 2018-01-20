@@ -36,7 +36,7 @@ fn create_result_xml_string(
     instruction: &Option<String>,
     errorCode: &Option<String>,
 ) -> String {
-    String::from(format!(
+    format!(
         r#"<?xml version="1.0"?>
 <Results>
     <cardType>{}</cardType>
@@ -50,11 +50,11 @@ fn create_result_xml_string(
         unwrap_or_null!(errorText),
         unwrap_or_null!(instruction),
         unwrap_or_null!(errorCode)
-    ))
+    )
 }
 
 fn create_mfefgdo_xml_string(iccsn: &Option<String>) -> String {
-    String::from(format!(
+    format!(
         r#"<?xml version="1.0"?>
 <eGK_MFEF_GDO_Hexadezimal>
     <MFEF_GDO_Tag_ICCSN>5A</MFEF_GDO_Tag_ICCSN>
@@ -62,7 +62,7 @@ fn create_mfefgdo_xml_string(iccsn: &Option<String>) -> String {
     <MFEF_GDO_Value_ICCSN>{}</MFEF_GDO_Value_ICCSN>
 </eGK_MFEF_GDO_Hexadezimal>"#,
         unwrap_or_null!(iccsn)
-    ))
+    )
 }
 
 #[allow(non_snake_case)]
