@@ -1,0 +1,52 @@
+version: 0.3.0-{branch}-{build}
+
+environment:
+    global:
+        RUST_BACKTRACE: full
+        RUST_TEST_THREADS: 1
+    matrix:
+        - channel: stable
+          target: x86_64-pc-windows-msvc
+          filename: k2-creek-x64.exe
+        - channel: stable
+          target: i686-pc-windows-msvc
+          filename: k2-creek-x86.exe
+
+install:
+    - curl -sSf -o rustup-init.exe https://win.rustup.rs/
+    - rustup-init.exe -y --default-host %target% --default-toolchain %channel%
+    - set PATH=%PATH%;C:\Users\appveyor\.cargo\bin
+    - rustc -vV
+    - cargo -vV
+    - rustup install nightly
+    - rustup update
+    - rustup run nightly cargo install rustfmt-nightly --force
+
+cache:
+    - '%USERPROFILE%\.cargo'
+
+build: off
+
+build_script: cargo build
+
+test_script:
+    - rustup run nightly cargo fmt --all
+    - cargo test --verbose --all -- --nocapture
+
+after_test:
+    - cargo build --release --verbose
+    - ren target\release\k2-creek.exe %filename%
+
+artifacts:
+    - path: 'target/release/*.exe'
+
+deploy:
+    description: ''
+    auth_token:
+        secure: VeDpNYDNNJvMfdBEgizkRlB/Goejuq3IVt5ltSJ48ZVGJpvxBNEApjHAvTuCsNAk
+    provider: GitHub
+    draft: false
+    prerelease: false
+    force_update: true
+    on:
+        appveyor_repo_tag: true
