@@ -3,6 +3,7 @@ extern crate ini;
 extern crate reqwest;
 #[macro_use]
 extern crate serde_derive;
+extern crate treexml;
 
 mod config;
 mod file_writer;

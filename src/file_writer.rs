@@ -1,8 +1,9 @@
-use encoding::{EncoderTrap, Encoding};
-use encoding::all::ISO_8859_15;
+use encoding::{self, EncoderTrap, EncodingRef};
+use encoding::label::encoding_from_whatwg_label;
 use request::K2Response;
 use std::fs::File;
 use std::io::Write;
+use treexml::Document;
 
 macro_rules! unwrap_or_null {
     ($option:ident) => (
@@ -11,15 +12,30 @@ macro_rules! unwrap_or_null {
 }
 
 macro_rules! write_file_if_some {
-    ($filename:expr,$option:expr) => (
+    ($filename:expr, $option:expr) => (
         if let Some(ref field_var) = $option {
             write_string_to_file(&field_var, $filename);
         }
     )
 }
 
+macro_rules! determine_encoding {
+    ($string:ident) => {
+        match Document::parse($string.as_bytes()) {
+            Ok(doc) => {
+                match encoding_from_whatwg_label(&doc.encoding) {
+                    Some(enc) => enc,
+                    None => encoding::all::ISO_8859_15 as EncodingRef
+                }
+            }
+            Err(why) => panic!("Failed to parse string!\n{}", why),
+        }
+    }
+}
+
 fn write_string_to_file(string: &str, dest: &str) {
-    let encoded = match ISO_8859_15.encode(string, EncoderTrap::Strict) {
+    let encoder = determine_encoding!(string);
+    let encoded = match encoder.encode(string, EncoderTrap::Strict) {
         Ok(content) => content,
         Err(why) => panic!("Failed to encode content for {}:\n{}", dest, why),
     };
