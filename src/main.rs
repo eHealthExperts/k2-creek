@@ -1,18 +1,21 @@
-#[macro_use] extern crate serde_derive;
+extern crate encoding;
+extern crate ini;
+extern crate reqwest;
+#[macro_use]
+extern crate serde_derive;
+extern crate treexml;
 
 mod config;
 mod file_writer;
 mod request;
 
-use config::generate_url_from_config;
-use file_writer::dump_egk_data_to_files;
-use request::request_egk_data;
-
 fn main() {
-    let url = generate_url_from_config();
+    let config = config::Config::new();
+    let url = config.to_url();
     println!("Retrieving data from {}", &url);
 
-    let resp = request_egk_data(&url).unwrap();
+    let res = request::request_egk_data(&url);
+    println!("Processing response...");
 
-    dump_egk_data_to_files(&resp);
+    file_writer::dump_egk_data_to_files(&res);
 }

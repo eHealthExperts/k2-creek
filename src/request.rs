@@ -1,8 +1,6 @@
-extern crate reqwest;
-
 #[derive(Deserialize)]
 pub struct ProofOfTest {
-    pub xml: Option<String>
+    pub xml: Option<String>,
 }
 
 #[allow(non_snake_case)]
@@ -13,7 +11,7 @@ pub struct EgkData {
     pub pd: Option<String>,
     pub statusVd: Option<String>,
     pub kvkdata: Option<String>,
-    pub pn: Option<ProofOfTest>
+    pub pn: Option<ProofOfTest>,
 }
 
 #[allow(non_snake_case)]
@@ -24,15 +22,15 @@ pub struct K2Response {
     pub errorText: Option<String>,
     pub instruction: Option<String>,
     pub errorCode: Option<String>,
-    pub eGKData: Option<EgkData>
+    pub eGKData: Option<EgkData>,
 }
 
-pub fn request_egk_data(url: &str) -> Option<K2Response> {
-    match reqwest::get(url) {
+pub fn request_egk_data(url: &str) -> K2Response {
+    match ::reqwest::get(url) {
         Ok(ref mut resp) => match resp.json() {
-            Ok(json) => Some(json),
-            Err(e) => panic!("parsing response failed: {:?}", e)
+            Ok(json) => json,
+            Err(e) => panic!("Parsing response failed\n{:?}", e),
         },
-        Err(e) => panic!("request failed: {:?}", e)
+        Err(e) => panic!("Request failed\n{:?}", e),
     }
 }
