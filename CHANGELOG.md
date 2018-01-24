@@ -6,10 +6,10 @@
 * add integration tests
 
 ## 0.2.1
-* Statically linked C runtime
+* statically linked C runtime
 
 ## 0.2.0
 * JSON null field tolerance
 
 ## 0.1.0
-* Initial release
+* initial release
