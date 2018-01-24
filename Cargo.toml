@@ -1,6 +1,6 @@
 [package]
 name = "k2creek"
-version = "0.2.1"
+version = "0.3.0"
 authors = ["Benjamin Wenzel <wenzel@ehealthexperts.de>",
            "Christian Fochler <fochler@ehealthexperts.de>"]
 
