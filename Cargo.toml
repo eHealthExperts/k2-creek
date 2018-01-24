@@ -1,6 +1,6 @@
 [package]
 name = "k2-creek"
-version = "0.2.1"
+version = "0.3.0"
 authors = ["Benjamin Wenzel <wenzel@ehealthexperts.de>",
            "Christian Fochler <fochler@ehealthexperts.de>"]
 license = "MIT"
@@ -10,11 +10,12 @@ publish = false
 
 [dependencies]
 encoding = "0.2.33"
-reqwest = "0.8.1"
+reqwest = "0.8.4"
 rust-ini = "0.10.0"
-serde = "1.0.23"
-serde_derive = "1.0.23"
-serde_json = "1.0.6"
+serde = "1.0.27"
+serde_derive = "1.0.27"
+serde_json = "1.0.9"
+treexml = { git = "https://github.com/ChriFo/treexml-rs", branch = "fix/defaultEncoding" }
 
 [dev-dependencies]
 nv-xml = "0.1.3"
