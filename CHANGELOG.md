@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.1
+* change default port to 8080
+
 ## 0.3.0
 * encode generated XML file with ISO-8859-15
 * add missing file KVK_Daten.xml

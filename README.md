@@ -4,7 +4,8 @@
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/2p4sq7nnsjn1wo95/branch/master?svg=true)](https://ci.appveyor.com/project/ChriFo/k2-creek)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-A Micrsoft Windows [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) that extract data from the electronic health insurance card via K2 and writes out some XML files (compatible with WINCrd2XML from Sagem Monetel).
+A Microsoft Windows [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) that extract data from the electronic health insurance card via [K2](https://k2.ehealthexperts.de/).<br/>
+It then extracts relevant fields and writes out some XML files (compatible with WINCrd2XML from Sagem Monetel).
 
 ## Requirements
 * [K2](https://k2.ehealthexperts.de/) from eHealth Experts GmbH
