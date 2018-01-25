@@ -1,7 +1,7 @@
 # K2 creek
 
 [![Latest](https://img.shields.io/github/release/eHealthExperts/k2-creek.svg?label=latest)](https://github.com/eHealthExperts/k2-creek/releases/latest)
-[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/2p4sq7nnsjn1wo95/branch/master?svg=true)](https://ci.appveyor.com/project/ChriFo/k2-creek)
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/5a6767tajuwrps1l/branch/master?svg=true)](https://ci.appveyor.com/project/ChriFo/k2-creek)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 A Microsoft Windows [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) that extract data from the electronic health insurance card via [K2](https://k2.ehealthexperts.de/).<br/>
