@@ -18,7 +18,7 @@ impl Default for Config {
         Config {
             scheme: String::from("http"),
             host: String::from("localhost"),
-            port: String::from("5000"),
+            port: String::from("8080"),
             path: String::from("/k2/public/api/1/carddata"),
         }
     }

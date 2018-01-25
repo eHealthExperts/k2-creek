@@ -57,7 +57,7 @@ fn example_response() {
 
     let contents = read_file("tests/example_response.json");
 
-    let server = test_server::serve(Some("127.0.0.1:5000"));
+    let server = test_server::serve(Some("127.0.0.1:8080"));
     server.reply().status(StatusCode::OK).body(contents.clone());
 
     let _ = Command::new(BIN_PATH).output().unwrap();
@@ -114,7 +114,7 @@ fn example_response_with_many_nulls() {
 
     let contents = read_file("tests/example_response_with_many_nulls.json");
 
-    let server = test_server::serve(Some("127.0.0.1:5000"));
+    let server = test_server::serve(Some("127.0.0.1:8080"));
     server.reply().status(StatusCode::OK).body(contents.clone());
 
     let _ = Command::new(BIN_PATH).output().unwrap();
