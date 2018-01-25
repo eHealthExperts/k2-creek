@@ -1,5 +1,4 @@
-/target/
-**/*.rs.bk
+target
+*.rs.bk
 *.xml
-/build_vm/
-/.ropeproject/
+*.ini

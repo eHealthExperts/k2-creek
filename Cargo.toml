@@ -1,8 +1,12 @@
 [package]
-name = "k2creek"
+name = "k2-creek"
 version = "0.3.0"
 authors = ["Benjamin Wenzel <wenzel@ehealthexperts.de>",
            "Christian Fochler <fochler@ehealthexperts.de>"]
+license = "MIT"
+homepage = "http://k2.ehealthexperts.de"
+repository = "https://github.com/eHealthExperts/k2-creek.git"
+publish = false
 
 [dependencies]
 encoding = "0.2.33"
@@ -16,3 +20,27 @@ treexml = { git = "https://github.com/ChriFo/treexml-rs", branch = "fix/defaultE
 [dev-dependencies]
 nv-xml = "0.1.3"
 test-server = { git = "https://github.com/ChriFo/test-server-rs", tag = "v0.3.1" }
+
+[target.'cfg(windows)'.build-dependencies]
+winres = "0.1.5"
+
+[package.metadata.winres]
+FileVersion = "0.2.1"
+LegalCopyright = "eHealthExperts GmbH. All rights reserved."
+ProductName = "K2 creek"
+ProductVersion = "0.2.1"
+
+[package.metadata.release]
+sign-commit = true
+disable-push = true
+upload-doc = false
+no-dev-version = true
+tag-message = "{{version}}"
+tag-prefix = "v"
+pre-release-commit-message = "{{version}}"
+pre-release-replacements = [
+    {file=".appveyor.yml", search="version: [a-z0-9\\.\\-\\{\\}]+", replace="version: {{version}}-{branch}-{build}"},
+    {file="Cargo.toml", search="version = \"[0-9\\.]+\"", replace="version = \"{{version}}\""},
+    {file="Cargo.toml", search="FileVersion = \"[0-9\\.]+\"", replace="FileVersion = \"{{version}}\""},
+    {file="Cargo.toml", search="ProductVersion = \"[0-9\\.]+\"", replace="ProductVersion = \"{{version}}\""},
+]
