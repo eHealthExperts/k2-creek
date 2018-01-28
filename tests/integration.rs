@@ -109,6 +109,7 @@ fn example_response() {
 }
 
 #[test]
+#[ignore] // because of https://github.com/carllerche/mio/issues/776
 fn example_response_with_many_nulls() {
     delete_files();
 
