@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.2
+* disable test to enable ci builds
+
 ## 0.3.1
 * change default port to 8080
 
