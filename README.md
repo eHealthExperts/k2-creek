@@ -10,6 +10,22 @@ It then extracts relevant fields and writes out some XML files (compatible with 
 ## Requirements
 * [K2](https://k2.ehealthexperts.de/) from eHealth Experts GmbH
 
+## Usage
+
+Copy the [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) into a desired folder. After the binary was executed, the card information at the configured K2 path will be written as XML files next to the binary. The following files are created when information is delivered by the card:<br/>
+
+- `eGK_allgemeineVersicherungsdaten.xml`
+- `eGK_geschuetzteVersichertendaten.xml`
+- `eGK_MFDF_HCA_EF_StatusVD.xml`
+- `eGK_MFEFGDO.xml`
+- `eGK_PersoenlicheVersichertendaten.xml`
+- `eGK_Pruefungsnachweis.xml`
+- `KVK_Daten.xml`
+- `Result.xml`
+
+For more information of the file content have a look into the WinCrd2XML handbook.
+
+
 ## Configuration
 Locate a file `config.ini` next to the binary to configure the URL to work with.<br/>
 The following example shows the default values.
