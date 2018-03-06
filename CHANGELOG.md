@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.4
+* fix ci builds
+
 ## 0.3.3
 * write KVK data as ASN.1 binary file
 
