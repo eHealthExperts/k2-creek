@@ -30,7 +30,7 @@ const DATEN: &'static str = "KVK_Daten.bin";
 const RESULT: &'static str = "Result.xml";
 
 macro_rules! first_child_data {
-    ($element:ident) => {
+    ($element: ident) => {
         $element.first().unwrap().data().unwrap()
     };
 }
