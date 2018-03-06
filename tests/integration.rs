@@ -26,7 +26,7 @@ const STATUSVD: &'static str = "eGK_MFDF_HCA_EF_StatusVD.xml";
 const PVD: &'static str = "eGK_PersoenlicheVersichertendaten.xml";
 const PN: &'static str = "eGK_Pruefungsnachweis.xml";
 const MFEFGDO: &'static str = "eGK_MFEFGDO.xml";
-const DATEN: &'static str = "KVK_Daten.xml";
+const DATEN: &'static str = "KVK_Daten.bin";
 const RESULT: &'static str = "Result.xml";
 
 macro_rules! first_child_data {
@@ -84,8 +84,6 @@ fn example_response() {
     let xml = read_file(PN);
     assert_eq!(xml, json["eGKData"]["pn"]["xml"]);
 
-    assert_eq!(false, Path::new(DATEN).exists());
-
     assert!(Path::new(MFEFGDO).exists());
     let mfefgdo_xml = read_file(MFEFGDO);
     let mfefgdo = XmlParser::parse(&mfefgdo_xml).unwrap();
@@ -106,6 +104,9 @@ fn example_response() {
     let result_error_code = result.children_with_name("errorCode");
     assert_eq!(first_child_data!(result_error_code), "null");
     assert_eq!(None, json["errorCode"].as_str());
+
+    assert!(Path::new(DATEN).exists());
+    assert!(fs::metadata(DATEN).unwrap().len() > 0);
 }
 
 #[test]

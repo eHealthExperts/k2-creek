@@ -10,7 +10,6 @@ pub struct EgkData {
     pub gvd: Option<String>,
     pub pd: Option<String>,
     pub statusVd: Option<String>,
-    pub kvkdata: Option<String>,
     pub pn: Option<ProofOfTest>,
 }
 
@@ -23,6 +22,7 @@ pub struct K2Response {
     pub instruction: Option<String>,
     pub errorCode: Option<String>,
     pub eGKData: Option<EgkData>,
+    pub kvkdata: Option<String>,
 }
 
 pub fn request_egk_data(url: &str) -> K2Response {

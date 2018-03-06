@@ -1,3 +1,4 @@
+extern crate base64;
 extern crate encoding;
 extern crate ini;
 extern crate reqwest;

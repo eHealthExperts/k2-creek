@@ -3,6 +3,7 @@ use encoding::label::encoding_from_whatwg_label;
 use request::K2Response;
 use std::fs::File;
 use std::io::Write;
+use std::str;
 use treexml::Document;
 
 macro_rules! unwrap_or_null {
@@ -88,11 +89,11 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
         write_file_if_some!("eGK_geschuetzteVersichertendaten.xml", ged.gvd);
         write_file_if_some!("eGK_PersoenlicheVersichertendaten.xml", ged.pd);
         write_file_if_some!("eGK_MFDF_HCA_EF_StatusVD.xml", ged.statusVd);
-        write_file_if_some!("KVK_Daten.xml", ged.kvkdata);
         if let Some(ref pn) = ged.pn {
             write_file_if_some!("eGK_Pruefungsnachweis.xml", pn.xml);
         }
     }
+
     write_string_to_file(
         &create_result_xml_string(
             &resp.cardType,
@@ -103,5 +104,16 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
         ),
         "Result.xml",
     );
+
     write_string_to_file(&create_mfefgdo_xml_string(&resp.iccsn), "eGK_MFEFGDO.xml");
+
+    if let Some(ref kvkdata) = resp.kvkdata {
+        let bytes = match ::base64::decode(kvkdata) {
+            Ok(content) => content,
+            Err(why) => panic!("Failed to decode kvkdata:\n{}", why),
+        };
+
+        let mut file = File::create("KVK_Daten.bin").expect("Unable to create file");
+        file.write_all(&bytes[..]).expect("Unable to write data");
+    }
 }

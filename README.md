@@ -5,10 +5,25 @@
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 A Microsoft Windows [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) that extract data from the electronic health insurance card via [K2](https://k2.ehealthexperts.de/).<br/>
-It then extracts relevant fields and writes out some XML files (compatible with WINCrd2XML from Sagem Monetel).
+It then extracts relevant fields and writes out some XML/binary files (compatible with WINCrd2XML from Sagem Monetel).
 
 ## Requirements
 * [K2](https://k2.ehealthexperts.de/) from eHealth Experts GmbH
+
+## Usage
+
+Copy the [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) into a desired folder. After the binary was executed, the card information at the configured K2 path will be written as XML/binary files next to the executable. The following files are created when information is delivered by the card:<br/>
+
+- `eGK_allgemeineVersicherungsdaten.xml`
+- `eGK_geschuetzteVersichertendaten.xml`
+- `eGK_MFDF_HCA_EF_StatusVD.xml`
+- `eGK_MFEFGDO.xml`
+- `eGK_PersoenlicheVersichertendaten.xml`
+- `eGK_Pruefungsnachweis.xml`
+- `KVK_Daten.bin`
+- `Result.xml`
+
+For more information of the file content have a look into the WinCrd2XML handbook.
 
 ## Configuration
 Locate a file `config.ini` next to the binary to configure the URL to work with.<br/>
