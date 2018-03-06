@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.3
+* write KVK data as ASN.1 binary file
+
 ## 0.3.2
 * disable test to enable ci builds
 
