@@ -105,7 +105,7 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
 
     write_string_to_file(&create_mfefgdo_xml_string(&resp.iccsn), "eGK_MFEFGDO.xml");
 
-    if let Some(ref kvkdata) = resp.kvkdata {
+    if let Some(ref kvkdata) = resp.kvkData {
         let bytes = match ::base64::decode(kvkdata) {
             Ok(content) => content,
             Err(why) => panic!("Failed to decode kvkdata:\n{}", why),

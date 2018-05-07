@@ -22,7 +22,7 @@ pub struct K2Response {
     pub instruction: Option<String>,
     pub errorCode: Option<String>,
     pub eGKData: Option<EgkData>,
-    pub kvkdata: Option<String>,
+    pub kvkData: Option<String>,
 }
 
 pub fn request_egk_data(url: &str) -> K2Response {
