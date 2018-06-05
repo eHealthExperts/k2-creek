@@ -49,7 +49,7 @@ fn create_result_xml_string(
     iccsn: &Option<String>,
     errorText: &Option<String>,
     instruction: &Option<String>,
-    errorCode: &Option<String>,
+    errorCode: &Option<i32>,
 ) -> String {
     format!(
         r#"<?xml version="1.0"?>
