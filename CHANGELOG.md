@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.6
+* fix return type of errorCode
+
+## 0.3.5
+* fix kvkData
+
 ## 0.3.4
 * fix ci builds
 
