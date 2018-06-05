@@ -91,14 +91,17 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
             write_file_if_some!("eGK_Pruefungsnachweis.xml", pn.xml);
         }
     }
-
+    let error_code_opt = match resp.errorCode {
+        Some(code) => Some(code.to_string()),
+        None => None
+    };
     write_string_to_file(
         &create_result_xml_string(
             &resp.cardType,
             &resp.iccsn,
             &resp.errorText,
             &resp.instruction,
-            &resp.errorCode,
+            &error_code_opt,
         ),
         "Result.xml",
     );
