@@ -110,6 +110,25 @@ fn example_response() {
 }
 
 #[test]
+#[ignore]
+fn example_response_with_error_code() {
+    delete_files();
+
+    let contents = read_file("tests/example_response_with_error_code.json");
+
+    let server = test_server::serve(Some("127.0.0.1:8080"));
+    server.reply().status(StatusCode::OK).body(contents.clone());
+
+    let _ = Command::new(BIN_PATH).output().unwrap();
+
+    assert!(Path::new(RESULT).exists());
+    let result_xml = read_file(RESULT);
+    let result = XmlParser::parse(&result_xml).unwrap();
+    let result_error_code = result.children_with_name("errorCode");
+    assert_eq!(first_child_data!(result_error_code), "123");
+}
+
+#[test]
 #[ignore] // because of https://github.com/carllerche/mio/issues/776
 fn example_response_with_many_nulls() {
     delete_files();

@@ -20,7 +20,7 @@ pub struct K2Response {
     pub iccsn: Option<String>,
     pub errorText: Option<String>,
     pub instruction: Option<String>,
-    pub errorCode: Option<String>,
+    pub errorCode: Option<i32>,
     pub eGKData: Option<EgkData>,
     pub kvkData: Option<String>,
 }
