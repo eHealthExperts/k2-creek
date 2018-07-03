@@ -1,14 +1,24 @@
+use creek_files::handle_files_on_users_command;
+use creek_files::CreekFileType::*;
+use creek_files::*;
 use encoding::label::encoding_from_whatwg_label;
 use encoding::{self, EncoderTrap, EncodingRef};
 use request::K2Response;
 use std::fs::File;
 use std::io::Write;
-use std::str;
 use treexml::Document;
 
 macro_rules! unwrap_or_null {
     ($option:ident) => {
         $option.as_ref().unwrap_or(&String::from("null"))
+    };
+}
+
+macro_rules! filename_by_type {
+    ($xml_type:ident) => {
+        FILENAMES
+            .get(&$xml_type)
+            .expect("No matching file type found in known FILENAMES")
     };
 }
 
@@ -41,6 +51,7 @@ fn write_string_to_file(string: &str, dest: &str) {
 
     let mut file = File::create(dest).expect("Unable to create file");
     file.write_all(&encoded[..]).expect("Unable to write data");
+    println!("Wrote file {:?}", dest);
 }
 
 #[allow(non_snake_case)]
@@ -80,15 +91,22 @@ fn create_mfefgdo_xml_string(iccsn: &Option<String>) -> String {
     )
 }
 
+fn handle_leftovers() {
+    if FILENAMES.values().any(|file| check_exists(file)) {
+        handle_files_on_users_command();
+    }
+}
+
 #[allow(non_snake_case)]
 pub fn dump_egk_data_to_files(resp: &K2Response) {
+    handle_leftovers();
     if let Some(ref ged) = resp.eGKData {
-        write_file_if_some!("eGK_allgemeineVersicherungsdaten.xml", ged.vd);
-        write_file_if_some!("eGK_geschuetzteVersichertendaten.xml", ged.gvd);
-        write_file_if_some!("eGK_PersoenlicheVersichertendaten.xml", ged.pd);
-        write_file_if_some!("eGK_MFDF_HCA_EF_StatusVD.xml", ged.statusVd);
+        write_file_if_some!(filename_by_type!(EgkAllgemein), ged.vd);
+        write_file_if_some!(filename_by_type!(EgkGeschuetzt), ged.gvd);
+        write_file_if_some!(filename_by_type!(EgkPersoenlich), ged.pd);
+        write_file_if_some!(filename_by_type!(EgkMFDFHCAEF), ged.statusVd);
         if let Some(ref pn) = ged.pn {
-            write_file_if_some!("eGK_Pruefungsnachweis.xml", pn.xml);
+            write_file_if_some!(filename_by_type!(EgkPruefungsnachweis), pn.xml);
         }
     }
     let error_code_opt = match resp.errorCode {
@@ -103,10 +121,13 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
             &resp.instruction,
             &error_code_opt,
         ),
-        "Result.xml",
+        filename_by_type!(EgkResult),
     );
 
-    write_string_to_file(&create_mfefgdo_xml_string(&resp.iccsn), "eGK_MFEFGDO.xml");
+    write_string_to_file(
+        &create_mfefgdo_xml_string(&resp.iccsn),
+        filename_by_type!(EgkMFEFGDO),
+    );
 
     if let Some(ref kvkdata) = resp.kvkData {
         let bytes = match ::base64::decode(kvkdata) {
@@ -114,7 +135,7 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
             Err(why) => panic!("Failed to decode kvkdata:\n{}", why),
         };
 
-        let mut file = File::create("KVK_Daten.bin").expect("Unable to create file");
+        let mut file = File::create(filename_by_type!(KvkDaten)).expect("Unable to create file");
         file.write_all(&bytes[..]).expect("Unable to write data");
     }
 }

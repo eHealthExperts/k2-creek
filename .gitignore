@@ -3,3 +3,5 @@ target
 *.xml
 *.ini
 *.bin
+*.py
+*.pyc
