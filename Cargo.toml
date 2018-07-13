@@ -30,17 +30,3 @@ FileVersion = "0.3.6"
 LegalCopyright = "eHealthExperts GmbH. All rights reserved."
 ProductName = "K2 creek"
 ProductVersion = "0.3.6"
-
-[package.metadata.release]
-sign-commit = true
-disable-push = true
-upload-doc = false
-no-dev-version = true
-tag-message = "{{version}}"
-tag-prefix = "v"
-pre-release-commit-message = "{{version}}"
-pre-release-replacements = [
-    {file=".appveyor.yml", search="version: [a-z0-9\\.\\-\\{\\}]+", replace="version: {{version}}-{branch}-{build}"},
-    {file="Cargo.toml", search="FileVersion = \"[0-9\\.]+\"", replace="FileVersion = \"{{version}}\""},
-    {file="Cargo.toml", search="ProductVersion = \"[0-9\\.]+\"", replace="ProductVersion = \"{{version}}\""},
-]
