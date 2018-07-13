@@ -9,10 +9,10 @@ use encoding::all::ISO_8859_15;
 use nv_xml::XmlParser;
 use serde_json::Value;
 use std::fs::{self, File};
-use std::io::prelude::*;
+use std::io::Read;
 use std::path::Path;
 use std::process::Command;
-use test_server::http::StatusCode;
+use test_server::{actix_web::HttpResponse, TestServer};
 
 const BIN_PATH: &'static str = concat!(
     env!("CARGO_MANIFEST_DIR"),
@@ -55,13 +55,14 @@ fn delete_files() {
 fn example_response() {
     delete_files();
 
-    let contents = read_file("tests/example_response.json");
-
-    let server = test_server::serve(Some("127.0.0.1:8080"));
-    server.reply().status(StatusCode::OK).body(contents.clone());
+    let _server = TestServer::new(8080, |_| {
+        let content = read_file("tests/example_response.json");
+        HttpResponse::Ok().body(content).into()
+    });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
 
+    let contents = read_file("tests/example_response.json");
     let json: Value = serde_json::from_str(&contents).unwrap();
 
     assert!(Path::new(AVD).exists());
@@ -110,14 +111,13 @@ fn example_response() {
 }
 
 #[test]
-#[ignore]
 fn example_response_with_error_code() {
     delete_files();
 
-    let contents = read_file("tests/example_response_with_error_code.json");
-
-    let server = test_server::serve(Some("127.0.0.1:8080"));
-    server.reply().status(StatusCode::OK).body(contents.clone());
+    let _server = TestServer::new(8080, |_| {
+        let content = read_file("tests/example_response_with_error_code.json");
+        HttpResponse::Ok().body(content).into()
+    });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
 
@@ -129,17 +129,17 @@ fn example_response_with_error_code() {
 }
 
 #[test]
-#[ignore] // because of https://github.com/carllerche/mio/issues/776
 fn example_response_with_many_nulls() {
     delete_files();
 
-    let contents = read_file("tests/example_response_with_many_nulls.json");
-
-    let server = test_server::serve(Some("127.0.0.1:8080"));
-    server.reply().status(StatusCode::OK).body(contents.clone());
+    let _server = TestServer::new(8080, |_| {
+        let content = read_file("tests/example_response_with_many_nulls.json");
+        HttpResponse::Ok().body(content).into()
+    });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
 
+    let contents = read_file("tests/example_response_with_many_nulls.json");
     let json: Value = serde_json::from_str(&contents).unwrap();
 
     assert!(Path::new(AVD).exists());
