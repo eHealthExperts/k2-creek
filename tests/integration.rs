@@ -4,8 +4,8 @@ extern crate reqwest;
 extern crate serde_json;
 extern crate test_server;
 
-use encoding::{DecoderTrap, Encoding};
 use encoding::all::ISO_8859_15;
+use encoding::{DecoderTrap, Encoding};
 use nv_xml::XmlParser;
 use serde_json::Value;
 use std::fs::{self, File};
@@ -30,7 +30,7 @@ const DATEN: &'static str = "KVK_Daten.bin";
 const RESULT: &'static str = "Result.xml";
 
 macro_rules! first_child_data {
-    ($element: ident) => {
+    ($element:ident) => {
         $element.first().unwrap().data().unwrap()
     };
 }

@@ -1,5 +1,5 @@
-use encoding::{self, EncoderTrap, EncodingRef};
 use encoding::label::encoding_from_whatwg_label;
+use encoding::{self, EncoderTrap, EncodingRef};
 use request::K2Response;
 use std::fs::File;
 use std::io::Write;
@@ -7,13 +7,13 @@ use std::str;
 use treexml::Document;
 
 macro_rules! unwrap_or_null {
-    ($option: ident) => {
+    ($option:ident) => {
         $option.as_ref().unwrap_or(&String::from("null"))
     };
 }
 
 macro_rules! write_file_if_some {
-    ($filename: expr, $option: expr) => {
+    ($filename:expr, $option:expr) => {
         if let Some(ref field_var) = $option {
             write_string_to_file(&field_var, $filename);
         }
@@ -21,7 +21,7 @@ macro_rules! write_file_if_some {
 }
 
 macro_rules! determine_encoding {
-    ($string: ident) => {
+    ($string:ident) => {
         match Document::parse($string.as_bytes()) {
             Ok(doc) => match encoding_from_whatwg_label(&doc.encoding) {
                 Some(enc) => enc,
@@ -93,7 +93,7 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
     }
     let error_code_opt = match resp.errorCode {
         Some(code) => Some(code.to_string()),
-        None => None
+        None => None,
     };
     write_string_to_file(
         &create_result_xml_string(
