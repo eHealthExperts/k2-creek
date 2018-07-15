@@ -57,7 +57,10 @@ fn example_response() {
 
     let _server = TestServer::new(8080, |_| {
         let content = read_file("tests/example_response.json");
-        HttpResponse::Ok().body(content).into()
+        HttpResponse::Ok()
+            .header("Content-Type", "application/json")
+            .body(content)
+            .into()
     });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
@@ -117,7 +120,10 @@ fn example_response_with_error_code() {
 
     let _server = TestServer::new(8080, |_| {
         let content = read_file("tests/example_response_with_error_code.json");
-        HttpResponse::Ok().body(content).into()
+        HttpResponse::Ok()
+            .header("Content-Type", "application/json")
+            .body(content)
+            .into()
     });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
@@ -136,7 +142,10 @@ fn example_response_with_many_nulls() {
 
     let _server = TestServer::new(8080, |_| {
         let content = read_file("tests/example_response_with_many_nulls.json");
-        HttpResponse::Ok().body(content).into()
+        HttpResponse::Ok()
+            .header("Content-Type", "application/json")
+            .body(content)
+            .into()
     });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
