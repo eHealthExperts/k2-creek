@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.3.7
+* enable all tests
+
 ## 0.3.6
 * fix return type of errorCode
 

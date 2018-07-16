@@ -5,10 +5,10 @@ environment:
         RUST_BACKTRACE: full
         RUST_TEST_THREADS: 1
     matrix:
-        - channel: stable
+        - channel: nightly
           target: x86_64-pc-windows-msvc
           filename: k2-creek-x64.exe
-        - channel: stable
+        - channel: nightly
           target: i686-pc-windows-msvc
           filename: k2-creek-x86.exe
 
@@ -18,9 +18,7 @@ install:
     - set PATH=%PATH%;C:\Users\appveyor\.cargo\bin
     - rustc -vV
     - cargo -vV
-    - rustup install nightly
-    - rustup update
-    - rustup run nightly cargo install rustfmt-nightly --force
+    - rustup component add rustfmt-preview
 
 cache:
     - '%USERPROFILE%\.cargo'
@@ -30,7 +28,7 @@ build: off
 build_script: cargo build
 
 test_script:
-    - rustup run nightly cargo fmt --all
+    - cargo fmt --all -- --check
     - cargo test --verbose --all -- --nocapture
 
 after_test:
