@@ -1,5 +1,5 @@
 macro_rules! replace_by_ini {
-    ($ini: ident, $target: expr, $config_key: expr) => {
+    ($ini:ident, $target:expr, $config_key:expr) => {
         if let Some(val) = $ini.get_from(Some("settings"), $config_key) {
             $target = val.to_owned();
         }
