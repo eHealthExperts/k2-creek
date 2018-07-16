@@ -33,6 +33,6 @@ The following example shows the default values.
 [settings]
 scheme=http
 host=localhost
-port=8080
+port=8089
 path=/k2/public/api/1/carddata
 ```
