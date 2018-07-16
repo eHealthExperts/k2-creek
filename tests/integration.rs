@@ -111,6 +111,7 @@ fn example_response() {
 }
 
 #[test]
+#[cfg(not(target_os = "windows"))] // carllerche/mio#776
 fn example_response_with_error_code() {
     delete_files();
 
@@ -129,6 +130,7 @@ fn example_response_with_error_code() {
 }
 
 #[test]
+#[cfg(not(target_os = "windows"))] // carllerche/mio#776
 fn example_response_with_many_nulls() {
     delete_files();
 
