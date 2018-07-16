@@ -12,7 +12,7 @@ use std::fs::{self, File};
 use std::io::Read;
 use std::path::Path;
 use std::process::Command;
-use test_server::{actix_web::HttpResponse, TestServer};
+use test_server::{HttpResponse, TestServer};
 
 const BIN_PATH: &'static str = concat!(
     env!("CARGO_MANIFEST_DIR"),
