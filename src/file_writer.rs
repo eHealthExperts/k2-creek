@@ -1,5 +1,8 @@
 use creek_files::handle_files_on_users_command;
-use creek_files::CreekFileType::*;
+use creek_files::CreekFileType::{
+    EgkAllgemein, EgkGeschuetzt, EgkMFDFHCAEF, EgkMFEFGDO, EgkPersoenlich, EgkPruefungsnachweis,
+    EgkResult, KvkDaten,
+};
 use creek_files::*;
 use encoding::label::encoding_from_whatwg_label;
 use encoding::{self, EncoderTrap, EncodingRef};
@@ -43,8 +46,8 @@ macro_rules! determine_encoding {
 }
 
 fn write_string_to_file(string: &str, dest: &str) {
-    let encoder = determine_encoding!(string);
-    let encoded = match encoder.encode(string, EncoderTrap::Strict) {
+    let encoding = determine_encoding!(string);
+    let encoded = match encoding.encode(string, EncoderTrap::Strict) {
         Ok(content) => content,
         Err(why) => panic!("Failed to encode content for {}:\n{}", dest, why),
     };

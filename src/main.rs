@@ -6,6 +6,7 @@ extern crate lazy_static;
 extern crate reqwest;
 #[macro_use]
 extern crate serde_derive;
+extern crate serde_json;
 extern crate treexml;
 
 mod config;
@@ -21,7 +22,7 @@ fn main() {
     let url = CONFIG.get_url();
     println!("Retrieving data from {}", &url);
 
-    let res = request::request_egk_data(&url);
+    let res = request::fetch_egk_data(&url);
 
     file_writer::dump_egk_data_to_files(&res);
 }

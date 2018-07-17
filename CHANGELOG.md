@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 (unreleased)
+* handle case where no card is found by k2
+* enforce clippy compliance
+* handle case of existing files of earlier creek runs in workdir
+  * add config flag `force_delete` for avoiding interactive prompts
+
 ## 0.3.7
 * enable all tests
 

@@ -1,8 +1,8 @@
 use reqwest::header::ContentType;
 use reqwest::StatusCode;
 
-const CARD_NOT_FOUND_RESPONSE: &'static str = "card with filter not found";
-const CARD_NOT_FOUND_FILE_OUTPUT: &'static str = "Keine Karte gefunden";
+const CARD_NOT_FOUND_RESPONSE: &str = "card with filter not found";
+const CARD_NOT_FOUND_FILE_OUTPUT: &str = "Keine Karte gefunden";
 
 #[derive(Deserialize)]
 pub struct ProofOfTest {
@@ -38,10 +38,9 @@ fn handle_response_failure_cases(resp: &mut ::reqwest::Response) -> K2Response {
     } else if status.is_strange_status() {
         panic!("K2 response status was outside HTTP RFC range")
     }
-    let resp_body = resp.text().expect(&format!(
-        "Unable to read K2 response body. Status: {:?}",
-        status
-    ));
+    let resp_body = resp
+        .text()
+        .unwrap_or_else(|_| panic!("Unable to read K2 response body. Status: {:?}", status));
     match status {
         StatusCode::Ok => panic!(
             "Response status was OK but had unexpected body: {:?}",
@@ -51,7 +50,7 @@ fn handle_response_failure_cases(resp: &mut ::reqwest::Response) -> K2Response {
             if resp_body == CARD_NOT_FOUND_RESPONSE {
                 println!("No card was found. This will be reflected in the output file.");
                 let mut ret = K2Response {
-                    ..Default::default()
+                    ..K2Response::default()
                 };
                 ret.errorText = Some(CARD_NOT_FOUND_FILE_OUTPUT.to_string());
                 ret
@@ -66,7 +65,7 @@ fn handle_response_failure_cases(resp: &mut ::reqwest::Response) -> K2Response {
     }
 }
 
-pub fn request_egk_data(url: &str) -> K2Response {
+pub fn fetch_egk_data(url: &str) -> K2Response {
     match ::reqwest::get(url) {
         Ok(ref mut resp) => {
             let headers = resp.headers().clone();
@@ -76,9 +75,26 @@ pub fn request_egk_data(url: &str) -> K2Response {
                 {
                     match resp.json() {
                         Ok(json) => json,
-                        Err(_) => panic!(
-                            "Unable to deserialize JSON response. Status: {:?}",
-                            resp.status()
+                        Err(ref e) if e.is_redirect() => {
+                            panic!("Redirect loop when attempting to get JSON from K2")
+                        }
+                        Err(ref e) if e.is_serialization() => {
+                            if let Some(serde_error) = e.get_ref() {
+                                panic!(
+                                    "Unable to deserialize payload to JSON. Status: {:?} - Error: {:?}",
+                                    resp.status(), serde_error
+                                )
+                            } else {
+                                panic!(
+                                    "Unable to deserialize payload for unknown reason. Status: {:?}",
+                                    resp.status()
+                                )
+                            }
+                        }
+                        Err(e) => panic!(
+                            "Unable to receive JSON from K2. Status: {:?} - Error: {:?}",
+                            resp.status(),
+                            e
                         ),
                     }
                 } else {
