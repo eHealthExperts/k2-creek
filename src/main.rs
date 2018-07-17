@@ -22,7 +22,6 @@ fn main() {
     println!("Retrieving data from {}", &url);
 
     let res = request::request_egk_data(&url);
-    println!("Processing response...");
 
     file_writer::dump_egk_data_to_files(&res);
 }
