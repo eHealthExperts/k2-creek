@@ -35,4 +35,6 @@ scheme=http
 host=localhost
 port=8080
 path=/k2/public/api/1/carddata
+force_delete=false
 ```
+* `force_delete` is for avoiding interaction when older generated files were found at the target destination. Setting this to `true` causes automatic deletion.
