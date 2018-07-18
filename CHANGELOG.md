@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.4.0 (unreleased)
+## 0.4.0
 * handle case where no card is found by k2
 * enforce clippy compliance
 * handle case of existing files of earlier creek runs in workdir
