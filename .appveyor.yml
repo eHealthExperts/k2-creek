@@ -8,9 +8,6 @@ environment:
         - channel: nightly
           target: x86_64-pc-windows-msvc
           filename: k2-creek-x64.exe
-        - channel: nightly
-          target: i686-pc-windows-msvc
-          filename: k2-creek-x86.exe
 
 install:
     - curl -sSf -o rustup-init.exe https://win.rustup.rs/
