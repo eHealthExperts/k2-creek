@@ -19,7 +19,7 @@ impl Default for Config {
         Config {
             scheme: "http".to_owned(),
             host: "localhost".to_owned(),
-            port: "8080".to_owned(),
+            port: "8089".to_owned(),
             path: "/k2/public/api/1/carddata".to_owned(),
             force_delete: "false".to_owned(),
         }
