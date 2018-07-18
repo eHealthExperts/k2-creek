@@ -15,8 +15,8 @@ pub struct Config {
 }
 
 impl Default for Config {
-    fn default() -> Config {
-        Config {
+    fn default() -> Self {
+        Self {
             scheme: "http".to_owned(),
             host: "localhost".to_owned(),
             port: "8089".to_owned(),
@@ -27,8 +27,8 @@ impl Default for Config {
 }
 
 impl Config {
-    pub fn new() -> Config {
-        let mut config: Config = Default::default();
+    pub fn new() -> Self {
+        let mut config: Self = Self::default();
 
         if let Ok(ini) = ::ini::Ini::load_from_file("config.ini") {
             replace_by_ini!(ini, config.scheme, "scheme");
@@ -37,10 +37,9 @@ impl Config {
             replace_by_ini!(ini, config.path, "path");
             replace_by_ini!(ini, config.force_delete, "force_delete");
         }
-        match config.force_delete.parse::<bool>() {
-            Err(_) => panic!("Invalid config value for force_delete. Must be true or false (which is the default),
-                             but was {:?}", config.force_delete),
-            _ => {}
+        if let Err(e) = config.force_delete.parse::<bool>() {
+            panic!("Invalid config value for force_delete. Must be true or false (which is the default),
+                    but was {:?} - Error: {:?}", config.force_delete, e)
         }
         config
     }

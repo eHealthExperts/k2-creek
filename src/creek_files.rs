@@ -58,7 +58,8 @@ pub fn handle_files_on_users_command() {
     if delete {
         FILENAMES.values().for_each(|file| {
             if check_exists(file) {
-                fs::remove_file(file).expect(&format!("Unable to delete {}. Aborting...", file));
+                fs::remove_file(file)
+                    .unwrap_or_else(|_| panic!("Unable to delete {}. Aborting...", file));
                 println!("Deleted old {}", file);
             }
         });
