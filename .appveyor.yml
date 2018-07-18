@@ -1,4 +1,4 @@
-version: 0.3.7-{branch}-{build}
+version: 0.4.0-{branch}-{build}
 
 environment:
     global:
