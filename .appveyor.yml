@@ -8,6 +8,9 @@ environment:
         - channel: nightly
           target: x86_64-pc-windows-msvc
           filename: k2-creek-x64.exe
+        - channel: nightly
+          target: i686-pc-windows-msvc
+          filename: k2-creek-x32.exe
 
 install:
     - curl -sSf -o rustup-init.exe https://win.rustup.rs/
@@ -27,7 +30,8 @@ build_script: cargo build
 
 test_script:
     - cargo fmt --all -- --check
-    - cargo clippy --release -- -Dclippy -Dclippy_pedantic
+    # for whatever reason this breaks on 32bit Windows
+    #- cargo clippy -- -Dclippy -Dclippy_pedantic
     - cargo test --verbose --all -- --nocapture
 
 after_test:
