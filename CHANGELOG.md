@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+* reactivate 32bit build
+* add example config
+
 ## 0.4.0
 * handle case where no card is found by k2
 * enforce clippy compliance
