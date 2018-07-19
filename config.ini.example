@@ -1,0 +1,10 @@
+;[settings]
+;scheme=http
+;host=localhost
+;port=8089
+;path=/k2/public/api/1/carddata
+
+; set to true in order to avoid an interactive prompt
+; when previously generated files still exist in the
+; workdir
+;force_delete=false
