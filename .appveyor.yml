@@ -1,21 +1,40 @@
 version: 0.4.1-{branch}-{build}
 
+image:
+    - Ubuntu
+    - Visual Studio 2017
+
 environment:
     global:
         RUST_BACKTRACE: full
         RUST_TEST_THREADS: 1
     matrix:
-        - channel: nightly
+        - platform: x64
+          target: x86_64-unknown-linux-gnu
+          toolchain: nightly
+        - platform: x64
+          toolchain: nightly
           target: x86_64-pc-windows-msvc
           filename: k2-creek-x64.exe
-        - channel: nightly
+          publish_artifact: true
+        - platform: x86
+          toolchain: nightly
           target: i686-pc-windows-msvc
           filename: k2-creek-x32.exe
+          publish_artifact: true
+
+matrix:
+  exclude:
+    - { image: Ubuntu,              target: x86_64-pc-windows-msvc }
+    - { image: Ubuntu,              target: i686-pc-windows-msvc }
+    - { image: Visual Studio 2017,  target: x86_64-unknown-linux-gnu }
 
 install:
-    - curl -sSf -o rustup-init.exe https://win.rustup.rs/
-    - rustup-init.exe -y --default-host %target% --default-toolchain %channel%
-    - set PATH=%PATH%;C:\Users\appveyor\.cargo\bin
+    - cmd: curl -sSf -o rustup-init.exe https://win.rustup.rs/
+    - cmd: rustup-init.exe -y --default-host %target% --default-toolchain %toolchain%
+    - cmd: set PATH=%PATH%;C:\Users\appveyor\.cargo\bin
+    - sh: curl https://sh.rustup.rs -sSf | sh -s -- -y --default-host $target --default-toolchain $toolchain
+    - sh: export PATH="$HOME/.cargo/bin:$PATH"
     - rustc -vV
     - cargo -vV
     - rustup component add rustfmt-preview
@@ -23,20 +42,20 @@ install:
 
 cache:
     - '%USERPROFILE%\.cargo'
+    - '$HOME/.cargo'
 
 build: off
 
 build_script: cargo build
 
 test_script:
-    - cargo fmt --all -- --check
-    # for whatever reason this breaks on 32bit Windows
-    #- cargo clippy -- -Dclippy -Dclippy_pedantic
+    - sh: cargo fmt --all -- --check
+    - sh: cargo clippy --release -- -Dclippy -Dclippy_pedantic
     - cargo test --verbose --all -- --nocapture
 
 after_test:
-    - cargo build --release --verbose
-    - ren target\release\k2-creek.exe %filename%
+    - cmd: cargo build --release --verbose
+    - cmd: ren target\release\k2-creek.exe %filename%
 
 artifacts:
     - path: 'target/release/*.exe'
@@ -51,3 +70,4 @@ deploy:
     force_update: true
     on:
         appveyor_repo_tag: true
+        publish_artifact: true
