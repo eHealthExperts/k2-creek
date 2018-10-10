@@ -197,8 +197,7 @@ fn example_response_with_no_matching_card_filter() {
     delete_files();
 
     let _server = test_server::new(8089, |_| {
-        HttpResponse::NotFound()
-            .body(" card with filter not found ")
+        HttpResponse::NotFound().body(" card with filter not found ")
     });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
