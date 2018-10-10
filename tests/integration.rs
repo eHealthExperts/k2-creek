@@ -196,3 +196,39 @@ fn example_response_with_many_nulls() {
     assert_eq!(first_child_data!(result_error_code), "null");
     assert_eq!(None, json["errorCode"].as_str());
 }
+
+#[test]
+#[cfg(not(target_os = "windows"))] // carllerche/mio#776
+fn example_response_with_no_matching_card_filter() {
+    delete_files();
+
+    let _server = test_server::new(8089, |_| {
+        HttpResponse::NotFound()
+            .body(" card with filter not found ")
+            .into()
+    });
+
+    let _ = Command::new(BIN_PATH).output().unwrap();
+
+    assert_eq!(false, Path::new(AVD).exists());
+    assert_eq!(false, Path::new(GVD).exists());
+    assert_eq!(false, Path::new(STATUSVD).exists());
+    assert_eq!(false, Path::new(PVD).exists());
+    assert_eq!(false, Path::new(PN).exists());
+    assert_eq!(false, Path::new(DATEN).exists());
+    assert_eq!(false, Path::new(MFEFGDO).exists());
+
+    assert!(Path::new(RESULT).exists());
+    let result_xml = read_file(RESULT);
+    let result = XmlParser::parse(&result_xml).unwrap();
+    let result_card_type = result.children_with_name("cardType");
+    assert_eq!(first_child_data!(result_card_type), "null");
+    let result_iccsn = result.children_with_name("iccsn");
+    assert_eq!(first_child_data!(result_iccsn), "null");
+    let result_error_text = result.children_with_name("errorText");
+    assert_eq!(first_child_data!(result_error_text), "Keine Karte gefunden");
+    let result_instruction = result.children_with_name("instruction");
+    assert_eq!(first_child_data!(result_instruction), "null");
+    let result_error_code = result.children_with_name("errorCode");
+    assert_eq!(first_child_data!(result_error_code), "null");
+}

@@ -82,7 +82,7 @@ fn create_result_xml_string(
     )
 }
 
-fn create_mfefgdo_xml_string(iccsn: &Option<String>) -> String {
+fn create_mfefgdo_xml_string(iccsn: String) -> String {
     format!(
         r#"<?xml version="1.0"?>
 <eGK_MFEF_GDO_Hexadezimal>
@@ -90,7 +90,7 @@ fn create_mfefgdo_xml_string(iccsn: &Option<String>) -> String {
     <MFEF_GDO_Length_ICCSN>0A</MFEF_GDO_Length_ICCSN>
     <MFEF_GDO_Value_ICCSN>{}</MFEF_GDO_Value_ICCSN>
 </eGK_MFEF_GDO_Hexadezimal>"#,
-        unwrap_or_null!(iccsn)
+        iccsn
     )
 }
 
@@ -112,10 +112,19 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
             write_file_if_some!(filename_by_type!(EgkPruefungsnachweis), pn.xml);
         }
     }
+
     let error_code_opt = match resp.errorCode {
         Some(code) => Some(code.to_string()),
         None => None,
     };
+
+    if let Some(iccsn) = &resp.iccsn {
+        write_string_to_file(
+            &create_mfefgdo_xml_string(iccsn.to_string()),
+            filename_by_type!(EgkMFEFGDO),
+        );
+    }
+
     write_string_to_file(
         &create_result_xml_string(
             &resp.cardType,
@@ -125,11 +134,6 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
             &error_code_opt,
         ),
         filename_by_type!(EgkResult),
-    );
-
-    write_string_to_file(
-        &create_mfefgdo_xml_string(&resp.iccsn),
-        filename_by_type!(EgkMFEFGDO),
     );
 
     if let Some(ref kvkdata) = resp.kvkData {
