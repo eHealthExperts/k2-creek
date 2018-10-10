@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+* adjust error handling
+* update dependencies
+
 ## 0.4.1
 * reactivate 32bit build
 * add example config
