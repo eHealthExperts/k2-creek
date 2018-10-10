@@ -48,6 +48,7 @@ fn handle_response_failure_cases(resp: &mut ::reqwest::Response) -> K2Response {
         ),
         StatusCode::NotFound => {
             if resp_body == CARD_NOT_FOUND_RESPONSE {
+            if resp_body.trim() == CARD_NOT_FOUND_RESPONSE {
                 println!("No card was found. This will be reflected in the output file.");
                 let mut ret = K2Response {
                     ..K2Response::default()
