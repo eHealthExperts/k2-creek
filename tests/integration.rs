@@ -14,20 +14,20 @@ use std::path::Path;
 use std::process::Command;
 use test_server::HttpResponse;
 
-const BIN_PATH: &'static str = concat!(
+const BIN_PATH: &str = concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/target/debug/",
     env!("CARGO_PKG_NAME")
 );
 
-const AVD: &'static str = "eGK_allgemeineVersicherungsdaten.xml";
-const GVD: &'static str = "eGK_geschuetzteVersichertendaten.xml";
-const STATUSVD: &'static str = "eGK_MFDF_HCA_EF_StatusVD.xml";
-const PVD: &'static str = "eGK_PersoenlicheVersichertendaten.xml";
-const PN: &'static str = "eGK_Pruefungsnachweis.xml";
-const MFEFGDO: &'static str = "eGK_MFEFGDO.xml";
-const DATEN: &'static str = "KVK_Daten.bin";
-const RESULT: &'static str = "Result.xml";
+const AVD: &str = "eGK_allgemeineVersicherungsdaten.xml";
+const GVD: &str = "eGK_geschuetzteVersichertendaten.xml";
+const STATUSVD: &str = "eGK_MFDF_HCA_EF_StatusVD.xml";
+const PVD: &str = "eGK_PersoenlicheVersichertendaten.xml";
+const PN: &str = "eGK_Pruefungsnachweis.xml";
+const MFEFGDO: &str = "eGK_MFEFGDO.xml";
+const DATEN: &str = "KVK_Daten.bin";
+const RESULT: &str = "Result.xml";
 
 macro_rules! first_child_data {
     ($element:ident) => {
@@ -43,11 +43,8 @@ fn read_file(file: &str) -> String {
 }
 
 fn delete_files() {
-    for file in vec![AVD, GVD, STATUSVD, PVD, PN, MFEFGDO, DATEN, RESULT] {
-        match fs::remove_file(file) {
-            Ok(_) => {}
-            _ => {}
-        }
+    for file in &[AVD, GVD, STATUSVD, PVD, PN, MFEFGDO, DATEN, RESULT] {
+        if fs::remove_file(file).is_ok() {}
     }
 }
 
@@ -60,7 +57,6 @@ fn example_response() {
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
             .body(content)
-            .into()
     });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
@@ -123,7 +119,6 @@ fn example_response_with_error_code() {
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
             .body(content)
-            .into()
     });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
@@ -145,7 +140,6 @@ fn example_response_with_many_nulls() {
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
             .body(content)
-            .into()
     });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
@@ -205,7 +199,6 @@ fn example_response_with_no_matching_card_filter() {
     let _server = test_server::new(8089, |_| {
         HttpResponse::NotFound()
             .body(" card with filter not found ")
-            .into()
     });
 
     let _ = Command::new(BIN_PATH).output().unwrap();

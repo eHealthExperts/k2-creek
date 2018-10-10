@@ -82,7 +82,7 @@ fn create_result_xml_string(
     )
 }
 
-fn create_mfefgdo_xml_string(iccsn: String) -> String {
+fn create_mfefgdo_xml_string(iccsn: &str) -> String {
     format!(
         r#"<?xml version="1.0"?>
 <eGK_MFEF_GDO_Hexadezimal>
@@ -120,7 +120,7 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
 
     if let Some(iccsn) = &resp.iccsn {
         write_string_to_file(
-            &create_mfefgdo_xml_string(iccsn.to_string()),
+            &create_mfefgdo_xml_string(iccsn),
             filename_by_type!(EgkMFEFGDO),
         );
     }
