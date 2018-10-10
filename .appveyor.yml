@@ -50,7 +50,7 @@ build_script: cargo build
 
 test_script:
     - sh: cargo fmt --all -- --check
-    - sh: cargo clippy --release -- -Dclippy -Dclippy_pedantic
+    - sh: cargo clippy --all-targets -- -D warnings
     - cargo test --verbose --all -- --nocapture
 
 after_test:
