@@ -1,4 +1,4 @@
-use reqwest::header::ContentType;
+use reqwest::header::CONTENT_TYPE;
 use reqwest::StatusCode;
 
 const CARD_NOT_FOUND_RESPONSE: &str = "card with filter not found";
@@ -35,19 +35,17 @@ fn handle_response_failure_cases(resp: &mut ::reqwest::Response) -> K2Response {
     let status = resp.status();
     if status.is_server_error() {
         panic!("K2 server ran into error state")
-    } else if status.is_strange_status() {
-        panic!("K2 response status was outside HTTP RFC range")
     }
     let resp_body = resp
         .text()
         .unwrap_or_else(|_| panic!("Unable to read K2 response body. Status: {:?}", status));
     match status {
-        StatusCode::Ok => panic!(
+        StatusCode::OK => panic!(
             "Response status was OK but had unexpected body: {:?}",
             resp_body
         ),
-        StatusCode::NotFound => {
-            if resp_body == CARD_NOT_FOUND_RESPONSE {
+        StatusCode::NOT_FOUND => {
+            if resp_body.trim() == CARD_NOT_FOUND_RESPONSE {
                 println!("No card was found. This will be reflected in the output file.");
                 let mut ret = K2Response {
                     ..K2Response::default()
@@ -69,10 +67,8 @@ pub fn fetch_egk_data(url: &str) -> K2Response {
     match ::reqwest::get(url) {
         Ok(ref mut resp) => {
             let headers = resp.headers().clone();
-            if let Some(content_header) = headers.get::<ContentType>() {
-                if format!("{}/{}", content_header.type_(), content_header.subtype())
-                    == "application/json"
-                {
+            if let Some(content_header) = headers.get(CONTENT_TYPE) {
+                if content_header == "application/json" {
                     match resp.json() {
                         Ok(json) => json,
                         Err(ref e) if e.is_redirect() => {

@@ -39,6 +39,7 @@ install:
     - cargo -vV
     - rustup component add rustfmt-preview
     - rustup component add clippy-preview
+    - sh: cargo install -f cargo-audit
 
 cache:
     - '%USERPROFILE%\.cargo'
@@ -49,8 +50,9 @@ build: off
 build_script: cargo build
 
 test_script:
+    - sh: cargo audit
     - sh: cargo fmt --all -- --check
-    - sh: cargo clippy --release -- -Dclippy -Dclippy_pedantic
+    - sh: cargo clippy --all-targets -- -D warnings
     - cargo test --verbose --all -- --nocapture
 
 after_test:

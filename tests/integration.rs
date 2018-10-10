@@ -12,22 +12,22 @@ use std::fs::{self, File};
 use std::io::Read;
 use std::path::Path;
 use std::process::Command;
-use test_server::{HttpResponse, TestServer};
+use test_server::HttpResponse;
 
-const BIN_PATH: &'static str = concat!(
+const BIN_PATH: &str = concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/target/debug/",
     env!("CARGO_PKG_NAME")
 );
 
-const AVD: &'static str = "eGK_allgemeineVersicherungsdaten.xml";
-const GVD: &'static str = "eGK_geschuetzteVersichertendaten.xml";
-const STATUSVD: &'static str = "eGK_MFDF_HCA_EF_StatusVD.xml";
-const PVD: &'static str = "eGK_PersoenlicheVersichertendaten.xml";
-const PN: &'static str = "eGK_Pruefungsnachweis.xml";
-const MFEFGDO: &'static str = "eGK_MFEFGDO.xml";
-const DATEN: &'static str = "KVK_Daten.bin";
-const RESULT: &'static str = "Result.xml";
+const AVD: &str = "eGK_allgemeineVersicherungsdaten.xml";
+const GVD: &str = "eGK_geschuetzteVersichertendaten.xml";
+const STATUSVD: &str = "eGK_MFDF_HCA_EF_StatusVD.xml";
+const PVD: &str = "eGK_PersoenlicheVersichertendaten.xml";
+const PN: &str = "eGK_Pruefungsnachweis.xml";
+const MFEFGDO: &str = "eGK_MFEFGDO.xml";
+const DATEN: &str = "KVK_Daten.bin";
+const RESULT: &str = "Result.xml";
 
 macro_rules! first_child_data {
     ($element:ident) => {
@@ -43,11 +43,8 @@ fn read_file(file: &str) -> String {
 }
 
 fn delete_files() {
-    for file in vec![AVD, GVD, STATUSVD, PVD, PN, MFEFGDO, DATEN, RESULT] {
-        match fs::remove_file(file) {
-            Ok(_) => {}
-            _ => {}
-        }
+    for file in &[AVD, GVD, STATUSVD, PVD, PN, MFEFGDO, DATEN, RESULT] {
+        if fs::remove_file(file).is_ok() {}
     }
 }
 
@@ -55,12 +52,11 @@ fn delete_files() {
 fn example_response() {
     delete_files();
 
-    let _server = TestServer::new(8089, |_| {
+    let _server = test_server::new(8089, |_| {
         let content = read_file("tests/example_response.json");
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
             .body(content)
-            .into()
     });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
@@ -118,12 +114,11 @@ fn example_response() {
 fn example_response_with_error_code() {
     delete_files();
 
-    let _server = TestServer::new(8089, |_| {
+    let _server = test_server::new(8089, |_| {
         let content = read_file("tests/example_response_with_error_code.json");
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
             .body(content)
-            .into()
     });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
@@ -140,12 +135,11 @@ fn example_response_with_error_code() {
 fn example_response_with_many_nulls() {
     delete_files();
 
-    let _server = TestServer::new(8089, |_| {
+    let _server = test_server::new(8089, |_| {
         let content = read_file("tests/example_response_with_many_nulls.json");
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
             .body(content)
-            .into()
     });
 
     let _ = Command::new(BIN_PATH).output().unwrap();
@@ -195,4 +189,38 @@ fn example_response_with_many_nulls() {
     let result_error_code = result.children_with_name("errorCode");
     assert_eq!(first_child_data!(result_error_code), "null");
     assert_eq!(None, json["errorCode"].as_str());
+}
+
+#[test]
+#[cfg(not(target_os = "windows"))] // carllerche/mio#776
+fn example_response_with_no_matching_card_filter() {
+    delete_files();
+
+    let _server = test_server::new(8089, |_| {
+        HttpResponse::NotFound().body(" card with filter not found ")
+    });
+
+    let _ = Command::new(BIN_PATH).output().unwrap();
+
+    assert_eq!(false, Path::new(AVD).exists());
+    assert_eq!(false, Path::new(GVD).exists());
+    assert_eq!(false, Path::new(STATUSVD).exists());
+    assert_eq!(false, Path::new(PVD).exists());
+    assert_eq!(false, Path::new(PN).exists());
+    assert_eq!(false, Path::new(DATEN).exists());
+    assert_eq!(false, Path::new(MFEFGDO).exists());
+
+    assert!(Path::new(RESULT).exists());
+    let result_xml = read_file(RESULT);
+    let result = XmlParser::parse(&result_xml).unwrap();
+    let result_card_type = result.children_with_name("cardType");
+    assert_eq!(first_child_data!(result_card_type), "null");
+    let result_iccsn = result.children_with_name("iccsn");
+    assert_eq!(first_child_data!(result_iccsn), "null");
+    let result_error_text = result.children_with_name("errorText");
+    assert_eq!(first_child_data!(result_error_text), "Keine Karte gefunden");
+    let result_instruction = result.children_with_name("instruction");
+    assert_eq!(first_child_data!(result_instruction), "null");
+    let result_error_code = result.children_with_name("errorCode");
+    assert_eq!(first_child_data!(result_error_code), "null");
 }
