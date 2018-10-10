@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.4.2
 * adjust error handling
 * update dependencies
 
