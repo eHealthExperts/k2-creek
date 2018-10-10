@@ -12,7 +12,7 @@ use std::fs::{self, File};
 use std::io::Read;
 use std::path::Path;
 use std::process::Command;
-use test_server::{HttpResponse, TestServer};
+use test_server::HttpResponse;
 
 const BIN_PATH: &'static str = concat!(
     env!("CARGO_MANIFEST_DIR"),
@@ -55,7 +55,7 @@ fn delete_files() {
 fn example_response() {
     delete_files();
 
-    let _server = TestServer::new(8089, |_| {
+    let _server = test_server::new(8089, |_| {
         let content = read_file("tests/example_response.json");
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
@@ -118,7 +118,7 @@ fn example_response() {
 fn example_response_with_error_code() {
     delete_files();
 
-    let _server = TestServer::new(8089, |_| {
+    let _server = test_server::new(8089, |_| {
         let content = read_file("tests/example_response_with_error_code.json");
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
@@ -140,7 +140,7 @@ fn example_response_with_error_code() {
 fn example_response_with_many_nulls() {
     delete_files();
 
-    let _server = TestServer::new(8089, |_| {
+    let _server = test_server::new(8089, |_| {
         let content = read_file("tests/example_response_with_many_nulls.json");
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
