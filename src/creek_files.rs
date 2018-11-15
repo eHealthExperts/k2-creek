@@ -40,7 +40,7 @@ lazy_static! {
         );
         map.insert(CreekFileType::EgkMFEFGDO, "eGK_MFEFGDO.xml");
         map.insert(CreekFileType::EgkResult, "Result.xml");
-        map.insert(CreekFileType::KvkDaten, "KVK_Daten.bin");
+        map.insert(CreekFileType::KvkDaten, "KVK.dat");
         map
     };
 }
@@ -50,10 +50,11 @@ pub fn check_exists(path: &str) -> bool {
 }
 
 pub fn handle_files_on_users_command() {
-    let delete = CONFIG.is_force_delete() || bool::prompt_default(
-        "WARNING - Old files found in output folder. Delete before proceeding?",
-        false,
-    );
+    let delete = CONFIG.is_force_delete()
+        || bool::prompt_default(
+            "WARNING - Old files found in output folder. Delete before proceeding?",
+            false,
+        );
     if delete {
         FILENAMES.values().for_each(|file| {
             if check_exists(file) {
