@@ -9,15 +9,18 @@ repository = "https://github.com/eHealthExperts/k2-creek.git"
 publish = false
 
 [dependencies]
-base64 = "0.9.3"
+base64 = "0.10.0"
+der-parser = "1.1.0"
 encoding = "0.2.33"
-lazy_static = "1.1.0"
+lazy_static = "1.2.0"
+nom = { version = "4.1.1", features = ["verbose-errors"] }
 promptly = "0.1.5"
-reqwest = "0.9.2"
+reqwest = "0.9.5"
 rust-ini = "0.13.0"
-serde = "1.0.79"
-serde_derive = "1.0.79"
-serde_json = "1.0.32"
+rusticata-macros = "1.0.0"
+serde = "1.0.80"
+serde_derive = "1.0.80"
+serde_json = "1.0.33"
 treexml = { git = "https://github.com/ChriFo/treexml-rs", branch = "fix/defaultEncoding" }
 
 [dev-dependencies]
