@@ -7,10 +7,23 @@ use std::{fmt, str};
 
 macro_rules! fmt(
     ($bytes:expr) => (
-        if let Ok(s) = str::from_utf8($bytes) {
-            s
+        if let Ok(value) = str::from_utf8($bytes) {
+            let chars: Vec<_> = value.chars().map(|c| {
+                match c {
+                    '@' => "§".to_string(),
+                    '~' => "ß".to_string(),
+                    '{' => "ä".to_string(),
+                    '}' => "ü".to_string(),
+                    '|' => "ö".to_string(),
+                    '[' => "Ä".to_string(),
+                    ']' => "Ü".to_string(),
+                    '\\' => "Ö".to_string(),
+                    _ => c.to_string()
+                }
+            }).collect();
+            chars.join("")
         } else {
-            "!Fehler!"
+            String::from("!Fehler!")
         }
     )
 );
