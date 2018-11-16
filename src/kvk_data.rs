@@ -28,38 +28,6 @@ macro_rules! fmt(
     )
 );
 
-macro_rules! parse_optional_value(
-    ($i:expr, $fun:ident, $($args:expr),*) => (
-        alt_complete!(
-            $i,
-            do_parse!(
-                content: call!($fun, $($args),*) >>
-                (
-                    Some(content)
-                )
-            ) |
-            do_parse!(
-                _content: call!(parse_der_explicit_failed, 0) >>
-                (
-                    None
-                )
-            )
-        )
-    )
-);
-
-macro_rules! parse_value(
-    ($i:expr, $tag:expr) => ({
-        do_parse!(
-            $i,
-            hdr: der_read_element_header
-                >> error_if!(hdr.tag != $tag as u8, ErrorKind::Custom(DER_TAG_ERROR))
-                >> content: take!(hdr.len)
-                >> (content)
-        )
-    });
-);
-
 #[derive(Debug, PartialEq)]
 struct KvkData<'a> {
     kkn: &'a [u8],
@@ -136,6 +104,18 @@ impl<'a> fmt::Display for KvkData<'a> {
     }
 }
 
+pub fn parse(data: &str) -> Option<String> {
+    let bytes = match ::base64::decode(&data) {
+        Ok(content) => content,
+        Err(why) => panic!("Failed to decode kvkdata:\n{}", why),
+    };
+
+    match parse_as_kvkdata(&bytes) {
+        Ok(kvkdata) => Some(kvkdata.1.to_string()),
+        Err(_) => None,
+    }
+}
+
 fn parse_as_kvkdata(i: &[u8]) -> IResult<&[u8], KvkData> {
     parse_der_application!(
         i,
@@ -163,22 +143,30 @@ fn parse_as_kvkdata(i: &[u8]) -> IResult<&[u8], KvkData> {
     .map(|(rem, t)| (rem, t.1))
 }
 
-pub fn parse(data: &str) -> Option<String> {
-    let bytes = match ::base64::decode(&data) {
-        Ok(content) => content,
-        Err(why) => panic!("Failed to decode kvkdata:\n{}", why),
-    };
-
-    match parse_as_kvkdata(&bytes) {
-        Ok(kvkdata) => Some(kvkdata.1.to_string()),
-        Err(_) => None,
-    }
-}
-
 fn parse_value(i: &[u8], tag: u8) -> IResult<&[u8], &[u8]> {
-    parse_value!(i, tag)
+    do_parse!(
+        i,
+        hdr: der_read_element_header
+            >> error_if!(hdr.tag != tag as u8, ErrorKind::Custom(DER_TAG_ERROR))
+            >> content: take!(hdr.len)
+            >> (content)
+    )
 }
 
 fn parse_optional_value(i: &[u8], tag: u8) -> IResult<&[u8], Option<&[u8]>> {
-    parse_optional_value!(i, parse_value, tag)
+    alt_complete!(
+        i,
+        do_parse!(
+            content: call!(parse_value, tag) >>
+            (
+                Some(content)
+            )
+        ) |
+        do_parse!(
+            _content: call!(parse_der_explicit_failed, 0) >>
+            (
+                None
+            )
+        )
+    )
 }
