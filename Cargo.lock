@@ -337,7 +337,7 @@ version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "nom 4.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
- "rusticata-macros 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rusticata-macros 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
@@ -643,7 +643,7 @@ dependencies = [
  "promptly 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "reqwest 0.9.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "rust-ini 0.13.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "rusticata-macros 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rusticata-macros 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde 1.0.80 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_derive 1.0.80 (registry+https://github.com/rust-lang/crates.io-index)",
  "serde_json 1.0.33 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1118,7 +1118,7 @@ dependencies = [
 
 [[package]]
 name = "rusticata-macros"
-version = "1.0.0"
+version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "nom 4.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -1931,7 +1931,7 @@ source = "git+https://github.com/ChriFo/xml-rs?branch=fix/defaultEncoding#ae2330
 "checksum rust-ini 0.13.0 (registry+https://github.com/rust-lang/crates.io-index)" = "3e52c148ef37f8c375d49d5a73aa70713125b7f19095948a923f80afdeb22ec2"
 "checksum rustc-demangle 0.1.9 (registry+https://github.com/rust-lang/crates.io-index)" = "bcfe5b13211b4d78e5c2cadfebd7769197d95c639c35a50057eb4c05de811395"
 "checksum rustc_version 0.2.3 (registry+https://github.com/rust-lang/crates.io-index)" = "138e3e0acb6c9fb258b19b67cb8abd63c00679d2851805ea151465464fe9030a"
-"checksum rusticata-macros 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "6c4f54e079425a4e9c740ad1dbe7cc79f1cbd1c6df99aa83120962907d94a62d"
+"checksum rusticata-macros 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)" = "fe8c976e50876cb3423699b190e799ff4c8a1a4f47dc33f4036dd056c077b7bb"
 "checksum rustyline 1.0.0 (registry+https://github.com/rust-lang/crates.io-index)" = "00b06ac9c8e8e3e83b33d175d39a9f7b6c2c930c82990593719c8e48788ae2d9"
 "checksum ryu 0.2.6 (registry+https://github.com/rust-lang/crates.io-index)" = "7153dd96dade874ab973e098cb62fcdbb89a03682e46b144fd09550998d4a4a7"
 "checksum safemem 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "8dca453248a96cb0749e36ccdfe2b0b4e54a61bfef89fb97ec621eb8e0a93dd9"
