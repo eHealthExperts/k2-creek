@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.5.0
 * human readable KVK data
 * update dependencies
 
