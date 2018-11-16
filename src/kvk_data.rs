@@ -170,3 +170,48 @@ fn parse_optional_value(i: &[u8], tag: u8) -> IResult<&[u8], Option<&[u8]>> {
         )
     )
 }
+
+#[test]
+fn fmt_returns_error_string_if_invalid_bytes_given() {
+    let buggy = vec![0, 159, 146, 150];
+
+    assert_eq!("!Fehler!", fmt!(&buggy))
+}
+
+#[test]
+fn fmt_replaces_chars_according_to_din_66003() {
+    let ascii = vec![64, 126, 123, 125, 124, 91, 93, 92];
+
+    assert_eq!("@~{}|[]\\".as_bytes(), &ascii[..]);
+    assert_eq!("§ßäüöÄÜÖ", fmt!(&ascii));
+}
+
+#[test]
+fn fmt_not_replaces_latin_alphabet_and_arabic_numbers() {
+    let sequence = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    assert_eq!(sequence, fmt!(sequence.as_bytes()));
+}
+
+#[test]
+fn parse_consume_base64_encoded_asn1_der_sequence_and_return_kvkdata_as_formatted_string() {
+    let d = "YIGXgBpCdW5kZXNwb2xpemVpLUtyYW5rZW5rYXNzZYEHMzYwMDM0Mo8FMDAwMjCCDDEyMzQ1Njc4OTAxM4MEMTAwMJABMYUSRGFuaWVsIEd1c3RhdiBMdXR6hwZIfG5zY2iICDE3MDUxOTYxiRJDYXJsLVdvbGZmLVN0ci4gMTKKAUSLBTQ1Mjc5jAVFc3Nlbo0EMTAyMY4BiA==";
+    let s = parse(d);
+
+    assert_eq!(Some(String::from("\
+        KrankenKassenName:    Bundespolizei-Krankenkasse\n\
+        KrankenKassenNummer:  3600342\n\
+        VKNR:                 00020\n\
+        VersichertenNummer:   123456789013\n\
+        VersichertenStatus:   1000\n\
+        StatusErgänzung:      1\n\
+        VorName:              Daniel Gustav Lutz\n\
+        FamilienName:         Hönsch\n\
+        GeburtsDatum:         17051961\n\
+        Straßenname:          Carl-Wolff-Str. 12\n\
+        WohnsitzLänderCode:   D\n\
+        Postleitzahl:         45279\n\
+        Orstname:             Essen\n\
+        GültigkeitsDatum:     1021\
+    ")), s);
+}
