@@ -6,6 +6,7 @@ use creek_files::CreekFileType::{
 use creek_files::*;
 use encoding::label::encoding_from_whatwg_label;
 use encoding::{self, EncoderTrap, EncodingRef};
+use kvk_data;
 use request::K2Response;
 use std::fs::File;
 use std::io::Write;
@@ -136,13 +137,10 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
         filename_by_type!(EgkResult),
     );
 
-    if let Some(ref kvkdata) = resp.kvkData {
-        let bytes = match ::base64::decode(kvkdata) {
-            Ok(content) => content,
-            Err(why) => panic!("Failed to decode kvkdata:\n{}", why),
-        };
-
+    if let Some(ref kvkdata_der) = resp.kvkData {
+        let kvkdata = kvk_data::parse(kvkdata_der).expect("Failed to parse kvkdata");
         let mut file = File::create(filename_by_type!(KvkDaten)).expect("Unable to create file");
-        file.write_all(&bytes[..]).expect("Unable to write data");
+        file.write_all(kvkdata.as_bytes())
+            .expect("Unable to write data");
     }
 }

@@ -26,7 +26,7 @@ const STATUSVD: &str = "eGK_MFDF_HCA_EF_StatusVD.xml";
 const PVD: &str = "eGK_PersoenlicheVersichertendaten.xml";
 const PN: &str = "eGK_Pruefungsnachweis.xml";
 const MFEFGDO: &str = "eGK_MFEFGDO.xml";
-const DATEN: &str = "KVK_Daten.bin";
+const DATEN: &str = "KVK.dat";
 const RESULT: &str = "Result.xml";
 
 macro_rules! first_child_data {

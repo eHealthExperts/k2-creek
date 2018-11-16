@@ -36,9 +36,11 @@ fn handle_response_failure_cases(resp: &mut ::reqwest::Response) -> K2Response {
     if status.is_server_error() {
         panic!("K2 server ran into error state")
     }
+
     let resp_body = resp
         .text()
         .unwrap_or_else(|_| panic!("Unable to read K2 response body. Status: {:?}", status));
+
     match status {
         StatusCode::OK => panic!(
             "Response status was OK but had unexpected body: {:?}",
