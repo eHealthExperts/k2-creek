@@ -156,18 +156,8 @@ fn parse_value(i: &[u8], tag: u8) -> IResult<&[u8], &[u8]> {
 fn parse_optional_value(i: &[u8], tag: u8) -> IResult<&[u8], Option<&[u8]>> {
     alt_complete!(
         i,
-        do_parse!(
-            content: call!(parse_value, tag) >>
-            (
-                Some(content)
-            )
-        ) |
-        do_parse!(
-            _content: call!(parse_der_explicit_failed, 0) >>
-            (
-                None
-            )
-        )
+        do_parse!(content: call!(parse_value, tag) >> (Some(content)))
+            | do_parse!(_content: call!(parse_der_explicit_failed, 0) >> (None))
     )
 }
 
@@ -198,20 +188,25 @@ fn parse_consume_base64_encoded_asn1_der_sequence_and_return_kvkdata_as_formatte
     let d = "YIGXgBpCdW5kZXNwb2xpemVpLUtyYW5rZW5rYXNzZYEHMzYwMDM0Mo8FMDAwMjCCDDEyMzQ1Njc4OTAxM4MEMTAwMJABMYUSRGFuaWVsIEd1c3RhdiBMdXR6hwZIfG5zY2iICDE3MDUxOTYxiRJDYXJsLVdvbGZmLVN0ci4gMTKKAUSLBTQ1Mjc5jAVFc3Nlbo0EMTAyMY4BiA==";
     let s = parse(d);
 
-    assert_eq!(Some(String::from("\
-        KrankenKassenName:    Bundespolizei-Krankenkasse\n\
-        KrankenKassenNummer:  3600342\n\
-        VKNR:                 00020\n\
-        VersichertenNummer:   123456789013\n\
-        VersichertenStatus:   1000\n\
-        StatusErgänzung:      1\n\
-        VorName:              Daniel Gustav Lutz\n\
-        FamilienName:         Hönsch\n\
-        GeburtsDatum:         17051961\n\
-        Straßenname:          Carl-Wolff-Str. 12\n\
-        WohnsitzLänderCode:   D\n\
-        Postleitzahl:         45279\n\
-        Orstname:             Essen\n\
-        GültigkeitsDatum:     1021\
-    ")), s);
+    assert_eq!(
+        Some(String::from(
+            "\
+             KrankenKassenName:    Bundespolizei-Krankenkasse\n\
+             KrankenKassenNummer:  3600342\n\
+             VKNR:                 00020\n\
+             VersichertenNummer:   123456789013\n\
+             VersichertenStatus:   1000\n\
+             StatusErgänzung:      1\n\
+             VorName:              Daniel Gustav Lutz\n\
+             FamilienName:         Hönsch\n\
+             GeburtsDatum:         17051961\n\
+             Straßenname:          Carl-Wolff-Str. 12\n\
+             WohnsitzLänderCode:   D\n\
+             Postleitzahl:         45279\n\
+             Orstname:             Essen\n\
+             GültigkeitsDatum:     1021\
+             "
+        )),
+        s
+    );
 }
