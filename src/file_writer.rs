@@ -1,7 +1,7 @@
 use creek_files::handle_files_on_users_command;
 use creek_files::CreekFileType::{
     EgkAllgemein, EgkGeschuetzt, EgkMFDFHCAEF, EgkMFEFGDO, EgkPersoenlich, EgkPruefungsnachweis,
-    EgkResult, KvkDaten,
+    EgkResult, KvkBinDaten, KvkDaten,
 };
 use creek_files::*;
 use encoding::label::encoding_from_whatwg_label;
@@ -138,6 +138,15 @@ pub fn dump_egk_data_to_files(resp: &K2Response) {
     );
 
     if let Some(ref kvkdata_der) = resp.kvkData {
+        match ::base64::decode(kvkdata_der) {
+            Ok(content) => {
+                let mut file =
+                    File::create(filename_by_type!(KvkBinDaten)).expect("Unable to create file");
+                file.write_all(&content[..]).expect("Unable to write data");
+            }
+            Err(why) => panic!("Failed to decode kvkdata:\n{}", why),
+        }
+
         let kvkdata = kvk_data::parse(kvkdata_der).expect("Failed to parse kvkdata");
         let mut file = File::create(filename_by_type!(KvkDaten)).expect("Unable to create file");
         file.write_all(kvkdata.as_bytes())

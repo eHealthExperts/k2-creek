@@ -12,7 +12,7 @@ It then extracts relevant fields and writes out some XML/binary files (compatibl
 
 ## Usage
 
-Copy the [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) into a desired folder. After the binary was executed, the card information at the configured K2 path will be written as XML/text files next to the executable. The following files are created when information is delivered by the card:<br/>
+Copy the [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) into a desired folder. After the binary was executed, the card information at the configured K2 path will be written into some files next to the executable. The following files are created when information is delivered by the card:<br/>
 
 - `eGK_allgemeineVersicherungsdaten.xml`
 - `eGK_geschuetzteVersichertendaten.xml`
