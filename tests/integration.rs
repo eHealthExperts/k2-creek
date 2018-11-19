@@ -44,7 +44,9 @@ fn read_file(file: &str) -> String {
 }
 
 fn delete_files() {
-    for file in &[AVD, GVD, STATUSVD, PVD, PN, MFEFGDO, BIN_DATEN, DATEN, RESULT] {
+    for file in &[
+        AVD, GVD, STATUSVD, PVD, PN, MFEFGDO, BIN_DATEN, DATEN, RESULT,
+    ] {
         if fs::remove_file(file).is_ok() {}
     }
 }
