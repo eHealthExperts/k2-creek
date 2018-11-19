@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.5.1
 * restore KVK_Daten.bin
 
 ## 0.5.0
