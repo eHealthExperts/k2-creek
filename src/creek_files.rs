@@ -16,6 +16,7 @@ pub enum CreekFileType {
     EgkPruefungsnachweis,
     EgkMFEFGDO,
     EgkResult,
+    KvkBinDaten,
     KvkDaten,
 }
 lazy_static! {
@@ -40,6 +41,7 @@ lazy_static! {
         );
         map.insert(CreekFileType::EgkMFEFGDO, "eGK_MFEFGDO.xml");
         map.insert(CreekFileType::EgkResult, "Result.xml");
+        map.insert(CreekFileType::KvkBinDaten, "KVK_Daten.bin");
         map.insert(CreekFileType::KvkDaten, "KVK.dat");
         map
     };

@@ -26,6 +26,7 @@ const STATUSVD: &str = "eGK_MFDF_HCA_EF_StatusVD.xml";
 const PVD: &str = "eGK_PersoenlicheVersichertendaten.xml";
 const PN: &str = "eGK_Pruefungsnachweis.xml";
 const MFEFGDO: &str = "eGK_MFEFGDO.xml";
+const BIN_DATEN: &str = "KVK_Daten.bin";
 const DATEN: &str = "KVK.dat";
 const RESULT: &str = "Result.xml";
 
@@ -43,7 +44,7 @@ fn read_file(file: &str) -> String {
 }
 
 fn delete_files() {
-    for file in &[AVD, GVD, STATUSVD, PVD, PN, MFEFGDO, DATEN, RESULT] {
+    for file in &[AVD, GVD, STATUSVD, PVD, PN, MFEFGDO, BIN_DATEN, DATEN, RESULT] {
         if fs::remove_file(file).is_ok() {}
     }
 }
@@ -105,6 +106,8 @@ fn example_response() {
     assert_eq!(first_child_data!(result_error_code), "null");
     assert_eq!(None, json["errorCode"].as_str());
 
+    assert!(Path::new(BIN_DATEN).exists());
+    assert!(fs::metadata(BIN_DATEN).unwrap().len() > 0);
     assert!(Path::new(DATEN).exists());
     assert!(fs::metadata(DATEN).unwrap().len() > 0);
 }
@@ -165,6 +168,7 @@ fn example_response_with_many_nulls() {
 
     assert_eq!(false, Path::new(PN).exists());
 
+    assert_eq!(false, Path::new(BIN_DATEN).exists());
     assert_eq!(false, Path::new(DATEN).exists());
 
     assert!(Path::new(MFEFGDO).exists());
@@ -207,6 +211,7 @@ fn example_response_with_no_matching_card_filter() {
     assert_eq!(false, Path::new(STATUSVD).exists());
     assert_eq!(false, Path::new(PVD).exists());
     assert_eq!(false, Path::new(PN).exists());
+    assert_eq!(false, Path::new(BIN_DATEN).exists());
     assert_eq!(false, Path::new(DATEN).exists());
     assert_eq!(false, Path::new(MFEFGDO).exists());
 
