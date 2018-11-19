@@ -21,6 +21,7 @@ Copy the [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) in
 - `eGK_PersoenlicheVersichertendaten.xml`
 - `eGK_Pruefungsnachweis.xml`
 - `KVK.dat`
+- `KVK_Daten.bin`
 - `Result.xml`
 
 For more information of the file content have a look into the WinCrd2XML handbook.
