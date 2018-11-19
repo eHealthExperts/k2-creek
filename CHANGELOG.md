@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+* restore KVK_Daten.bin
+
 ## 0.5.0
 * human readable KVK data
 * update dependencies
