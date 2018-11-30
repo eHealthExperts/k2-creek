@@ -1,0 +1,31 @@
+{
+    "cardHandle": "c33d7190-db04-4dbb-8ee2-07cdeeaa3acf",
+    "cardType": "EHC",
+    "iccsn": "80276001048000758581",
+    "name": "Dr. Testkarte von Gematik-RU 19",
+    "kvkData": "YIGXgBpCdW5kZXNwb2xpemVpLUtyYW5rZW5rYXNzZYEHMzYwMDM0Mo8FMDAwMjCCDDEyMzQ1Njc4OTAxM4MEMTAwMJABMYUSRGFuaWVsIEd1c3RhdiBMdXR6hwZIfG5zY2iICDE3MDUxOTYxiRJDYXJsLVdvbGZmLVN0ci4gMTKKAUSLBTQ1Mjc5jAVFc3Nlbo0EMTAyMY4BiA==",
+    "errorText": null,
+    "instruction": null,
+    "errorCode": null,
+    "insurantId": null,
+    "insertTime": 1543401244204,
+    "terminalId": "00:0D:F8:06:5C:DF",
+    "slot": 1,
+    "pinResult": null,
+    "status": "READ_FINISHED",
+    "lastReadDate": 1543401258968,
+    "lastReadDuration": 12790,
+    "eGKData": {
+        "statusVd": "<StatusVD><UpdateTimestamp>20181128113413</UpdateTimestamp><Transaction>0</Transaction><Version><XML>5.2.0</XML></Version></StatusVD>",
+        "pd": "<?xml version=\"1.0\" encoding=\"ISO-8859-15\" standalone=\"yes\"?><UC_PersoenlicheVersichertendatenXML CDM_VERSION=\"5.2.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/vsd/v5.2\"><Versicherter><Versicherten_ID>A000749679</Versicherten_ID><Person><Geburtsdatum>19810830</Geburtsdatum><Vorname>Testkarte</Vorname><Nachname>Gematik-RU 19</Nachname><Geschlecht>M</Geschlecht><Vorsatzwort>von</Vorsatzwort><Titel>Dr.</Titel><StrassenAdresse><Postleitzahl>22459</Postleitzahl><Ort>Hamburg</Ort><Land><Wohnsitzlaendercode>D</Wohnsitzlaendercode></Land><Strasse>Friedrich-Ebert-Str.</Strasse><Hausnummer>28 a</Hausnummer><Anschriftenzusatz>12. Etage</Anschriftenzusatz></StrassenAdresse></Person></Versicherter></UC_PersoenlicheVersichertendatenXML>",
+        "vd": "<?xml version=\"1.0\" encoding=\"ISO-8859-15\" standalone=\"yes\"?><UC_AllgemeineVersicherungsdatenXML CDM_VERSION=\"5.2.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/vsd/v5.2\"><Versicherter><Versicherungsschutz><Beginn>20130101</Beginn><Kostentraeger><Kostentraegerkennung>101575519</Kostentraegerkennung><Kostentraegerlaendercode>D</Kostentraegerlaendercode><Name>Techniker Krankenkasse</Name><AbrechnenderKostentraeger><Kostentraegerkennung>101577500</Kostentraegerkennung><Kostentraegerlaendercode>D</Kostentraegerlaendercode><Name>TK</Name></AbrechnenderKostentraeger></Kostentraeger></Versicherungsschutz><Zusatzinfos><ZusatzinfosGKV><Versichertenart>1</Versichertenart><Zusatzinfos_Abrechnung_GKV><Kostenerstattung><AerztlicheVersorgung>0</AerztlicheVersorgung><ZahnaerztlicheVersorgung>0</ZahnaerztlicheVersorgung><StationaererBereich>0</StationaererBereich><VeranlassteLeistungen>0</VeranlassteLeistungen></Kostenerstattung><WOP>02</WOP></Zusatzinfos_Abrechnung_GKV></ZusatzinfosGKV></Zusatzinfos></Versicherter></UC_AllgemeineVersicherungsdatenXML>",
+        "gvd": "<?xml version=\"1.0\" encoding=\"ISO-8859-15\" standalone=\"yes\"?><UC_GeschuetzteVersichertendatenXML CDM_VERSION=\"5.2.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/vsd/v5.2\"><Zuzahlungsstatus><Status>0</Status></Zuzahlungsstatus><Selektivvertraege><Aerztlich>9</Aerztlich><Zahnaerztlich>9</Zahnaerztlich></Selektivvertraege></UC_GeschuetzteVersichertendatenXML>",
+        "pn": {
+            "result": 1,
+            "errorCode": null,
+            "timestamp": 1541770098000,
+            "receipt": "ODAyNzYwMDEwNDgwMDA3NTg1ODEwMDAwMDAwMTExOTA3MTI2MjAxODExMDkxNDI4MTg=",
+            "xml": "<PN CDM_VERSION=\"1.0.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/pnw/v1.0\"><TS>20181109142818</TS><E>1</E><PZ>ODAyNzYwMDEwNDgwMDA3NTg1ODEwMDAwMDAwMTExOTA3MTI2MjAxODExMDkxNDI4MTg=</PZ></PN>"
+        }
+    }
+}
