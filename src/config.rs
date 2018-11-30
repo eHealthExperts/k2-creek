@@ -1,57 +1,79 @@
-macro_rules! replace_by_ini {
-    ($ini:ident, $target:expr, $config_key:expr) => {
-        if let Some(val) = $ini.get_from(Some("settings"), $config_key) {
-            $target = val.to_owned();
-        }
-    };
+use serde_ini;
+use std::fs::File;
+use std::io::prelude::*;
+
+#[derive(Debug, Deserialize)]
+pub struct Configuration {
+    #[serde(default)]
+    settings: Settings,
 }
 
-pub struct Config {
-    scheme: String,
+#[derive(Debug, Deserialize)]
+struct Settings {
+    #[serde(default = "default_force_delete")]
+    force_delete: bool,
+    #[serde(default = "default_host")]
     host: String,
-    port: String,
+    #[serde(default = "default_path")]
     path: String,
-    force_delete: String,
+    #[serde(default = "default_port")]
+    port: u16,
+    #[serde(default = "default_scheme")]
+    scheme: String,
 }
 
-impl Default for Config {
+impl Default for Settings {
     fn default() -> Self {
         Self {
-            scheme: "http".to_owned(),
-            host: "localhost".to_owned(),
-            port: "8089".to_owned(),
-            path: "/k2/public/api/1/carddata".to_owned(),
-            force_delete: "false".to_owned(),
+            scheme: default_scheme(),
+            host: default_host(),
+            port: default_port(),
+            path: default_path(),
+            force_delete: default_force_delete(),
         }
     }
 }
 
-impl Config {
-    pub fn new() -> Self {
-        let mut config: Self = Self::default();
+impl Default for Configuration {
+    fn default() -> Self {
+        let mut content = String::new();
+        if let Ok(mut file) = File::open("config.ini") {
+            let _ = file.read_to_string(&mut content);
+        }
 
-        if let Ok(ini) = ::ini::Ini::load_from_file("config.ini") {
-            replace_by_ini!(ini, config.scheme, "scheme");
-            replace_by_ini!(ini, config.host, "host");
-            replace_by_ini!(ini, config.port, "port");
-            replace_by_ini!(ini, config.path, "path");
-            replace_by_ini!(ini, config.force_delete, "force_delete");
-        }
-        if let Err(e) = config.force_delete.parse::<bool>() {
-            panic!("Invalid config value for force_delete. Must be true or false (which is the default),
-                    but was {:?} - Error: {:?}", config.force_delete, e)
-        }
-        config
+        serde_ini::from_str::<Configuration>(&content).expect("Failed to create configuration!")
     }
+}
 
+impl Configuration {
     pub fn get_url(&self) -> String {
         format!(
             "{}://{}:{}{}",
-            &self.scheme, &self.host, &self.port, &self.path
+            &self.settings.scheme, &self.settings.host, &self.settings.port, &self.settings.path
         )
     }
 
     pub fn is_force_delete(&self) -> bool {
-        self.force_delete.parse::<bool>().unwrap() // safe due to early validation in new()
+        self.settings.force_delete
     }
+}
+
+fn default_force_delete() -> bool {
+    false
+}
+
+fn default_host() -> String {
+    "localhost".to_owned()
+}
+
+fn default_path() -> String {
+    "/k2/public/api/1/carddata".to_owned()
+}
+
+fn default_port() -> u16 {
+    8089
+}
+
+fn default_scheme() -> String {
+    "http".to_owned()
 }

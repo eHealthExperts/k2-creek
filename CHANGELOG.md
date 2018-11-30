@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+* complete rewrite
+* add `status` and `terminalId` to Result.xml
+
 ## 0.5.1
 * restore KVK_Daten.bin
 

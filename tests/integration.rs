@@ -52,11 +52,11 @@ fn delete_files() {
 }
 
 #[test]
-fn example_response() {
+fn example_full_response() {
     delete_files();
 
     let _server = test_server::new(8089, |_| {
-        let content = read_file("tests/example_response.json");
+        let content = read_file("tests/k2/response.json");
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
             .body(content)
@@ -64,7 +64,7 @@ fn example_response() {
 
     let _ = Command::new(BIN_PATH).output().unwrap();
 
-    let contents = read_file("tests/example_response.json");
+    let contents = read_file("tests/k2/response.json");
     let json: Value = serde_json::from_str(&contents).unwrap();
 
     assert!(Path::new(AVD).exists());
@@ -101,9 +101,15 @@ fn example_response() {
     let result_iccsn = result.children_with_name("iccsn");
     assert_eq!(first_child_data!(result_iccsn), json["iccsn"]);
     let result_error_text = result.children_with_name("errorText");
-    assert_eq!(first_child_data!(result_error_text), json["errorText"]);
+    assert_eq!(
+        first_child_data!(result_error_text),
+        json["errorText"].to_string()
+    );
     let result_instruction = result.children_with_name("instruction");
-    assert_eq!(first_child_data!(result_instruction), json["instruction"]);
+    assert_eq!(
+        first_child_data!(result_instruction),
+        json["instruction"].to_string()
+    );
     let result_error_code = result.children_with_name("errorCode");
     assert_eq!(first_child_data!(result_error_code), "null");
     assert_eq!(None, json["errorCode"].as_str());
