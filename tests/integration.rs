@@ -101,9 +101,15 @@ fn example_full_response() {
     let result_iccsn = result.children_with_name("iccsn");
     assert_eq!(first_child_data!(result_iccsn), json["iccsn"]);
     let result_error_text = result.children_with_name("errorText");
-    assert_eq!(first_child_data!(result_error_text), json["errorText"].to_string());
+    assert_eq!(
+        first_child_data!(result_error_text),
+        json["errorText"].to_string()
+    );
     let result_instruction = result.children_with_name("instruction");
-    assert_eq!(first_child_data!(result_instruction), json["instruction"].to_string());
+    assert_eq!(
+        first_child_data!(result_instruction),
+        json["instruction"].to_string()
+    );
     let result_error_code = result.children_with_name("errorCode");
     assert_eq!(first_child_data!(result_error_code), "null");
     assert_eq!(None, json["errorCode"].as_str());
