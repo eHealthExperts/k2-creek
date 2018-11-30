@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.6.0
 * complete rewrite
 * add `status` and `terminalId` to Result.xml
 
