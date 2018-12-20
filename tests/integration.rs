@@ -76,16 +76,18 @@ fn example_full_response() {
     assert_eq!(gvd, json["eGKData"]["gvd"]);
 
     assert!(Path::new(STATUSVD).exists());
-    let status_vd = read_file(STATUSVD);
-    assert_eq!(status_vd, json["eGKData"]["statusVd"]);
+    let status_vd_content = read_file(STATUSVD);
+    let status_vd: Vec<&str> = status_vd_content.split("?>").collect();
+    assert_eq!(status_vd[1], json["eGKData"]["statusVd"]);
 
     assert!(Path::new(PVD).exists());
     let pd = read_file(PVD);
     assert_eq!(pd, json["eGKData"]["pd"]);
 
     assert!(Path::new(PN).exists());
-    let xml = read_file(PN);
-    assert_eq!(xml, json["eGKData"]["pn"]["xml"]);
+    let pn_content = read_file(PN);
+    let pn: Vec<&str> = pn_content.split("?>").collect();
+    assert_eq!(pn[1], json["eGKData"]["pn"]["xml"]);
 
     assert!(Path::new(MFEFGDO).exists());
     let mfefgdo_xml = read_file(MFEFGDO);
@@ -167,8 +169,9 @@ fn example_response_with_many_nulls() {
     assert_eq!(gvd, json["eGKData"]["gvd"]);
 
     assert!(Path::new(STATUSVD).exists());
-    let status_vd = read_file(STATUSVD);
-    assert_eq!(status_vd, json["eGKData"]["statusVd"]);
+    let status_vd_content = read_file(STATUSVD);
+    let status_vd: Vec<&str> = status_vd_content.split("?>").collect();
+    assert_eq!(status_vd[1], json["eGKData"]["statusVd"]);
 
     assert!(Path::new(PVD).exists());
     let pd = read_file(PVD);
