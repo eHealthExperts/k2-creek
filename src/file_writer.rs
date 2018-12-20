@@ -28,7 +28,10 @@ fn determine_encoding<'a>(data: &str) -> (EncodingRef, Cow<'a, str>) {
     match Document::parse(data.as_bytes()) {
         Ok(doc) => match encoding_from_whatwg_label(&doc.encoding) {
             Some(enc) => (enc, Cow::Owned(doc.encoding)),
-            None => (encoding::all::ISO_8859_15 as EncodingRef, Cow::Borrowed("iso-8859-15")),
+            None => (
+                encoding::all::ISO_8859_15 as EncodingRef,
+                Cow::Borrowed("iso-8859-15"),
+            ),
         },
         Err(why) => panic!("Failed to parse string!\n{}", why),
     }
@@ -36,8 +39,12 @@ fn determine_encoding<'a>(data: &str) -> (EncodingRef, Cow<'a, str>) {
 
 fn ensure_xml_declaration<'a>(content: &'a str, label: &str) -> Cow<'a, str> {
     if content.starts_with("<?xml") {
-        return Cow::Borrowed(content)
+        return Cow::Borrowed(content);
     }
 
-    Cow::Owned(format!("<?xml version=\"1.0\" encoding=\"{}\" standalone=\"yes\"?>{}", label.to_uppercase(), content))
+    Cow::Owned(format!(
+        "<?xml version=\"1.0\" encoding=\"{}\" standalone=\"yes\"?>{}",
+        label.to_uppercase(),
+        content
+    ))
 }
