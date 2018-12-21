@@ -622,7 +622,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "k2-creek"
-version = "0.6.0"
+version = "0.6.1"
 dependencies = [
  "base64 0.10.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "der-parser 1.1.0 (registry+https://github.com/rust-lang/crates.io-index)",
