@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.1
+* add missing xml declaration
+* update dependencies
+
 ## 0.6.0
 * complete rewrite
 * add `status` and `terminalId` to Result.xml
