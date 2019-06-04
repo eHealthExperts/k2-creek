@@ -3,7 +3,7 @@ use super::files::{FileTypes::*, FILES};
 use super::CONFIG;
 use crate::k2::Response;
 use promptly::Promptable;
-use serde_xml_rs::serialize;
+use serde_xml_rs::ser::to_writer;
 use std::{fs::File, io::Write, str};
 
 mod kvk_data;
@@ -32,7 +32,7 @@ pub fn write_carddata(data: &Response) {
 
     if let Some(iccsn) = &data.iccsn {
         let mut buffer = Vec::new();
-        serialize(&mfefgdo::MFEFGDO::new(iccsn.to_string()), &mut buffer)
+        to_writer(&mut buffer, &mfefgdo::MFEFGDO::new(iccsn.to_string()))
             .expect("Failed to serialize 'eGK_MFEF_GDO_Hexadezimal'");
 
         write_string_to_file(
@@ -50,7 +50,8 @@ pub fn write_carddata(data: &Response) {
         };
 
         let mut buffer = Vec::new();
-        serialize(
+        to_writer(
+            &mut buffer,
             &results::Results {
                 cardType: unwrap_or_null!(data.cardType.clone()),
                 errorCode: unwrap_or_null!(error_code_opt),
@@ -60,7 +61,6 @@ pub fn write_carddata(data: &Response) {
                 status: unwrap_or_null!(data.status.clone()),
                 terminalId: unwrap_or_null!(data.terminalId.clone()),
             },
-            &mut buffer,
         )
         .expect("Failed to serialize 'Results'");
 
