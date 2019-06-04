@@ -17,9 +17,11 @@ mod k2;
 
 use crate::carddata::write_carddata;
 use crate::config::Configuration;
+use antidote::RwLock;
 
 lazy_static! {
-    pub static ref CONFIG: Configuration = Configuration::default();
+    pub(crate) static ref CONFIG: RwLock<Configuration> =
+        RwLock::new(Configuration::init().expect("Failed to init configuration!"));
 }
 
 pub fn fetch_card_data() -> k2::Response {
