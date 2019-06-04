@@ -25,8 +25,8 @@ mod carddata;
 mod config;
 mod k2;
 
-use carddata::write_carddata;
-use config::Configuration;
+use crate::carddata::write_carddata;
+use crate::config::Configuration;
 
 lazy_static! {
     pub static ref CONFIG: Configuration = Configuration::default();

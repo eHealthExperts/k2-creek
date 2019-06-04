@@ -1,6 +1,6 @@
 use super::Response;
 use reqwest::{self, header::CONTENT_TYPE};
-use CONFIG;
+use crate::CONFIG;
 
 pub fn request() -> Response {
     match reqwest::get(&CONFIG.get_url()) {
