@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+* switch to editon 2018
+* update dependencies
+
 ## 0.6.1
 * add missing xml declaration
 * update dependencies
