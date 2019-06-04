@@ -1,4 +1,4 @@
-version: 0.6.1-{branch}-{build}
+version: 0.6.2-{branch}-{build}
 
 image:
     - Ubuntu

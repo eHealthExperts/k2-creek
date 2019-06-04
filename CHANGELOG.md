@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.6.2
 * switch to editon 2018
 * update dependencies
 
