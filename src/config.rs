@@ -18,20 +18,21 @@ pub struct Settings {
 }
 
 impl Configuration {
+    #[logfn(ok = "TRACE", err = "Error", fmt = "Failed to create configuration: {:?}")]
     pub fn init() -> Result<Self, Error> {
         let mut settings = Config::new();
 
         // set defaults
         let _ = settings
-            .set_default("force_delete", false)
+            .set_default("settings.force_delete", false)
             .expect("Failed to set default for force_delete!")
-            .set_default("host", "localhost")
+            .set_default("settings.host", "localhost")
             .expect("Failed to set default for host!")
-            .set_default("path", "/k2/public/api/1/carddata")
+            .set_default("settings.path", "/k2/public/api/1/carddata")
             .expect("Failed to set default for path!")
-            .set_default("port", 8089)
+            .set_default("settings.port", 8089)
             .expect("Failed to set default for port!")
-            .set_default("scheme", "http")
+            .set_default("settings.scheme", "http")
             .expect("Failed to set default for scheme!");
 
         let _ = settings
