@@ -18,7 +18,11 @@ pub struct Settings {
 }
 
 impl Configuration {
-    #[logfn(ok = "TRACE", err = "Error", fmt = "Failed to create configuration: {:?}")]
+    #[logfn(
+        ok = "TRACE",
+        err = "Error",
+        fmt = "Failed to create configuration: {:?}"
+    )]
     pub fn init() -> Result<Self, Error> {
         let mut settings = Config::new();
 
