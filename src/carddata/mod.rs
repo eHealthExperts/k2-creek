@@ -1,5 +1,5 @@
 use crate::file_writer::write_string_to_file;
-use crate::files::{FileTypes::*, FILES};
+use crate::files::{self, FileTypes::*, FILES};
 use crate::k2::Response;
 use crate::CONFIG;
 use promptly::Promptable;
@@ -88,7 +88,7 @@ pub fn write_carddata(data: &Response) {
 }
 
 fn cleanup() {
-    if FILES.keys().any(|file| file.exists()) {
+    if FILES.keys().any(files::FileTypes::exists) {
         let delete = CONFIG.read().settings.force_delete
             || bool::prompt_default(
                 "WARNING - Old files found in output folder. Delete before proceeding?",
@@ -96,7 +96,7 @@ fn cleanup() {
             );
 
         if delete {
-            FILES.keys().for_each(|file| file.delete());
+            FILES.keys().for_each(files::FileTypes::delete);
         } else {
             println!("Continuing with file generation. You will probably end up with an inconsistent set of result files.");
         }
