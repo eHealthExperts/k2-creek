@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.6.3
 * use config-rs crate for configiration management
 * update dependencies
 
