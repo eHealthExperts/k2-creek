@@ -1,6 +1,8 @@
 #[macro_use]
 extern crate lazy_static;
 #[macro_use]
+extern crate log_derive;
+#[macro_use]
 extern crate nom;
 #[macro_use]
 extern crate rusticata_macros;
@@ -17,11 +19,14 @@ mod k2;
 
 use crate::carddata::write_carddata;
 use crate::config::Configuration;
+use antidote::RwLock;
 
 lazy_static! {
-    pub static ref CONFIG: Configuration = Configuration::default();
+    pub(crate) static ref CONFIG: RwLock<Configuration> =
+        RwLock::new(Configuration::init().expect("Failed to init configuration!"));
 }
 
+#[logfn(ok = "TRACE", err = "Error", fmt = "Failed fetching card data: {:?}")]
 pub fn fetch_card_data() -> k2::Response {
     k2::request()
 }

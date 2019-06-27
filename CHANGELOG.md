@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+* use config-rs crate for configiration management
+* update dependencies
+
 ## 0.6.2
 * switch to editon 2018
 * update dependencies

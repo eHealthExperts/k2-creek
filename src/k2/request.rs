@@ -1,9 +1,20 @@
 use super::Response;
-use reqwest::{self, header::CONTENT_TYPE};
 use crate::CONFIG;
+use reqwest::{self, header::CONTENT_TYPE};
+
+fn url_from_config() -> String {
+    format!(
+        "{}://{}:{}{}",
+        &CONFIG.read().settings.scheme,
+        &CONFIG.read().settings.host,
+        &CONFIG.read().settings.port,
+        &CONFIG.read().settings.path
+    )
+}
 
 pub fn request() -> Response {
-    match reqwest::get(&CONFIG.get_url()) {
+    let url = url_from_config();
+    match reqwest::get(&url) {
         Ok(ref mut response) => {
             let headers = response.headers().clone();
             if let Some(content_header) = headers.get(CONTENT_TYPE) {

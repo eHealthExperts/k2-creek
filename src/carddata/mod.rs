@@ -1,7 +1,7 @@
-use super::file_writer::write_string_to_file;
-use super::files::{FileTypes::*, FILES};
-use super::CONFIG;
+use crate::file_writer::write_string_to_file;
+use crate::files::{self, FileTypes::*, FILES};
 use crate::k2::Response;
+use crate::CONFIG;
 use promptly::Promptable;
 use serde_xml_rs::ser::to_writer;
 use std::{fs::File, io::Write, str};
@@ -88,15 +88,15 @@ pub fn write_carddata(data: &Response) {
 }
 
 fn cleanup() {
-    if FILES.keys().any(|file| file.exists()) {
-        let delete = CONFIG.is_force_delete()
+    if FILES.keys().any(files::FileTypes::exists) {
+        let delete = CONFIG.read().settings.force_delete
             || bool::prompt_default(
                 "WARNING - Old files found in output folder. Delete before proceeding?",
                 false,
             );
 
         if delete {
-            FILES.keys().for_each(|file| file.delete());
+            FILES.keys().for_each(files::FileTypes::delete);
         } else {
             println!("Continuing with file generation. You will probably end up with an inconsistent set of result files.");
         }
