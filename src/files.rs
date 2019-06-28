@@ -1,3 +1,4 @@
+use crate::CONFIG;
 use std::{collections::HashMap, fs, path::Path};
 
 #[derive(PartialEq, Eq, Hash)]
@@ -32,8 +33,10 @@ impl FileTypes {
     }
 
     pub fn exists(&self) -> bool {
+        let path_from_config = &CONFIG.read().output.path;
+        let output_path = Path::new(path_from_config);
         match FILES.get(self) {
-            Some(file) => Path::new(&format!("./{}", file)).exists(),
+            Some(file) => output_path.join(file).as_path().exists(),
             None => false,
         }
     }
