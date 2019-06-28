@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.7.0
 * reorganise configuration file layout
 * add ouptut folder config key
 * update dependencies

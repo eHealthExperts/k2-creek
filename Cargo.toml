@@ -1,6 +1,6 @@
 [package]
 name = "k2-creek"
-version = "0.6.3"
+version = "0.7.0"
 authors = ["Benjamin Wenzel <wenzel@ehealthexperts.de>",
            "Christian Fochler <fochler@ehealthexperts.de>"]
 license = "MIT"
@@ -42,7 +42,7 @@ test-server = { git = "https://github.com/ChriFo/test-server-rs", tag = "0.6.0" 
 winres = "0.1.11"
 
 [package.metadata.winres]
-FileVersion = "0.6.2"
+FileVersion = "0.7.0"
 LegalCopyright = "eHealthExperts GmbH. All rights reserved."
 ProductName = "K2 creek"
-ProductVersion = "0.6.2"
+ProductVersion = "0.7.0"
