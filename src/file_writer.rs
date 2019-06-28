@@ -1,6 +1,7 @@
+use crate::CONFIG;
 use encoding::label::encoding_from_whatwg_label;
 use encoding::{self, EncoderTrap, EncodingRef};
-use std::{borrow::Cow, fs::File, io::Write};
+use std::{borrow::Cow, fs::File, io::Write, path::Path};
 use treexml::Document;
 
 macro_rules! write_file_if_some {
@@ -19,7 +20,10 @@ pub fn write_string_to_file(string: &str, dest: &str) {
         Err(why) => panic!("Failed to encode content for {}:\n{}", dest, why),
     };
 
-    let mut file = File::create(dest).expect("Unable to create file");
+    let path_from_config = &CONFIG.read().output.path;
+    let output_path = Path::new(path_from_config);
+
+    let mut file = File::create(output_path.join(dest)).expect("Unable to create file");
     file.write_all(&encoded[..]).expect("Unable to write data");
     println!("Wrote file {:?}", dest);
 }

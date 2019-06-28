@@ -23,8 +23,8 @@ nom = { version = "4.2.3", features = ["verbose-errors"] }
 promptly = "0.1.5"
 reqwest = "0.9.18"
 rusticata-macros = "1.1.0"
-serde = "1.0.93"
-serde_derive = "1.0.93"
+serde = "1.0.94"
+serde_derive = "1.0.94"
 serde-xml-rs = "0.3.1"
 treexml = { git = "https://github.com/ChriFo/treexml-rs", branch = "fix/defaultEncoding" }
 

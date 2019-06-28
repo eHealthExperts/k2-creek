@@ -5,16 +5,22 @@ const CFG_FILE: &str = "config.ini";
 
 #[derive(Debug, Deserialize, PartialEq)]
 pub struct Configuration {
-    pub settings: Settings,
+    pub k2: K2,
+    pub output: Output,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
-pub struct Settings {
-    pub force_delete: bool,
+pub struct K2 {
     pub host: String,
     pub path: String,
     pub port: u16,
     pub scheme: String,
+}
+
+#[derive(Debug, Deserialize, PartialEq)]
+pub struct Output {
+    pub force_delete: bool,
+    pub path: String,
 }
 
 impl Configuration {
@@ -28,16 +34,18 @@ impl Configuration {
 
         // set defaults
         let _ = settings
-            .set_default("settings.force_delete", false)
-            .expect("Failed to set default for force_delete!")
-            .set_default("settings.host", "localhost")
+            .set_default("k2.host", "localhost")
             .expect("Failed to set default for host!")
-            .set_default("settings.path", "/k2/public/api/1/carddata")
+            .set_default("k2.path", "/k2/public/api/1/carddata")
             .expect("Failed to set default for path!")
-            .set_default("settings.port", 8089)
+            .set_default("k2.port", 8089)
             .expect("Failed to set default for port!")
-            .set_default("settings.scheme", "http")
-            .expect("Failed to set default for scheme!");
+            .set_default("k2.scheme", "http")
+            .expect("Failed to set default for scheme!")
+            .set_default("output.force_delete", false)
+            .expect("Failed to set default for force_delete!")
+            .set_default("output.path", ".")
+            .expect("Failed to set defautt path for output");
 
         let _ = settings
             .merge(File::with_name(CFG_FILE).required(false))

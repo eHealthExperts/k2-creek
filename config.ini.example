@@ -1,8 +1,12 @@
-;[settings]
+;[k2]
 ;scheme=http
 ;host=localhost
 ;port=8089
 ;path=/k2/public/api/1/carddata
+
+;[output]
+; The default output path is the working directory of k2-creek
+;path=c:/temp
 
 ; set to true in order to avoid an interactive prompt
 ; when previously generated files still exist in the

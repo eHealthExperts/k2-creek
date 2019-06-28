@@ -5,10 +5,10 @@ use reqwest::{self, header::CONTENT_TYPE};
 fn url_from_config() -> String {
     format!(
         "{}://{}:{}{}",
-        &CONFIG.read().settings.scheme,
-        &CONFIG.read().settings.host,
-        &CONFIG.read().settings.port,
-        &CONFIG.read().settings.path
+        &CONFIG.read().k2.scheme,
+        &CONFIG.read().k2.host,
+        &CONFIG.read().k2.port,
+        &CONFIG.read().k2.path
     )
 }
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+* reorganise configuration file layout
+* add ouptut folder config key
+* update dependencies
+
 ## 0.6.3
 * use config-rs crate for configiration management
 * update dependencies

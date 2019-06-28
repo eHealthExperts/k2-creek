@@ -89,7 +89,7 @@ pub fn write_carddata(data: &Response) {
 
 fn cleanup() {
     if FILES.keys().any(files::FileTypes::exists) {
-        let delete = CONFIG.read().settings.force_delete
+        let delete = CONFIG.read().output.force_delete
             || bool::prompt_default(
                 "WARNING - Old files found in output folder. Delete before proceeding?",
                 false,
