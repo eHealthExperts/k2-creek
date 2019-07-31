@@ -4,7 +4,7 @@ use crate::k2::Response;
 use crate::CONFIG;
 use promptly::Promptable;
 use serde_xml_rs::ser::to_writer;
-use std::{fs::File, io::Write, str};
+use std::{fs::File, io::Write, path::Path, str};
 
 mod kvk_data;
 mod mfefgdo;
@@ -71,17 +71,21 @@ pub fn write_carddata(data: &Response) {
     }
 
     if let Some(ref kvkdata_der) = data.kvkData {
+        let path_from_config = &CONFIG.read().output.path;
+        let output_path = Path::new(path_from_config);
+
         match ::base64::decode(kvkdata_der) {
             Ok(content) => {
-                let mut file =
-                    File::create(filename_by_type!(KvkBinDaten)).expect("Unable to create file");
+                let mut file = File::create(output_path.join(filename_by_type!(KvkBinDaten)))
+                    .expect("Unable to create file");
                 file.write_all(&content[..]).expect("Unable to write data");
             }
             Err(why) => panic!("Failed to decode kvkdata:\n{}", why),
         }
 
         let kvkdata = kvk_data::parse(kvkdata_der).expect("Failed to parse kvkdata");
-        let mut file = File::create(filename_by_type!(KvkDaten)).expect("Unable to create file");
+        let mut file = File::create(output_path.join(filename_by_type!(KvkDaten)))
+            .expect("Unable to create file");
         file.write_all(kvkdata.as_bytes())
             .expect("Unable to write data");
     }
