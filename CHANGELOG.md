@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleases
+* fix output folder for kvk data files
+* update dependencies
+
 ## 0.7.0
 * reorganise configuration file layout
 * add ouptut folder config key

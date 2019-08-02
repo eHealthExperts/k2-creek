@@ -4,22 +4,21 @@ trigger:
          - refs/heads/*
          - refs/tags/*
 variables:
-    CHANNEL: stable
     RUST_BACKTRACE: full
     RUST_TEST_THREADS: 1
 pool:
     vmImage: $(VM_IMAGE)
 strategy:
     matrix:
-        i686-pc-windows-msvc:
+        i686:
             TARGET: i686-pc-windows-msvc
             VM_IMAGE: vs2017-win2016
             ARTIFACT: k2-creek-x32.exe
-        x86_64-pc-windows-msvc:
-            TARGET: x86_64-pc-windows-gnu
+        x86_64:
+            TARGET: x86_64-pc-windows-msvc
             VM_IMAGE: vs2017-win2016
             ARTIFACT: k2-creek-x64.exe
-        x86_64-unknown-linux-gnu:
+        linux:
             TARGET: x86_64-unknown-linux-gnu
             VM_IMAGE: ubuntu-16.04
             RUSTFLAGS: '-C link-dead-code'
@@ -28,14 +27,10 @@ strategy:
 steps:
   - bash: |
       set -x
-      curl https://sh.rustup.rs -sSf | sh -s -- -y --no-modify-path --default-toolchain none
+      curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable --default-host $TARGET
       echo "##vso[task.prependpath]$HOME/.cargo/bin"
-    displayName: Install rustup
-  - bash: |
-      set -x
-      rustup toolchain install --no-self-update $CHANNEL-$TARGET
-      rustup default $CHANNEL-$TARGET
-    displayName: Select toolchain
+      rustup target add $TARGET
+    displayName: Install rust
   - bash: |
       sudo apt-get update
       sudo apt-get install -y --fix-missing pkg-config
@@ -65,7 +60,7 @@ steps:
   - bash: |
       cargo audit
       cargo fmt --all -- --check
-      cargo clippy --all-targets -- -D warnings
+      cargo clippy -- -D warnings
     condition: and(succeeded(), eq(variables['Agent.OS'],'Linux'))
     displayName: Run cargo audit, fmt and clippy [Linux]
   - bash: |
@@ -108,13 +103,14 @@ steps:
     condition: and(succeeded(), eq(variables['Agent.OS'],'Linux'))
     displayName: 'Publish unit test results [Linux]'
   - bash: |
-      cargo build --release
+      set -x
+      cargo build --release --target $TARGET
     condition: and(succeeded(), eq(variables['Agent.OS'],'Windows_NT'))
     displayName: Run cargo build [Windows]
   - task: PowerShell@2
     inputs:
       targetType: inline
-      workingDirectory: '$(System.DefaultWorkingDirectory)/target/release/'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/target/$(TARGET)/release/'
       script: |
         Rename-Item -Path "k2-creek.exe" -NewName $(ARTIFACT)
     condition: and(succeeded(), eq(variables['Agent.OS'],'Windows_NT'))
@@ -122,7 +118,7 @@ steps:
   - task: PowerShell@2
     inputs:
       targetType: inline
-      workingDirectory: '$(System.DefaultWorkingDirectory)/target/release/'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/target/$(TARGET)/release/'
       script: |
         cp $(ARTIFACT) $(Build.ArtifactStagingDirectory)/$(ARTIFACT)
     condition: and(succeeded(), eq(variables['Agent.OS'],'Windows_NT'))
