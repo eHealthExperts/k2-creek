@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleases
+## 0.7.1
 * fix output folder for kvk data files
 * update dependencies
 
