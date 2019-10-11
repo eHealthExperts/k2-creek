@@ -62,7 +62,7 @@ fn example_full_response() {
             .body(content)
     });
 
-    let _ = Command::new(BIN_PATH).output().unwrap();
+    dbg!(Command::new(BIN_PATH).output().unwrap());
 
     let contents = read_file("tests/k2/response.json");
     let json: Value = serde_json::from_str(&contents).unwrap();
@@ -134,7 +134,7 @@ fn example_response_with_error_code() {
             .body(content)
     });
 
-    let _ = Command::new(BIN_PATH).output().unwrap();
+    dbg!(Command::new(BIN_PATH).output().unwrap());
 
     assert!(Path::new(RESULT).exists());
     let result_xml = read_file(RESULT);
@@ -155,7 +155,7 @@ fn example_response_with_many_nulls() {
             .body(content)
     });
 
-    let _ = Command::new(BIN_PATH).output().unwrap();
+    dbg!(Command::new(BIN_PATH).output().unwrap());
 
     let contents = read_file("tests/example_response_with_many_nulls.json");
     let json: Value = serde_json::from_str(&contents).unwrap();
@@ -215,7 +215,7 @@ fn example_response_with_no_matching_card_filter() {
         HttpResponse::NotFound().body(" card with filter not found ")
     });
 
-    let _ = Command::new(BIN_PATH).output().unwrap();
+    dbg!(Command::new(BIN_PATH).output().unwrap());
 
     assert_eq!(false, Path::new(AVD).exists());
     assert_eq!(false, Path::new(GVD).exists());
