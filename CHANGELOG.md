@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.7.2
 * fix file removing when `force_delete` is enabled
 * update dependencies
 
