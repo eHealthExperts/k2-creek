@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+* fix file removing when `force_delete` is enabled
+* update dependencies
+
 ## 0.7.1
 * fix output folder for kvk data files
 * update dependencies
