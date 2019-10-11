@@ -1,5 +1,5 @@
 use crate::CONFIG;
-use std::{collections::HashMap, fs, path::Path};
+use std::{collections::HashMap, fs, path::{Path, PathBuf}};
 
 #[derive(PartialEq, Eq, Hash)]
 pub enum FileTypes {
@@ -22,10 +22,15 @@ macro_rules! filename_by_type {
 }
 
 impl FileTypes {
+    fn output_path() -> PathBuf {
+        let path_from_config = &CONFIG.read().output.path;
+        Path::new(path_from_config).to_path_buf()
+    }
     pub fn delete(&self) {
         if self.exists() {
             if let Some(file) = FILES.get(self) {
-                fs::remove_file(file)
+                let filepath = FileTypes::output_path().join(file);
+                fs::remove_file(filepath)
                     .unwrap_or_else(|_| panic!("Unable to delete {}. Aborting...", file));
                 println!("Deleted old {}", file);
             }
@@ -33,10 +38,8 @@ impl FileTypes {
     }
 
     pub fn exists(&self) -> bool {
-        let path_from_config = &CONFIG.read().output.path;
-        let output_path = Path::new(path_from_config);
         match FILES.get(self) {
-            Some(file) => output_path.join(file).as_path().exists(),
+            Some(file) => FileTypes::output_path().join(file).as_path().exists(),
             None => false,
         }
     }
