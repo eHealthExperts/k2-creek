@@ -17,7 +17,7 @@ mod carddata;
 mod config;
 mod k2;
 
-use crate::carddata::write_carddata;
+pub use crate::carddata::write_carddata;
 use crate::config::Configuration;
 use antidote::RwLock;
 
@@ -27,10 +27,6 @@ lazy_static! {
 }
 
 #[logfn(ok = "TRACE", err = "Error", fmt = "Failed fetching card data: {:?}")]
-pub fn fetch_card_data() -> k2::Response {
+pub fn fetch_carddata() -> k2::Response {
     k2::request()
-}
-
-pub fn write_card_data(data: &k2::Response) {
-    write_carddata(data)
 }
