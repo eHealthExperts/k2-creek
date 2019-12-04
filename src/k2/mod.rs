@@ -1,6 +1,5 @@
-pub use self::request::request;
-pub use self::response::K2Response as Response;
-use reqwest::StatusCode;
+pub use request::request;
+pub use response::K2Response as Response;
 
 mod request;
 mod response;
@@ -8,7 +7,7 @@ mod response;
 const CARD_NOT_FOUND_RESPONSE: &str = "card with filter not found";
 const CARD_NOT_FOUND_FILE_OUTPUT: &str = "Keine Karte gefunden";
 
-pub fn handle_response_failure(resp: &mut ::reqwest::Response) -> Response {
+pub fn handle_response_failure(resp: reqwest::blocking::Response) -> Response {
     let status = resp.status();
     if status.is_server_error() {
         panic!("K2 server ran into error state")
@@ -19,11 +18,11 @@ pub fn handle_response_failure(resp: &mut ::reqwest::Response) -> Response {
         .unwrap_or_else(|_| panic!("Unable to read K2 response body. Status: {:?}", status));
 
     match status {
-        StatusCode::OK => panic!(
+        reqwest::StatusCode::OK => panic!(
             "Response status was OK but had unexpected body: {:?}",
             resp_body
         ),
-        StatusCode::NOT_FOUND => {
+        reqwest::StatusCode::NOT_FOUND => {
             if resp_body.trim() == CARD_NOT_FOUND_RESPONSE {
                 println!("No card was found. This will be reflected in the output file.");
                 let mut ret = Response {

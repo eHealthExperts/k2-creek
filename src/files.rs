@@ -1,5 +1,9 @@
 use crate::CONFIG;
-use std::{collections::HashMap, fs, path::{Path, PathBuf}};
+use std::{
+    collections::HashMap,
+    fs,
+    path::{Path, PathBuf},
+};
 
 #[derive(PartialEq, Eq, Hash)]
 pub enum FileTypes {

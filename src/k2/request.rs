@@ -1,6 +1,6 @@
 use super::Response;
 use crate::CONFIG;
-use reqwest::{self, header::CONTENT_TYPE};
+use reqwest::{blocking::get, header::CONTENT_TYPE};
 
 fn url_from_config() -> String {
     format!(
@@ -14,9 +14,10 @@ fn url_from_config() -> String {
 
 pub fn request() -> Response {
     let url = url_from_config();
-    match reqwest::get(&url) {
-        Ok(ref mut response) => {
+    match get(&url) {
+        Ok(response) => {
             let headers = response.headers().clone();
+            let status = response.status();
             if let Some(content_header) = headers.get(CONTENT_TYPE) {
                 if content_header == "application/json" {
                     match response.json() {
@@ -24,23 +25,9 @@ pub fn request() -> Response {
                         Err(ref err) if err.is_redirect() => {
                             panic!("Redirect loop when attempting to get JSON from K2")
                         }
-                        Err(ref err) if err.is_serialization() => {
-                            if let Some(serde_error) = err.get_ref() {
-                                panic!(
-                                    "Unable to deserialize payload to JSON. Status: {:?} - Error: {:?}",
-                                    response.status(), serde_error
-                                )
-                            } else {
-                                panic!(
-                                    "Unable to deserialize payload for unknown reason. Status: {:?}",
-                                    response.status()
-                                )
-                            }
-                        }
                         Err(err) => panic!(
                             "Unable to receive JSON from K2. Status: {:?} - Error: {:?}",
-                            response.status(),
-                            err
+                            status, err
                         ),
                     }
                 } else {

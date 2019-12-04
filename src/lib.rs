@@ -26,7 +26,6 @@ lazy_static! {
         RwLock::new(Configuration::init().expect("Failed to init configuration!"));
 }
 
-#[logfn(ok = "TRACE", err = "Error", fmt = "Failed fetching card data: {:?}")]
 pub fn fetch_carddata() -> k2::Response {
     k2::request()
 }
