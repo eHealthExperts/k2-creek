@@ -2,6 +2,8 @@ extern crate encoding;
 extern crate nv_xml;
 extern crate reqwest;
 extern crate serde_json;
+#[macro_use]
+extern crate serial_test;
 extern crate test_server;
 
 use encoding::all::ISO_8859_15;
@@ -52,6 +54,7 @@ fn delete_files() {
 }
 
 #[test]
+#[serial]
 fn example_full_response() {
     delete_files();
 
@@ -123,7 +126,7 @@ fn example_full_response() {
 }
 
 #[test]
-#[cfg(not(target_os = "windows"))] // carllerche/mio#776
+#[serial]
 fn example_response_with_error_code() {
     delete_files();
 
@@ -144,7 +147,7 @@ fn example_response_with_error_code() {
 }
 
 #[test]
-#[cfg(not(target_os = "windows"))] // carllerche/mio#776
+#[serial]
 fn example_response_with_many_nulls() {
     delete_files();
 
@@ -207,7 +210,7 @@ fn example_response_with_many_nulls() {
 }
 
 #[test]
-#[cfg(not(target_os = "windows"))] // carllerche/mio#776
+#[serial]
 fn example_response_with_no_matching_card_filter() {
     delete_files();
 
