@@ -1,7 +1,8 @@
 # Changelog
 
-## Unrelease
+## 0.7.3
 
+* adjust K2 response struct
 * update dependencies
 
 ## 0.7.2
