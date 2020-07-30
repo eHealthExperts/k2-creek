@@ -25,7 +25,7 @@
             "errorCode": null,
             "timestamp": 1541770098000,
             "receipt": "ODAyNzYwMDEwNDgwMDA3NTg1ODEwMDAwMDAwMTExOTA3MTI2MjAxODExMDkxNDI4MTg=",
-            "xml": "<PN CDM_VERSION=\"1.0.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/pnw/v1.0\"><TS>20181109142818</TS><E>1</E><PZ>ODAyNzYwMDEwNDgwMDA3NTg1ODEwMDAwMDAwMTExOTA3MTI2MjAxODExMDkxNDI4MTg=</PZ></PN>"
+            "pnXML": "<PN CDM_VERSION=\"1.0.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/pnw/v1.0\"><TS>20181109142818</TS><E>1</E><PZ>ODAyNzYwMDEwNDgwMDA3NTg1ODEwMDAwMDAwMTExOTA3MTI2MjAxODExMDkxNDI4MTg=</PZ></PN>"
         }
     }
 }

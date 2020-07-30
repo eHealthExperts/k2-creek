@@ -1,6 +1,7 @@
+#[allow(non_snake_case)]
 #[derive(Deserialize, Debug)]
 pub struct Pn {
-    pub xml: Option<String>,
+    pub pnXML: Option<String>,
 }
 
 #[allow(non_snake_case)]

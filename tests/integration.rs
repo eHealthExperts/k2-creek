@@ -90,7 +90,7 @@ fn example_full_response() {
     assert!(Path::new(PN).exists());
     let pn_content = read_file(PN);
     let pn: Vec<&str> = pn_content.split("?>").collect();
-    assert_eq!(pn[1], json["eGKData"]["pn"]["xml"]);
+    assert_eq!(pn[1], json["eGKData"]["pn"]["pnXML"]);
 
     assert!(Path::new(MFEFGDO).exists());
     let mfefgdo_xml = read_file(MFEFGDO);

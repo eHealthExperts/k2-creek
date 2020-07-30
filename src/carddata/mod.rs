@@ -26,7 +26,7 @@ pub fn write_carddata(data: &Response) {
         write_file_if_some!(filename_by_type!(EgkMFDFHCAEF), egk.statusVd);
 
         if let Some(ref pn) = egk.pn {
-            write_file_if_some!(filename_by_type!(EgkPruefungsnachweis), pn.xml);
+            write_file_if_some!(filename_by_type!(EgkPruefungsnachweis), pn.pnXML);
         }
     }
 
