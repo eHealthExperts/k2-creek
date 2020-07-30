@@ -31,7 +31,6 @@ pub struct K2Response {
 mod tests {
 
     use super::K2Response as Response;
-    use serde_json;
     use std::fs::File;
 
     #[test]

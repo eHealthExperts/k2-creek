@@ -55,7 +55,7 @@ fn delete_files() {
 fn example_full_response() {
     delete_files();
 
-    let _server = test_server::new(8089, |_| {
+    let _server = test_server::new("127.0.0.1:8089", || {
         let content = read_file("tests/k2/response.json");
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
@@ -127,7 +127,7 @@ fn example_full_response() {
 fn example_response_with_error_code() {
     delete_files();
 
-    let _server = test_server::new(8089, |_| {
+    let _server = test_server::new("127.0.0.1:8089", || {
         let content = read_file("tests/example_response_with_error_code.json");
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
@@ -148,7 +148,7 @@ fn example_response_with_error_code() {
 fn example_response_with_many_nulls() {
     delete_files();
 
-    let _server = test_server::new(8089, |_| {
+    let _server = test_server::new("127.0.0.1:8089", || {
         let content = read_file("tests/example_response_with_many_nulls.json");
         HttpResponse::Ok()
             .header("Content-Type", "application/json")
@@ -211,7 +211,7 @@ fn example_response_with_many_nulls() {
 fn example_response_with_no_matching_card_filter() {
     delete_files();
 
-    let _server = test_server::new(8089, |_| {
+    let _server = test_server::new("127.0.0.1:8089", || {
         HttpResponse::NotFound().body(" card with filter not found ")
     });
 

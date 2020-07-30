@@ -1,11 +1,14 @@
+#![deny(unused_features)]
+#![deny(deprecated)]
+#![warn(dead_code)]
+#![warn(rust_2018_idioms)]
+#![warn(unused_variables)]
+#![warn(unused_imports)]
+
 #[macro_use]
 extern crate lazy_static;
 #[macro_use]
 extern crate log_derive;
-#[macro_use]
-extern crate nom;
-#[macro_use]
-extern crate rusticata_macros;
 #[macro_use]
 extern crate serde_derive;
 

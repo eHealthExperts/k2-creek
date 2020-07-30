@@ -1,8 +1,11 @@
 use der_parser::{
-    der_read_element_header, flat_take, parse_der_application, parse_der_explicit_failed,
-    DER_TAG_ERROR,
+    ber::{parse_ber_explicit_failed, BerTag},
+    der::der_read_element_header,
+    error::BerError,
+    flat_take, parse_der_application,
 };
-use nom::{ErrorKind, IResult};
+use nom::{alt, call, complete, do_parse, take, verify, IResult};
+use rusticata_macros::custom_check;
 use std::{fmt, str};
 
 macro_rules! fmt(
@@ -28,7 +31,7 @@ macro_rules! fmt(
     )
 );
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, Deserialize)]
 struct KvkData<'a> {
     kkn: &'a [u8],
     kknr: &'a [u8],
@@ -49,7 +52,7 @@ struct KvkData<'a> {
 }
 
 impl<'a> fmt::Display for KvkData<'a> {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(
             f,
             "KrankenKassenName:    {}\n\
@@ -104,75 +107,72 @@ impl<'a> fmt::Display for KvkData<'a> {
     }
 }
 
-pub fn parse(data: &str) -> Option<String> {
-    let bytes = match ::base64::decode(&data) {
-        Ok(content) => content,
-        Err(why) => panic!("Failed to decode kvkdata:\n{}", why),
-    };
-
-    match parse_as_kvkdata(&bytes) {
-        Ok(kvkdata) => Some(kvkdata.1.to_string()),
-        Err(_) => None,
-    }
+fn parse_der_tagged(i: &[u8], tag: u32) -> IResult<&[u8], &[u8], BerError> {
+    do_parse!(
+        i,
+        hdr: der_read_element_header
+            >> custom_check!(hdr.tag != BerTag(tag), BerError::InvalidTag)
+            >> content: take!(hdr.len)
+            >> (content)
+    )
 }
 
-fn parse_as_kvkdata(i: &[u8]) -> IResult<&[u8], KvkData> {
-    parse_der_application!(
+fn parse_optional_der_tagged(i: &[u8], tag: u32) -> IResult<&[u8], Option<&[u8]>, BerError> {
+    alt!(
         i,
+        complete!(do_parse!(
+            content: call!(parse_der_tagged, tag) >> (Some(content))
+        )) | do_parse!(_content: call!(parse_ber_explicit_failed, BerTag(0)) >> (None))
+    )
+}
+
+fn parse_app<'a>(data: &'a [u8]) -> IResult<&'a [u8], KvkData<'_>, BerError> {
+    parse_der_application!(
+        data,
         APPLICATION 0,
-        kkn: apply!(parse_value, 0) >>
-        kknr: apply!(parse_value, 1) >>
-        vknr: apply!(parse_value, 15) >>
-        vnr: apply!(parse_value, 2) >>
-        vs: apply!(parse_value, 3) >>
-        se: apply!(parse_value, 16) >>
-        t: apply!(parse_optional_value, 4) >>
-        v: apply!(parse_value, 5) >>
-        nz: apply!(parse_optional_value, 6) >>
-        f: apply!(parse_value, 7) >>
-        gd: apply!(parse_value, 8) >>
-        sn: apply!(parse_optional_value, 9) >>
-        wlc: apply!(parse_optional_value, 10) >>
-        plz: apply!(parse_value, 11) >>
-        on: apply!(parse_value, 12) >>
-        g: apply!(parse_value, 13) >>
-        _ps: apply!(parse_value, 14) >>
+        kkn: call!(parse_der_tagged, 0) >>
+        kknr: call!(parse_der_tagged, 1) >>
+        vknr: call!(parse_der_tagged, 15) >>
+        vnr: call!(parse_der_tagged, 2) >>
+        vs: call!(parse_der_tagged, 3) >>
+        se: call!(parse_der_tagged, 16) >>
+        t: call!(parse_optional_der_tagged, 4) >>
+        v: call!(parse_der_tagged, 5) >>
+        nz: call!(parse_optional_der_tagged, 6) >>
+        f: call!(parse_der_tagged, 7) >>
+        gd: call!(parse_der_tagged, 8) >>
+        sn: call!(parse_optional_der_tagged, 9) >>
+        wlc: call!(parse_optional_der_tagged, 10) >>
+        plz: call!(parse_der_tagged, 11) >>
+        on: call!(parse_der_tagged, 12) >>
+        g: call!(parse_der_tagged, 13) >>
+        //ps: apply!(parse_der_tagged, 14) >>
         ( KvkData {
             kkn, kknr, vknr, vnr, vs, se, t, v, nz, f, gd, sn, wlc, plz, on, g } )
     )
     .map(|(rem, t)| (rem, t.1))
 }
 
-fn parse_value(i: &[u8], tag: u8) -> IResult<&[u8], &[u8]> {
-    do_parse!(
-        i,
-        hdr: der_read_element_header
-            >> error_if!(hdr.tag != tag as u8, ErrorKind::Custom(DER_TAG_ERROR))
-            >> content: take!(hdr.len)
-            >> (content)
-    )
-}
+pub fn parse(data: &str) -> Option<String> {
+    let bytes = match ::base64::decode(&data) {
+        Ok(content) => content,
+        Err(why) => panic!("Failed to decode kvkdata:\n{}", why),
+    };
 
-fn parse_optional_value(i: &[u8], tag: u8) -> IResult<&[u8], Option<&[u8]>> {
-    alt_complete!(
-        i,
-        do_parse!(content: call!(parse_value, tag) >> (Some(content)))
-            | do_parse!(_content: call!(parse_der_explicit_failed, 0) >> (None))
-    )
-}
-
-#[test]
-fn fmt_returns_error_string_if_invalid_bytes_given() {
-    let buggy = vec![0, 159, 146, 150];
-
-    assert_eq!("!Fehler!", fmt!(&buggy))
+    match parse_app(&bytes) {
+        Ok(kvkdata) => Some(kvkdata.1.to_string()),
+        Err(why) => {
+            println!("{}", why);
+            None
+        }
+    }
 }
 
 #[test]
 fn fmt_replaces_chars_according_to_din_66003() {
     let ascii = vec![64, 126, 123, 125, 124, 91, 93, 92];
 
-    assert_eq!("@~{}|[]\\".as_bytes(), &ascii[..]);
+    assert_eq!(b"@~{}|[]\\", &ascii[..]);
     assert_eq!("§ßäüöÄÜÖ", fmt!(&ascii));
 }
 
