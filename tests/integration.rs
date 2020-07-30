@@ -127,6 +127,7 @@ fn example_full_response() {
 
 #[test]
 #[serial]
+#[cfg(not(target_os = "windows"))] // because reusing port on windows leads to a timeout
 fn example_response_with_error_code() {
     delete_files();
 
@@ -148,6 +149,7 @@ fn example_response_with_error_code() {
 
 #[test]
 #[serial]
+#[cfg(not(target_os = "windows"))] // because reusing port on windows leads to a timeout
 fn example_response_with_many_nulls() {
     delete_files();
 
@@ -211,6 +213,7 @@ fn example_response_with_many_nulls() {
 
 #[test]
 #[serial]
+#[cfg(not(target_os = "windows"))] // because reusing port on windows leads to a timeout
 fn example_response_with_no_matching_card_filter() {
     delete_files();
 
