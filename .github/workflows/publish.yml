@@ -39,7 +39,7 @@ jobs:
           - os: windows-latest
             target: i686-pc-windows-msvc
             asset_path: ./target/release/k2-creek.exe
-            asset_name: k2-creek-x32.exe
+            asset_name: k2-creek-x86.exe
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             asset_path: ./target/release/k2-creek.exe
@@ -57,7 +57,9 @@ jobs:
         with:
           profile: minimal
           toolchain: stable-${{ matrix.target }}
+          target: ${{ matrix.target }}
           default: true
+          override: true
       - uses: actions-rs/cargo@v1
         with:
           command: build

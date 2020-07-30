@@ -3,7 +3,7 @@ disable-push = true
 upload-doc = false
 no-dev-version = true
 tag-message = "{{version}}"
-tag-prefix = "v"
+tag-prefix = ""
 pre-release-commit-message = "{{version}}"
 pre-release-replacements = [
     {file="Cargo.toml", search="FileVersion = \"[0-9\\.]+\"", replace="FileVersion = \"{{version}}\""},
