@@ -1,0 +1,35 @@
+{
+    "cardHandle": "ff9b9ad0-2159-4d29-bfa7-b5436bc8c736",
+    "cardType": "KVK",
+    "iccsn": "",
+    "name": "Amelie Sina Apfel",
+    "statusData": {
+        "errorText": null,
+        "errorDetail": null,
+        "instruction": null,
+        "errorCode": null,
+        "errorTrace": null
+    },
+    "insurantId": null,
+    "insertTime": 1596531672000,
+    "terminalId": "T1",
+    "slot": 2,
+    "status": "READ_FINISHED",
+    "lastReadDate": 1596531673007,
+    "lastReadDuration": 257,
+    "ehcData": null,
+    "kvkData": {
+        "data": "YIGLgBZUZWNobmlrZXIgS3Jhbmtlbmthc3NlgQcxMzc3NTA4jwUwMDAyMIIMMTIzNDU2Nzg5MDEygwQ1MDAwkAExhQtBbWVsaWUgU2luYYcFQXBmZWyICDExMDkxOTk1iRJDYXJsLVdvbGZmLVN0ci4gMTKKAUSLBTQ1Mjc5jAVFc3Nlbo0EMTAyMY4B/A=="
+    },
+    "contexts": [
+        {
+            "mandantId": "Mandant1",
+            "clientSystemId": "ClientID1",
+            "workplaceId": "Workplace1"
+        }
+    ],
+    "mandanten": [
+        "Mandant1"
+    ],
+    "pinResultData": {}
+}

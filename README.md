@@ -15,32 +15,21 @@ It then extracts relevant fields and writes out some XML/binary files (compatibl
 
 ## Usage
 
-Copy the [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) into a desired folder. After the binary was executed, the card information at the configured K2 path will be written into some files next to the executable. The following files are created when information is delivered by the card:
-
-* `eGK_allgemeineVersicherungsdaten.xml`
-* `eGK_geschuetzteVersichertendaten.xml`
-* `eGK_MFDF_HCA_EF_StatusVD.xml`
-* `eGK_MFEFGDO.xml`
-* `eGK_PersoenlicheVersichertendaten.xml`
-* `eGK_Pruefungsnachweis.xml`
-* `KVK.dat`
-* `KVK_Daten.bin`
-* `Result.xml`
-
-For more information of the file content have a look into the WinCrd2XML handbook.
+Copy the [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) into a desired folder. After the binary was executed, the card information at the configured K2 path will be written into [some files](tests/writer) next to the executable.
 
 ## Configuration
 
-Locate a file `config.ini` next to the binary to configure the URL to work with.
+Execute `k2-creek.exe --help` to see the command line configuration options.
+
+Alternatively locate a file `config.ini` next to the binary to configure the URL to work with.
 
 The following example shows the default values.
 
 ```ini
 [k2]
-scheme=http
-host=localhost
-port=8089
-path=/k2/public/api/1/carddata
+api=2
+timeout= # default is no timeout
+url= # no default
 
 [output]
 force_delete=false

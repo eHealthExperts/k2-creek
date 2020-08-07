@@ -6,29 +6,48 @@
 #![warn(unused_imports)]
 
 #[macro_use]
-extern crate lazy_static;
+extern crate anyhow;
 #[macro_use]
-extern crate log_derive;
+extern crate cfg_if;
+#[macro_use]
+extern crate clap;
+#[macro_use]
+extern crate log;
 #[macro_use]
 extern crate serde_derive;
+#[cfg(test)]
+#[macro_use]
+extern crate serial_test;
 
+#[cfg(test)]
 #[macro_use]
-mod file_writer;
-#[macro_use]
-mod files;
-mod carddata;
+mod tests;
+
+mod api;
+mod cli;
 mod config;
-mod k2;
+mod egk;
+mod http;
+mod kvk;
+mod writer;
 
-pub use crate::carddata::write_carddata;
-use crate::config::Configuration;
-use antidote::RwLock;
+pub fn start() -> anyhow::Result<()> {
+    env_logger::Builder::from_default_env().init();
 
-lazy_static! {
-    pub(crate) static ref CONFIG: RwLock<Configuration> =
-        RwLock::new(Configuration::init().expect("Failed to init configuration!"));
-}
+    let args = crate::cli::matches().unwrap_or_else(|error| error.exit());
+    let config = config::Configuration::init(args)?;
+    trace!("{:?}", config);
 
-pub fn fetch_carddata() -> k2::Response {
-    k2::request()
+    std::env::set_current_dir(&config.output.path).map_err(|error| {
+        anyhow::Error::new(error).context(format!(
+            "Unable to open output path: {}",
+            config.output.path.as_path().to_string_lossy()
+        ))
+    })?;
+
+    use writer::WriteApi;
+    let data: api::Api = http::get(config.k2.url.unwrap(), config.k2.api, config.k2.timeout)?;
+    debug!("Deserialized {:?}", data);
+
+    Ok(data.write(config.output.force_delete)?)
 }
