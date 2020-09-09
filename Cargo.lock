@@ -1071,7 +1071,7 @@ dependencies = [
 
 [[package]]
 name = "k2-creek"
-version = "0.7.3"
+version = "1.0.0"
 dependencies = [
  "anyhow 1.0.32 (registry+https://github.com/rust-lang/crates.io-index)",
  "assert_cmd 1.0.1 (registry+https://github.com/rust-lang/crates.io-index)",

@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.0.0
 
 * Complete rewrite
 * Add support for API version 2 and 3
