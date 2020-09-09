@@ -44,9 +44,10 @@ impl Configuration {
         let mut settings = config::Config::new();
 
         if !args.is_present("url") {
-            let config_file = args
-                .value_of_os("config-file")
-                .expect("Missing config-file argument!");
+            let config_file = match args.value_of_os("config-file") {
+                Some(value) => value,
+                None => std::ffi::OsStr::new("config.ini"),
+            };
             let config_file_path: std::path::PathBuf = config_file.into();
             if !config_file_path.exists() {
                 bail!(format!(
@@ -156,7 +157,7 @@ mod tests {
             writeln!(file, "force_delete=true").unwrap();
             writeln!(file, "path=c:/Temp").unwrap();
 
-            let r = Configuration::init(with_args(vec!["-c", &path.to_string_lossy()]));
+            let r = Configuration::init(with_args(vec![]));
 
             assert!(r.is_ok());
 
