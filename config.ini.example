@@ -1,8 +1,7 @@
 ;[k2]
-;scheme=http
-;host=localhost
-;port=8089
-;path=/k2/public/api/1/carddata
+;api=2
+;timeout=5
+;url=http://localhost:8088
 
 ;[output]
 ; The default output path is the working directory of k2-creek

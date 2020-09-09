@@ -1,0 +1,27 @@
+{
+    "cardHandle": "e1074b90-336a-4192-bf6c-7831154a64b5",
+    "cardType": "KVK",
+    "iccsn": "",
+    "name": "Amelie Sina Apfel",
+    "kvkData": "YIGLgBZUZWNobmlrZXIgS3Jhbmtlbmthc3NlgQcxMzc3NTA4jwUwMDAyMIIMMTIzNDU2Nzg5MDEygwQ1MDAwkAExhQtBbWVsaWUgU2luYYcFQXBmZWyICDExMDkxOTk1iRJDYXJsLVdvbGZmLVN0ci4gMTKKAUSLBTQ1Mjc5jAVFc3Nlbo0EMTAyMY4B/A==",
+    "errorText": null,
+    "errorDetail": null,
+    "instruction": null,
+    "errorCode": null,
+    "errorTraces": null,
+    "insurantId": null,
+    "insertTime": 1596533053000,
+    "terminalId": "T1",
+    "slot": 2,
+    "pinResult": null,
+    "status": "READ_FINISHED",
+    "lastReadDate": 1596533053963,
+    "lastReadDuration": 255,
+    "eGKData": {
+        "statusVd": null,
+        "pd": null,
+        "vd": null,
+        "gvd": null,
+        "pn": null
+    }
+}

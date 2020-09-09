@@ -1,0 +1,144 @@
+{
+    "status": {
+        "result": "OK"
+    },
+    "cards": [
+        {
+            "contexts": [
+                {
+                    "contextId": "Standard Arbeitsplatz 1",
+                    "mandantId": "Mandant1",
+                    "clientSystemId": "ClientID1",
+                    "workplaceId": "Workplace1"
+                }
+            ],
+            "mandanten": [
+                "Mandant1"
+            ],
+            "pinResultDatas": {
+                "Mandant1": {
+                    "errorText": null,
+                    "errorDetail": null,
+                    "instruction": null,
+                    "errorCode": null,
+                    "mandantId": "Mandant1",
+                    "pinResult": {
+                        "pinStatus": "NO_ERROR",
+                        "retryCounter": null
+                    },
+                    "errorTrace": null
+                }
+            },
+            "cardHandle": "b242b370-03c0-44ed-9da8-02f22c458f5c",
+            "cardType": "HPIC",
+            "iccsn": "80276883110000016161",
+            "name": "Test Praxis Valid",
+            "insertTime": 1596527781061,
+            "terminalId": "T1",
+            "slot": 1,
+            "cardGeneration": "G2",
+            "lastReadDuration": 0,
+            "lastReadDate": null,
+            "insurantId": null,
+            "ehcData": null,
+            "kvkData": null,
+            "status": null,
+            "statusData": null
+        },
+        {
+            "contexts": [
+                {
+                    "contextId": "Standard Arbeitsplatz 1",
+                    "mandantId": "Mandant1",
+                    "clientSystemId": "ClientID1",
+                    "workplaceId": "Workplace1"
+                }
+            ],
+            "mandanten": [
+                "Mandant1"
+            ],
+            "pinResultDatas": {},
+            "cardHandle": "04fc9c58-ee65-4ecc-b62b-b473d7a3b948",
+            "cardType": "SMC_KT",
+            "iccsn": "80276991110000000012",
+            "name": "80276991110000000012",
+            "insertTime": 1596527752944,
+            "terminalId": "T1",
+            "slot": 4,
+            "cardGeneration": "G2",
+            "lastReadDuration": 0,
+            "lastReadDate": null,
+            "insurantId": null,
+            "ehcData": null,
+            "kvkData": null,
+            "status": null,
+            "statusData": null
+        },
+        {
+            "contexts": [
+                {
+                    "contextId": "Standard Arbeitsplatz 1",
+                    "mandantId": "Mandant1",
+                    "clientSystemId": "ClientID1",
+                    "workplaceId": "Workplace1"
+                }
+            ],
+            "mandanten": [
+                "Mandant1"
+            ],
+            "pinResultDatas": {},
+            "cardHandle": "860b88c0-193e-4565-a8a0-b7e1b068dd0a",
+            "cardType": "SMC_KT",
+            "iccsn": "80276991110000000010",
+            "name": "80276991110000000010",
+            "insertTime": 1596527752945,
+            "terminalId": "T-N-LOC",
+            "slot": 4,
+            "cardGeneration": "G2",
+            "lastReadDuration": 0,
+            "lastReadDate": null,
+            "insurantId": null,
+            "ehcData": null,
+            "kvkData": null,
+            "status": null,
+            "statusData": null
+        },
+        {
+            "contexts": [
+                {
+                    "contextId": "Standard Arbeitsplatz 1",
+                    "mandantId": "Mandant1",
+                    "clientSystemId": "ClientID1",
+                    "workplaceId": "Workplace1"
+                }
+            ],
+            "mandanten": [
+                "Mandant1"
+            ],
+            "pinResultDatas": {},
+            "cardHandle": "2b75e3a2-6ce7-4e8b-8733-d6615a0b6708",
+            "cardType": "KVK",
+            "iccsn": "",
+            "name": "Amelie Sina Apfel",
+            "insertTime": 1596536877000,
+            "terminalId": "T1",
+            "slot": 2,
+            "cardGeneration": null,
+            "lastReadDuration": 212,
+            "lastReadDate": 1596536877695,
+            "insurantId": null,
+            "ehcData": null,
+            "kvkData": {
+                "data": "YIGLgBZUZWNobmlrZXIgS3Jhbmtlbmthc3NlgQcxMzc3NTA4jwUwMDAyMIIMMTIzNDU2Nzg5MDEygwQ1MDAwkAExhQtBbWVsaWUgU2luYYcFQXBmZWyICDExMDkxOTk1iRJDYXJsLVdvbGZmLVN0ci4gMTKKAUSLBTQ1Mjc5jAVFc3Nlbo0EMTAyMY4B/A=="
+            },
+            "status": "READ_FINISHED",
+            "statusData": {
+                "errorText": null,
+                "errorDetail": null,
+                "instruction": null,
+                "errorCode": null,
+                "errorTrace": null
+            }
+        }
+    ]
+}

@@ -1,0 +1,155 @@
+{
+    "status": {
+        "result": "OK"
+    },
+    "cards": [
+        {
+            "contexts": [
+                {
+                    "contextId": "Standard Arbeitsplatz 1",
+                    "mandantId": "Mandant1",
+                    "clientSystemId": "ClientID1",
+                    "workplaceId": "Workplace1"
+                }
+            ],
+            "mandanten": [
+                "Mandant1"
+            ],
+            "pinResultDatas": {
+                "Mandant1": {
+                    "errorText": null,
+                    "errorDetail": null,
+                    "instruction": null,
+                    "errorCode": null,
+                    "mandantId": "Mandant1",
+                    "pinResult": {
+                        "pinStatus": "NO_ERROR",
+                        "retryCounter": null
+                    },
+                    "errorTrace": null
+                }
+            },
+            "cardHandle": "b242b370-03c0-44ed-9da8-02f22c458f5c",
+            "cardType": "HPIC",
+            "iccsn": "80276883110000016161",
+            "name": "Test Praxis Valid",
+            "insertTime": 1596527781061,
+            "terminalId": "T1",
+            "slot": 1,
+            "cardGeneration": "G2",
+            "lastReadDuration": 0,
+            "lastReadDate": null,
+            "insurantId": null,
+            "ehcData": null,
+            "kvkData": null,
+            "status": null,
+            "statusData": null
+        },
+        {
+            "contexts": [
+                {
+                    "contextId": "Standard Arbeitsplatz 1",
+                    "mandantId": "Mandant1",
+                    "clientSystemId": "ClientID1",
+                    "workplaceId": "Workplace1"
+                }
+            ],
+            "mandanten": [
+                "Mandant1"
+            ],
+            "pinResultDatas": {},
+            "cardHandle": "04fc9c58-ee65-4ecc-b62b-b473d7a3b948",
+            "cardType": "SMC_KT",
+            "iccsn": "80276991110000000012",
+            "name": "80276991110000000012",
+            "insertTime": 1596527752944,
+            "terminalId": "T1",
+            "slot": 4,
+            "cardGeneration": "G2",
+            "lastReadDuration": 0,
+            "lastReadDate": null,
+            "insurantId": null,
+            "ehcData": null,
+            "kvkData": null,
+            "status": null,
+            "statusData": null
+        },
+        {
+            "contexts": [
+                {
+                    "contextId": "Standard Arbeitsplatz 1",
+                    "mandantId": "Mandant1",
+                    "clientSystemId": "ClientID1",
+                    "workplaceId": "Workplace1"
+                }
+            ],
+            "mandanten": [
+                "Mandant1"
+            ],
+            "pinResultDatas": {},
+            "cardHandle": "860b88c0-193e-4565-a8a0-b7e1b068dd0a",
+            "cardType": "SMC_KT",
+            "iccsn": "80276991110000000010",
+            "name": "80276991110000000010",
+            "insertTime": 1596527752945,
+            "terminalId": "T-N-LOC",
+            "slot": 4,
+            "cardGeneration": "G2",
+            "lastReadDuration": 0,
+            "lastReadDate": null,
+            "insurantId": null,
+            "ehcData": null,
+            "kvkData": null,
+            "status": null,
+            "statusData": null
+        },
+        {
+            "contexts": [
+                {
+                    "contextId": "Standard Arbeitsplatz 1",
+                    "mandantId": "Mandant1",
+                    "clientSystemId": "ClientID1",
+                    "workplaceId": "Workplace1"
+                }
+            ],
+            "mandanten": [
+                "Mandant1"
+            ],
+            "pinResultDatas": {},
+            "cardHandle": "9178edc3-13aa-416a-aa84-fadf3c814fd3",
+            "cardType": "EHC",
+            "iccsn": "80276991110000000028",
+            "name": "Helmut Sébastian Fridolin Frankenstein",
+            "insertTime": 1596535951000,
+            "terminalId": "T1",
+            "slot": 2,
+            "cardGeneration": "G2",
+            "lastReadDuration": 2377,
+            "lastReadDate": 1596535953569,
+            "insurantId": null,
+            "ehcData": {
+                "statusVd": "<StatusVD><UpdateTimestamp>20161017000000</UpdateTimestamp><Transaction>0</Transaction><Version><XML>5.2.0</XML></Version></StatusVD>",
+                "pd": "<?xml version=\"1.0\" encoding=\"ISO-8859-15\" standalone=\"yes\"?><UC_PersoenlicheVersichertendatenXML CDM_VERSION=\"5.2.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/vsd/v5.2\"><Versicherter><Versicherten_ID>X110414620</Versicherten_ID><Person><Geburtsdatum>19840113</Geburtsdatum><Vorname>Helmut Sébastian Fridolin</Vorname><Nachname>Frankenstein</Nachname><Geschlecht>M</Geschlecht><StrassenAdresse><Postleitzahl>99974</Postleitzahl><Ort>Mühlhausen</Ort><Land><Wohnsitzlaendercode>D</Wohnsitzlaendercode></Land><Strasse>Langensalzaer Str.</Strasse><Hausnummer>25</Hausnummer></StrassenAdresse></Person></Versicherter></UC_PersoenlicheVersichertendatenXML>",
+                "vd": "<?xml version=\"1.0\" encoding=\"ISO-8859-15\" standalone=\"yes\"?><UC_AllgemeineVersicherungsdatenXML CDM_VERSION=\"5.2.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/vsd/v5.2\"><Versicherter><Versicherungsschutz><Beginn>20170309</Beginn><Kostentraeger><Kostentraegerkennung>107202793</Kostentraegerkennung><Kostentraegerlaendercode>D</Kostentraegerlaendercode><Name>IKK Classic</Name></Kostentraeger></Versicherungsschutz><Zusatzinfos><ZusatzinfosGKV><Versichertenart>5</Versichertenart><Zusatzinfos_Abrechnung_GKV><WOP>93</WOP></Zusatzinfos_Abrechnung_GKV></ZusatzinfosGKV></Zusatzinfos></Versicherter></UC_AllgemeineVersicherungsdatenXML>",
+                "gvd": "<?xml version=\"1.0\" encoding=\"ISO-8859-15\" standalone=\"yes\"?><UC_GeschuetzteVersichertendatenXML CDM_VERSION=\"5.2.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/vsd/v5.2\"><Zuzahlungsstatus><Status>0</Status></Zuzahlungsstatus><Selektivvertraege><Aerztlich>0</Aerztlich><Zahnaerztlich>0</Zahnaerztlich></Selektivvertraege></UC_GeschuetzteVersichertendatenXML>",
+                "pn": {
+                    "pnXML": "<?xml version=\"1.0\" encoding=\"ISO-8859-15\" standalone=\"yes\"?>\n<PN CDM_VERSION=\"1.0.0\" xmlns=\"http://ws.gematik.de/fa/vsdm/pnw/v1.0\">\n    <TS>20200804095902</TS>\n    <E>2</E>\n    <PZ>EIAnaIMAMAAAmZkgFgYgFSMxEAAAAAB6W1auwkgG7Zi8FBRC1qpZFAhi0Wj2f1G4xGqArPx5Cg==</PZ>\n</PN>\n",
+                    "result": 2,
+                    "errorCode": null,
+                    "errorText": null,
+                    "timestamp": 1596527942000,
+                    "receipt": "EIAnaIMAMAAAmZkgFgYgFSMxEAAAAAB6W1auwkgG7Zi8FBRC1qpZFAhi0Wj2f1G4xGqArPx5Cg=="
+                }
+            },
+            "kvkData": null,
+            "status": "READ_FINISHED",
+            "statusData": {
+                "errorText": null,
+                "errorDetail": null,
+                "instruction": null,
+                "errorCode": null,
+                "errorTrace": null
+            }
+        }
+    ]
+}

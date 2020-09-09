@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+* Complete rewrite
+* Add support for API version 2 and 3
+* Add support for command line arguments
+
 ## 0.7.3
 
 * adjust K2 response struct

@@ -21,8 +21,9 @@ jobs:
           cargo test;
         env:
           CARGO_INCREMENTAL: '0'
+          RUST_TEST_THREADS: '1'
           RUSTC_BOOTSTRAP: '1'
-          RUSTFLAGS: '-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code -Coverflow-checks=off'
+          RUSTFLAGS: '-Zprofile -Ccodegen-units=1 -Copt-level=0 -Clink-dead-code -Coverflow-checks=off -Zpanic_abort_tests -Cpanic=abort'
       - name: Collect hit files, install grcov and create coveralls report
         run: |
           zip -0 ccov.zip `find . \( -name "*k2*.gc*" \) -print`;
