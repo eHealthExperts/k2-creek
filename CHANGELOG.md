@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+* update dependencies
+
 ## 1.0.0
 
 * Complete rewrite
