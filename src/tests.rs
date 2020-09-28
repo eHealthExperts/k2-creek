@@ -96,10 +96,29 @@ macro_rules! test {
             assert: []
         }
     );
+
+    (
+        name: $name:ident,
+        temp_dir: true,
+        vars: $vars:tt,
+        steps: $steps:block,
+        assert: $assert:tt
+    ) => (
+        test! {
+            name: $name,
+            temp_dir: true,
+            vars: $vars,
+            it: it,
+            steps: $steps,
+            assert: $assert
+        }
+    );
+
     (
         name: $name:ident,
         temp_dir: true,
         vars: [$($var:ident => $value:expr),*],
+        it: $it:ident,
         steps: $steps:block,
         assert: [$($file:expr => $content:expr),*]
     ) => (
@@ -112,23 +131,23 @@ macro_rules! test {
                 let $var = $value;
             )*
             #[allow(unused_mut)]
-            let mut it = crate::tests::TestRun::init()?;
+            let mut $it = crate::tests::TestRun::init()?;
 
             $steps
 
-            it.update_files();
+            $it.update_files();
             $(
                 use std::io::prelude::*;
 
-                it.assert_has_file(it.current.path().join($file));
+                $it.assert_has_file($it.current.path().join($file));
                 let mut created_content = Vec::new();
-                let mut file = ::std::fs::File::open(&it.current.path().join($file)).unwrap();
+                let mut file = ::std::fs::File::open(&$it.current.path().join($file)).unwrap();
                 file.read_to_end(&mut created_content).unwrap();
 
                 assert_eq!($content, created_content, "Equal check for {} failed!", $file);
             )*
 
-            it.reset()?;
+            $it.reset()?;
             Ok(())
         }
     );
