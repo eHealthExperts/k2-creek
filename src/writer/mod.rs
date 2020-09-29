@@ -51,6 +51,7 @@ mod tests {
             old_files => TestRun::ls("tests/writer/egk".into())?,
             kvk_res => helper::read_file("tests/api/v1/kvk.json")?
         ],
+        it: it,
         steps: {
             for file in old_files {
                 let base = it.before.as_path();

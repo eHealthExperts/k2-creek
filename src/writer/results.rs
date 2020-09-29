@@ -57,6 +57,7 @@ mod tests {
             card_type => helper::random_string(10),
             terminal_id => helper::random_string(10)
         ],
+        it: it,
         steps: {
             Results::write(&card_type, None, None, None, &terminal_id)?;
         },

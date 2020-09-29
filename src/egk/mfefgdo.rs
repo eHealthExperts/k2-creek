@@ -42,6 +42,7 @@ mod tests {
         vars: [
             iccsn => &helper::random_string(10)
         ],
+        it: it,
         steps: {
             MFEFGDO::write(iccsn).unwrap();
         },
