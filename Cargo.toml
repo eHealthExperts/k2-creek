@@ -11,35 +11,34 @@ edition = "2018"
 build = "build.rs"
 
 [dependencies]
-anyhow = "1.0.32"
-base64 = "0.12.3"
+anyhow = "1.0.38"
+base64 = "0.13.0"
 clap = "2.33.3"
-cfg-if = "0.1.10"
+cfg-if = "1.0.0"
 config = { version = "0.10.1", default-features= false, features=["ini"] }
 der-parser = "4.1.0"
 encoding = "0.2.33"
 enum-iterator = "0.6.0"
-env_logger = "0.7.1"
-log = "0.4.11"
+env_logger = "0.8.2"
+log = "0.4.13"
 nom = "5.1.2"
 promptly = "0.3.0"
-reqwest = { version = "0.10.8", features = ["blocking", "json", "rustls-tls"] }
-rusticata-macros = "2.1.0"
-serde = "1.0.116"
-serde_derive = "1.0.116"
-serde-xml-rs = "0.4.0"
-serde_with = "1.4.0"
-url = { version = "2.1.1", features = ["serde"] }
+reqwest = { version = "0.11.0", features = ["blocking", "json", "rustls-tls"] }
+rusticata-macros = "3.0.1"
+serde = "1.0.120"
+serde_derive = "1.0.120"
+serde-xml-rs = "0.4.1"
+serde_with = "1.6.0"
+url = { version = "2.2.0", features = ["serde"] }
 xml-rs = "0.8.3"
 
 [dev-dependencies]
-assert_cmd = "1.0.1"
-mockall = "0.8.1"
-futures-timer = "3.0.2"
-predicates = "1.0.5"
-serial_test = "0.5.0"
-serde_json = "1.0.57"
-tempfile = "3.1.0"
+assert_cmd = "1.0.2"
+mockall = "0.9.0"
+predicates = "1.0.6"
+serial_test = "0.5.1"
+serde_json = "1.0.61"
+tempfile = "3.2.0"
 test-server = { git = "https://github.com/ChriFo/test-server-rs", tag = "0.9.1" }
 
 [target.'cfg(windows)'.build-dependencies]

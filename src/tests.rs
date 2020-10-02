@@ -117,10 +117,10 @@ macro_rules! test {
 
             $steps
 
+            #[allow(unused)]
+            use std::io::Read;
             $it.update_files();
             $(
-                use std::io::prelude::*;
-
                 $it.assert_has_file($it.current.path().join($file));
                 let mut created_content = Vec::new();
                 let mut file = ::std::fs::File::open(&$it.current.path().join($file)).unwrap();

@@ -104,8 +104,10 @@ mod tests {
             let ctx = MFEFGDO::write_context();
             ctx.expect().returning(|_| Ok(()));
 
-            let mut egk_data = EgkData::default();
-            egk_data.pd = Some(pd.to_string());
+            let egk_data = EgkData {
+                pd: Some(pd.to_string()),
+                ..Default::default()
+            };
 
             egk_data.write(&iccsn).unwrap();
         },
@@ -126,8 +128,10 @@ mod tests {
             let ctx = MFEFGDO::write_context();
             ctx.expect().returning(|_| Ok(()));
 
-            let mut egk_data = EgkData::default();
-            egk_data.statusVd = Some(status_vd.to_string());
+            let egk_data = EgkData {
+                statusVd: Some(status_vd.to_string()),
+                ..Default::default()
+            };
 
             egk_data.write(&iccsn).unwrap();
         },
@@ -148,8 +152,10 @@ mod tests {
             let ctx = MFEFGDO::write_context();
             ctx.expect().returning(|_| Ok(()));
 
-            let mut egk_data = EgkData::default();
-            egk_data.vd = Some(vd.to_string());
+            let egk_data = EgkData {
+                vd: Some(vd.to_string()),
+                ..Default::default()
+            };
 
             egk_data.write(&iccsn).unwrap();
         },
@@ -170,8 +176,10 @@ mod tests {
             let ctx = MFEFGDO::write_context();
             ctx.expect().returning(|_| Ok(()));
 
-            let mut egk_data = EgkData::default();
-            egk_data.gvd = Some(gvd.to_string());
+            let egk_data = EgkData {
+                gvd: Some(gvd.to_string()),
+                ..Default::default()
+            };
 
             egk_data.write(&iccsn).unwrap();
         },
@@ -192,10 +200,12 @@ mod tests {
             let ctx = MFEFGDO::write_context();
             ctx.expect().returning(|_| Ok(()));
 
-            let mut egk_data = EgkData::default();
-            egk_data.pn = Some(Pn {
-                pnXML: pn.to_string()
-            });
+            let egk_data = EgkData{
+                pn: Some(Pn {
+                    pnXML: pn.to_string()
+                }),
+                ..Default::default()
+            };
 
             egk_data.write(&iccsn).unwrap();
         },

@@ -105,8 +105,8 @@ mod tests {
 
     #[test]
     fn build_client_without_timeout() -> Result<(), anyhow::Error> {
-        let server = test_server::new("127.0.0.1:0", || async {
-            futures_timer::Delay::new(std::time::Duration::from_secs(2)).await;
+        let server = test_server::new("127.0.0.1:0", || {
+            std::thread::sleep(std::time::Duration::from_secs(2));
             test_server::HttpResponse::Ok().body("{ \"foo\": \"bar\" }")
         })?;
 
@@ -120,8 +120,8 @@ mod tests {
 
     #[test]
     fn build_client_with_timeout() -> Result<(), anyhow::Error> {
-        let server = test_server::new("127.0.0.1:0", || async {
-            futures_timer::Delay::new(std::time::Duration::from_secs(5)).await;
+        let server = test_server::new("127.0.0.1:0", || {
+            std::thread::sleep(std::time::Duration::from_secs(2));
             test_server::HttpResponse::Ok().body("{ \"foo\": \"bar\" }")
         })?;
 

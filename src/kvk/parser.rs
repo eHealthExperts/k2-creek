@@ -8,7 +8,7 @@ use der_parser::{
 use nom::{alt, call, complete, do_parse, take, verify, IResult};
 use rusticata_macros::custom_check;
 
-pub(crate) fn parse_app<'a>(data: &'a [u8]) -> IResult<&'a [u8], Model<'a>, Error> {
+pub(crate) fn parse_app(data: &'_ [u8]) -> IResult<&'_ [u8], Model<'_>, Error> {
     parse_der_application!(
         data,
         APPLICATION 0,
