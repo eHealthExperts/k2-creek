@@ -59,12 +59,12 @@ impl EgkData {
 mod tests {
 
     use super::*;
+    use crate::tests::random_string;
     use mockall::predicate::*;
-    use test_server::helper;
 
     #[test]
     fn write_mfefgdo_ok() {
-        let iccsn = test_server::helper::random_string(10);
+        let iccsn = random_string(10);
 
         let ctx = MFEFGDO::write_context();
         ctx.expect()
@@ -79,7 +79,7 @@ mod tests {
 
     #[test]
     fn write_mfefgdo_failed() {
-        let iccsn = test_server::helper::random_string(10);
+        let iccsn = random_string(10);
 
         let ctx = MFEFGDO::write_context();
         ctx.expect()
@@ -96,7 +96,7 @@ mod tests {
         name: pd_is_written,
         temp_dir: true,
         vars: [
-            iccsn => helper::random_string(10),
+            iccsn => random_string(10),
             pd => "<a>PD</a>"
         ],
         it: it,
@@ -120,7 +120,7 @@ mod tests {
         name: status_vd_is_written,
         temp_dir: true,
         vars: [
-            iccsn => helper::random_string(10),
+            iccsn => random_string(10),
             status_vd => "<a>STATUS_VD</a>"
         ],
         it: it,
@@ -144,7 +144,7 @@ mod tests {
         name: vd_is_written,
         temp_dir: true,
         vars: [
-            iccsn => helper::random_string(10),
+            iccsn => random_string(10),
             vd => "<a>VD</a>"
         ],
         it: it,
@@ -168,7 +168,7 @@ mod tests {
         name: gvd_is_written,
         temp_dir: true,
         vars: [
-            iccsn => helper::random_string(10),
+            iccsn => random_string(10),
             gvd => "<a>GVD</a>"
         ],
         it: it,
@@ -192,7 +192,7 @@ mod tests {
         name: pn_is_written,
         temp_dir: true,
         vars: [
-            iccsn => helper::random_string(10),
+            iccsn => random_string(10),
             pn => "<a>PN</a>"
         ],
         it: it,
@@ -218,7 +218,7 @@ mod tests {
         name: all_files_written,
         temp_dir: true,
         vars: [
-            iccsn => helper::random_string(10),
+            iccsn => random_string(10),
             gvd => "<a>GVD</a>",
             vd => "<a>VD</a>",
             status_vd => "<a>STATUS_VD</a>",

@@ -97,7 +97,7 @@ mod tests {
         assert_eq!(c.k2.api, 2);
         assert_eq!(c.k2.timeout, None);
         assert_eq!(c.k2.url, None);
-        assert_eq!(c.output.force_delete, false);
+        assert!(!c.output.force_delete);
         assert_eq!(c.output.path, std::path::PathBuf::from("."));
     }
 
@@ -110,7 +110,7 @@ mod tests {
         let config = r.unwrap();
         assert_eq!(config.k2.api, 2);
         assert_eq!(config.k2.timeout, None);
-        assert_eq!(config.output.force_delete, false);
+        assert!(!config.output.force_delete);
         assert_eq!(config.output.path, std::path::PathBuf::from("."));
     }
 
@@ -166,7 +166,7 @@ mod tests {
             assert_eq!(config.k2.api, 3);
             assert_eq!(config.k2.timeout, Some(666));
             assert_eq!(config.k2.url.unwrap().as_str(), "http://foo.bar/");
-            assert_eq!(config.output.force_delete, true);
+            assert!(config.output.force_delete);
             assert_eq!(config.output.path, std::path::PathBuf::from("c:/Temp"));
 
             drop(file);

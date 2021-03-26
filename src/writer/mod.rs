@@ -42,14 +42,21 @@ mod tests {
 
     use super::*;
     use crate::tests::TestRun;
-    use test_server::helper;
+
+    pub fn read_file(file: &str) -> Result<String, std::io::Error> {
+        let mut file = std::fs::File::open(file)?;
+        let mut content = String::new();
+        use std::io::Read;
+        let _ = file.read_to_string(&mut content);
+        Ok(content)
+    }
 
     test! {
         name: not_prompting_before_cleanup,
         temp_dir: true,
         vars: [
             old_files => TestRun::ls("tests/writer/egk".into())?,
-            kvk_res => helper::read_file("tests/api/v1/kvk.json")?
+            kvk_res => read_file("tests/api/v1/kvk.json")?
         ],
         it: it,
         steps: {

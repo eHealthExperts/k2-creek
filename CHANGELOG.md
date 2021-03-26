@@ -2,13 +2,15 @@
 
 ## Unreleased
 
+* rewrite KVK data parser
+* replace testserver
 * update dependencies
 
 ## 1.0.0
 
-* Complete rewrite
-* Add support for API version 2 and 3
-* Add support for command line arguments
+* complete rewrite
+* add support for API version 2 and 3
+* add support for command line arguments
 
 ## 0.7.3
 

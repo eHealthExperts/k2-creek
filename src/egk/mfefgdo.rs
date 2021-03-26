@@ -1,6 +1,7 @@
 #[derive(Debug, Serialize)]
 #[cfg_attr(test, derive(Default))]
 #[serde(rename = "eGK_MFEF_GDO_Hexadezimal")]
+#[allow(clippy::upper_case_acronyms)]
 pub struct MFEFGDO {
     #[serde(rename = "MFEF_GDO_Tag_ICCSN")]
     pub tag: String,
@@ -34,13 +35,13 @@ impl MFEFGDO {
 mod tests {
 
     use super::*;
-    use test_server::helper;
+    use crate::tests::random_string;
 
     test! {
         name: valid_xml_layout,
         temp_dir: true,
         vars: [
-            iccsn => &helper::random_string(10)
+            iccsn => &random_string(10)
         ],
         it: it,
         steps: {

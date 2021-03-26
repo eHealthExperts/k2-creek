@@ -1,7 +1,6 @@
 #![deny(unused_features)]
 #![deny(deprecated)]
 #![warn(dead_code)]
-#![warn(rust_2018_idioms)]
 #![warn(unused_variables)]
 #![warn(unused_imports)]
 
@@ -49,5 +48,5 @@ pub fn start() -> anyhow::Result<()> {
     let data: api::Api = http::get(config.k2.url.unwrap(), config.k2.api, config.k2.timeout)?;
     debug!("Deserialized {:?}", data);
 
-    Ok(data.write(config.output.force_delete)?)
+    data.write(config.output.force_delete)
 }

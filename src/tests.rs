@@ -6,6 +6,15 @@ pub fn init_logger() {
         .try_init();
 }
 
+pub fn random_string(size: usize) -> String {
+    use rand::Rng;
+    rand::thread_rng()
+        .sample_iter(&rand::distributions::Alphanumeric)
+        .take(size)
+        .map(char::from)
+        .collect::<String>()
+}
+
 pub struct TestRun {
     pub before: std::path::PathBuf,
     pub current: tempfile::TempDir,
@@ -54,17 +63,8 @@ impl TestRun {
 
     pub fn assert_has_file(&mut self, file: std::path::PathBuf) {
         match &self.files {
-            Some(files) => assert!(
-                files.contains(&file),
-                format!(
-                    "File {} not found!",
-                    file.into_os_string().into_string().unwrap()
-                )
-            ),
-            None => panic!(format!(
-                "File {} not found",
-                file.into_os_string().into_string().unwrap()
-            )),
+            Some(files) => assert!(files.contains(&file), "File {:?} not found!", file),
+            None => panic!("File {:?} not found", file),
         }
     }
 

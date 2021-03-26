@@ -4,23 +4,23 @@ mod fmt;
 mod parser;
 
 #[derive(Debug)]
-pub struct Model<'a> {
-    kkn: &'a [u8],
-    kknr: &'a [u8],
-    vknr: &'a [u8],
-    vnr: &'a [u8],
-    vs: &'a [u8],
-    se: &'a [u8],
-    t: Option<&'a [u8]>,
-    v: &'a [u8],
-    nz: Option<&'a [u8]>,
-    f: &'a [u8],
-    gd: &'a [u8],
-    sn: Option<&'a [u8]>,
-    wlc: Option<&'a [u8]>,
-    plz: &'a [u8],
-    on: &'a [u8],
-    g: &'a [u8],
+pub struct Model {
+    kkn: Vec<u8>,
+    kknr: Vec<u8>,
+    vknr: Vec<u8>,
+    vnr: Vec<u8>,
+    vs: Vec<u8>,
+    se: Vec<u8>,
+    t: Option<Vec<u8>>,
+    v: Vec<u8>,
+    nz: Option<Vec<u8>>,
+    f: Vec<u8>,
+    gd: Vec<u8>,
+    sn: Option<Vec<u8>>,
+    wlc: Option<Vec<u8>>,
+    plz: Vec<u8>,
+    on: Vec<u8>,
+    g: Vec<u8>,
 }
 
 #[cfg_attr(test, derive(Default))]
@@ -39,7 +39,7 @@ impl KvkData {
 
         parser::parse_app(&bytes)
             .map_err(anyhow::Error::from)
-            .map(|(_, model)| {
+            .map(|model| {
                 trace!("ASN.1 decoded:\n{}", model);
                 Self {
                     raw: bytes.clone(),

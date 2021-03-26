@@ -19,12 +19,12 @@ jobs:
         release_name: ${{ github.ref }}
     - shell: bash
       run: |
-        echo '${{ steps.create-release.outputs.upload_url }}' > upload-url.txt
+        echo '${{ steps.create-release.outputs.upload_url }}' > upload_url.txt
     - name: Save GitHub release upload URL for next job
       uses: actions/upload-artifact@v1
       with:
-        name: upload-url
-        path: upload-url.txt
+        name: upload_url
+        path: upload_url.txt
   create-assets:
     needs:
       - 'create-release'
@@ -49,10 +49,11 @@ jobs:
       - name: Fetch GitHub Release upload URL
         uses: actions/download-artifact@v1
         with:
-          name: upload-url
-      - name: Set up environment variables
-        shell: bash
-        run: echo "::set-env name=upload_url::$(cat upload-url/upload-url.txt)"
+          name: upload_url
+      - name: Load Upload URL File from release job
+        id: get_release_info
+        run: |
+            echo "::set-output name=upload_url::$(cat upload_url/upload_url.txt)"
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
@@ -68,7 +69,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ env.upload_url }}
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
           asset_path: ${{ matrix.asset_path }}
           asset_name: ${{ matrix.asset_name }}
           asset_content_type: application/octet-stream

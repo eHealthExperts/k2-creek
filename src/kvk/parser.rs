@@ -1,55 +1,85 @@
 use crate::kvk::Model;
-use der_parser::{
-    ber::{parse_ber_explicit_failed, BerTag},
-    der::der_read_element_header,
-    error::BerError as Error,
-    flat_take, parse_der_application,
-};
-use nom::{alt, call, complete, do_parse, take, verify, IResult};
-use rusticata_macros::custom_check;
+use yasna::{ASN1Error, ASN1ErrorKind, ASN1Result, Tag};
 
-pub(crate) fn parse_app(data: &'_ [u8]) -> IResult<&'_ [u8], Model<'_>, Error> {
-    parse_der_application!(
-        data,
-        APPLICATION 0,
-        kkn: call!(parse_der_tagged, 0) >>
-        kknr: call!(parse_der_tagged, 1) >>
-        vknr: call!(parse_der_tagged, 15) >>
-        vnr: call!(parse_der_tagged, 2) >>
-        vs: call!(parse_der_tagged, 3) >>
-        se: call!(parse_der_tagged, 16) >>
-        t: call!(parse_optional_der_tagged, 4) >>
-        v: call!(parse_der_tagged, 5) >>
-        nz: call!(parse_optional_der_tagged, 6) >>
-        f: call!(parse_der_tagged, 7) >>
-        gd: call!(parse_der_tagged, 8) >>
-        sn: call!(parse_optional_der_tagged, 9) >>
-        wlc: call!(parse_optional_der_tagged, 10) >>
-        plz: call!(parse_der_tagged, 11) >>
-        on: call!(parse_der_tagged, 12) >>
-        g: call!(parse_der_tagged, 13) >>
-        //ps: apply!(parse_der_tagged, 14) >>
-        ( Model {
-            kkn, kknr, vknr, vnr, vs, se, t, v, nz, f, gd, sn, wlc, plz, on, g } )
-    )
-    .map(|(rem, t)| (rem, t.1))
+macro_rules! next {
+    ($reader:expr, $tag:tt) => {
+        match $reader.next().read_tagged_der() {
+            Ok(v) if v.tag().tag_number == $tag => Ok(v.value().to_vec()),
+            _ => Err(ASN1Error::new(ASN1ErrorKind::Invalid)),
+        }?
+    };
 }
 
-fn parse_der_tagged(i: &[u8], tag: u32) -> IResult<&[u8], &[u8], Error> {
-    do_parse!(
-        i,
-        hdr: der_read_element_header
-            >> custom_check!(hdr.tag != BerTag(tag), Error::InvalidTag)
-            >> content: take!(hdr.len)
-            >> (content)
-    )
+macro_rules! next_opt {
+    ($reader:expr, $tag:tt) => {{
+        let reader = $reader.next();
+        match reader.lookahead_tag() {
+            Ok(tag) if tag.tag_number == $tag => Some(reader.read_tagged_der()?.value().to_vec()),
+            _ => None,
+        }
+    }};
 }
 
-fn parse_optional_der_tagged(i: &[u8], tag: u32) -> IResult<&[u8], Option<&[u8]>, Error> {
-    alt!(
-        i,
-        complete!(do_parse!(
-            content: call!(parse_der_tagged, tag) >> (Some(content))
-        )) | do_parse!(_content: call!(parse_ber_explicit_failed, BerTag(0)) >> (None))
-    )
+pub(crate) fn parse_app(data: &'_ [u8]) -> ASN1Result<Model> {
+    yasna::parse_der(&data, |reader| {
+        reader.read_tagged_implicit(Tag::application(0), |reader| {
+            reader.read_sequence(|reader| {
+                let kkn = next!(reader, 0);
+                trace!("kkn {:x?}", kkn);
+                let kknr = next!(reader, 1);
+                trace!("kknr {:x?}", kknr);
+                let vknr = next!(reader, 15);
+                trace!("vknr {:x?}", vknr);
+                let vnr = next!(reader, 2);
+                trace!("vnr {:x?}", vnr);
+                let vs = next!(reader, 3);
+                trace!("vs {:x?}", vs);
+                let se = next!(reader, 16);
+                trace!("se {:x?}", se);
+                let t = next_opt!(reader, 4);
+                trace!("t {:x?}", t);
+                let v = next!(reader, 5);
+                trace!("v {:x?}", v);
+                let nz = next_opt!(reader, 6);
+                trace!("nz {:x?}", nz);
+                let f = next!(reader, 7);
+                trace!("f {:x?}", f);
+                let gd = next!(reader, 8);
+                trace!("gd {:x?}", gd);
+                let sn = next_opt!(reader, 9);
+                trace!("sn {:x?}", sn);
+                let wlc = next_opt!(reader, 10);
+                trace!("wlc {:x?}", wlc);
+                let plz = next!(reader, 11);
+                trace!("plz {:x?}", plz);
+                let on = next!(reader, 12);
+                trace!("on {:x?}", on);
+                let g = next!(reader, 13);
+                trace!("g {:x?}", g);
+                let ps = next!(reader, 14);
+                trace!("ps {:x?}", ps);
+
+                let model = Model {
+                    kkn,
+                    kknr,
+                    vknr,
+                    vnr,
+                    vs,
+                    se,
+                    t,
+                    v,
+                    nz,
+                    f,
+                    gd,
+                    sn,
+                    wlc,
+                    plz,
+                    on,
+                    g,
+                };
+
+                Ok(model)
+            })
+        })
+    })
 }

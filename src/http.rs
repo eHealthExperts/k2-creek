@@ -12,10 +12,7 @@ fn api_endpoint_for_version(version: u8) -> anyhow::Result<&'static str> {
 
 fn build_client(timeout: Option<u64>) -> anyhow::Result<reqwest::blocking::Client> {
     reqwest::blocking::Client::builder()
-        .timeout(match timeout {
-            Some(timeout) => Some(std::time::Duration::from_secs(timeout)),
-            None => None,
-        })
+        .timeout(timeout.map(std::time::Duration::from_secs))
         .use_rustls_tls()
         .build()
         .map_err(anyhow::Error::from)
@@ -49,6 +46,10 @@ where
 mod tests {
 
     use super::*;
+    use serde_json::{json, Value};
+    use std::time::Duration;
+    use url::Url;
+    use wiremock::{matchers::any, Mock, MockServer, ResponseTemplate};
 
     #[test]
     #[should_panic(expected = "Unsupported API version: 0")]
@@ -81,57 +82,67 @@ mod tests {
         get::<serde_json::Value>(url::Url::parse("http://foo.bar").unwrap(), 4, None).unwrap();
     }
 
-    #[test]
-    fn build_client_api_endpoint() -> Result<(), anyhow::Error> {
-        let server =
-            test_server::new("127.0.0.1:0", || test_server::HttpResponse::Ok().body("{}"))?;
+    #[async_std::test]
+    async fn build_client_api_endpoint() -> Result<(), anyhow::Error> {
+        let mock_server = MockServer::start().await;
+        let response = ResponseTemplate::new(200).set_body_json(json!({}));
+        let mock = Mock::given(any()).respond_with(response);
+        mock_server.register(mock).await;
 
         for (version, path) in [(1, "carddata"), (2, "carddata"), (3, "cards")]
             .iter()
             .cloned()
             .collect::<std::collections::HashMap<u8, &str>>()
         {
-            let _ = get::<serde_json::Value>(url::Url::parse(&server.url())?, version, None)?;
-            let req = server.requests.next().unwrap();
+            let _ = get::<serde_json::Value>(url::Url::parse(&mock_server.uri())?, version, None)?;
+            match &mock_server.received_requests().await {
+                Some(requests) if requests.last().is_some() => {
+                    let request = requests.last().unwrap();
 
-            assert_eq!(
-                req.uri().path(),
-                format!("{}/{}/{}", ENDPOINT_PREFIX, version, path)
-            );
+                    assert_eq!(
+                        request.url.path(),
+                        format!("{}/{}/{}", ENDPOINT_PREFIX, version, path)
+                    );
+                }
+                _ => bail!("Missing requests"),
+            }
         }
 
         Ok(())
     }
+    #[async_std::test]
+    async fn build_client_without_timeout() -> Result<(), anyhow::Error> {
+        let mock_server = MockServer::start().await;
+        let response = ResponseTemplate::new(200)
+            .set_body_json(json!({"foo":"bar"}))
+            .set_delay(Duration::from_secs(2));
+        let mock = Mock::given(any()).respond_with(response);
+        mock_server.register(mock).await;
 
-    #[test]
-    fn build_client_without_timeout() -> Result<(), anyhow::Error> {
-        let server = test_server::new("127.0.0.1:0", || {
-            std::thread::sleep(std::time::Duration::from_secs(2));
-            test_server::HttpResponse::Ok().body("{ \"foo\": \"bar\" }")
-        })?;
+        let res = get::<Value>(Url::parse(&mock_server.uri())?, 1, None);
 
-        let res = get::<serde_json::Value>(url::Url::parse(&server.url())?, 1, None);
-
-        assert!(res.is_ok(), format!("{:#?}", res));
-        assert_eq!(res?, serde_json::json!({ "foo": "bar" }));
+        assert!(res.is_ok(), "{:#?}", res);
+        assert_eq!(res?, json!({ "foo": "bar" }));
 
         Ok(())
     }
 
-    #[test]
-    fn build_client_with_timeout() -> Result<(), anyhow::Error> {
-        let server = test_server::new("127.0.0.1:0", || {
-            std::thread::sleep(std::time::Duration::from_secs(2));
-            test_server::HttpResponse::Ok().body("{ \"foo\": \"bar\" }")
-        })?;
+    #[async_std::test]
+    async fn build_client_with_timeout() -> Result<(), anyhow::Error> {
+        let mock_server = MockServer::start().await;
+        let response = ResponseTemplate::new(200)
+            .set_body_json(json!({"foo":"bar"}))
+            .set_delay(Duration::from_secs(2));
+        let mock = Mock::given(any()).respond_with(response);
+        mock_server.register(mock).await;
 
-        let res = get::<serde_json::Value>(url::Url::parse(&server.url())?, 1, Some(2));
+        let res = get::<Value>(Url::parse(&mock_server.uri())?, 1, Some(2));
 
         assert_eq!(
             format!("{}", res.err().unwrap()),
             format!(
                 "Failed to send request for {}/k2/public/api/1/carddata",
-                &server.url()
+                &mock_server.uri()
             )
         );
 

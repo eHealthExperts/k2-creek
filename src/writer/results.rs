@@ -48,14 +48,14 @@ impl Results {
 mod tests {
 
     use super::*;
-    use test_server::helper;
+    use crate::tests::random_string;
 
     test! {
         name: optional_values_are_null,
         temp_dir: true,
         vars: [
-            card_type => helper::random_string(10),
-            terminal_id => helper::random_string(10)
+            card_type => random_string(10),
+            terminal_id => random_string(10)
         ],
         it: it,
         steps: {

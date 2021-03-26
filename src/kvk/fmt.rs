@@ -16,7 +16,7 @@ macro_rules! fmt(
     })
 );
 
-impl<'a> Display for super::Model<'a> {
+impl Display for super::Model {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
         writeln!(
             f,
@@ -26,38 +26,38 @@ impl<'a> Display for super::Model<'a> {
              VersichertenNummer:   {}\n\
              VersichertenStatus:   {}\n\
              StatusErgänzung:      {}",
-            fmt!(self.kkn),
-            fmt!(self.kknr),
-            fmt!(self.vknr),
-            fmt!(self.vnr),
-            fmt!(self.vs),
-            fmt!(self.se)
+            fmt!(&self.kkn),
+            fmt!(&self.kknr),
+            fmt!(&self.vknr),
+            fmt!(&self.vnr),
+            fmt!(&self.vs),
+            fmt!(&self.se)
         )?;
 
-        if let Some(t) = self.t {
-            writeln!(f, "Titel:                {}", fmt!(t))?;
+        if let Some(t) = &self.t {
+            writeln!(f, "Titel:                {}", fmt!(&t))?;
         }
 
-        writeln!(f, "VorName:              {}", fmt!(self.v))?;
+        writeln!(f, "VorName:              {}", fmt!(&self.v))?;
 
-        if let Some(nz) = self.nz {
-            writeln!(f, "NamensZusatz:         {}", fmt!(nz))?;
+        if let Some(nz) = &self.nz {
+            writeln!(f, "NamensZusatz:         {}", fmt!(&nz))?;
         }
 
         writeln!(
             f,
             "FamilienName:         {}\n\
              GeburtsDatum:         {}",
-            fmt!(self.f),
-            fmt!(self.gd)
+            fmt!(&self.f),
+            fmt!(&self.gd)
         )?;
 
-        if let Some(sn) = self.sn {
-            writeln!(f, "Straßenname:          {}", fmt!(sn))?;
+        if let Some(sn) = &self.sn {
+            writeln!(f, "Straßenname:          {}", fmt!(&sn))?;
         }
 
-        if let Some(wlc) = self.wlc {
-            writeln!(f, "WohnsitzLänderCode:   {}", fmt!(wlc))?;
+        if let Some(wlc) = &self.wlc {
+            writeln!(f, "WohnsitzLänderCode:   {}", fmt!(&wlc))?;
         }
 
         write!(
@@ -65,9 +65,9 @@ impl<'a> Display for super::Model<'a> {
             "Postleitzahl:         {}\n\
              Orstname:             {}\n\
              GültigkeitsDatum:     {}",
-            fmt!(self.plz),
-            fmt!(self.on),
-            fmt!(self.g)
+            fmt!(&self.plz),
+            fmt!(&self.on),
+            fmt!(&self.g)
         )
     }
 }
