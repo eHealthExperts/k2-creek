@@ -21,7 +21,7 @@ macro_rules! next_opt {
 }
 
 pub(crate) fn parse_app(data: &'_ [u8]) -> ASN1Result<Model> {
-    yasna::parse_der(&data, |reader| {
+    yasna::parse_der(data, |reader| {
         reader.read_tagged_implicit(Tag::application(0), |reader| {
             reader.read_sequence(|reader| {
                 let kkn = next!(reader, 0);

@@ -1,34 +1,33 @@
 [package]
 name = "k2-creek"
-version = "1.0.0"
-authors = ["Benjamin Wenzel <wenzel@ehealthexperts.de>",
-           "Christian Fochler <fochler@ehealthexperts.de>"]
+version = "1.0.1"
+authors = ["Benjamin Wenzel <wenzel@ehex.de>",
+           "Christian Fochler <fochler@ehex.de>"]
 license = "MIT"
-homepage = "http://k2.ehealthexperts.de"
 repository = "https://github.com/eHealthExperts/k2-creek.git"
 publish = false
 edition = "2018"
 build = "build.rs"
 
 [dependencies]
-anyhow = "1.0.41"
+anyhow = "1.0.44"
 base64 = "0.13.0"
 clap = "2.33.3"
 cfg-if = "1.0.0"
 config = { version = "0.11.0", default-features= false, features=["ini"] }
 encoding = "0.2.33"
-enum-iterator = "0.6.0"
-env_logger = "0.8.4"
+enum-iterator = "0.7.0"
+env_logger = "0.9.0"
 log = "0.4.14"
 promptly = "0.3.0"
-reqwest = { version = "0.11.3", features = ["blocking", "json", "rustls-tls"] }
-rusticata-macros = "3.0.1"
-serde = "1.0.126"
-serde_derive = "1.0.126"
-serde-xml-rs = "0.4.1"
-serde_with = "1.9.4"
+reqwest = { version = "0.11.4", features = ["blocking", "json", "rustls-tls"] }
+rusticata-macros = "4.0.0"
+serde = "1.0.130"
+serde_derive = "1.0.130"
+serde-xml-rs = "0.5.1"
+serde_with = "1.10.0"
 url = { version = "2.2.2", features = ["serde"] }
-xml-rs = "0.8.3"
+xml-rs = "0.8.4"
 yasna = { version = "0.4.0", features = ["std"] }
 
 [dev-dependencies]
@@ -43,10 +42,10 @@ tempfile = "*"
 wiremock = "*"
 
 [target.'cfg(windows)'.build-dependencies]
-winres = "0.1.11"
+winres = "0.1.12"
 
 [package.metadata.winres]
-FileVersion = "1.0.0"
-LegalCopyright = "eHealthExperts GmbH. All rights reserved."
+FileVersion = "1.0.1"
+LegalCopyright = "eHealth Experts GmbH. All rights reserved."
 ProductName = "K2 creek"
-ProductVersion = "1.0.0"
+ProductVersion = "1.0.1"

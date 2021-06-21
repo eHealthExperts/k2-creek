@@ -30,7 +30,7 @@ impl Cardsdata {
         if let Some(card) = self
             .cards
             .iter()
-            .find(|c| ["EHC", "KVK"].contains(&&c.cardType.as_str()))
+            .find(|c| ["EHC", "KVK"].contains(&c.cardType.as_str()))
         {
             Results::write(
                 &card.cardType,
@@ -50,7 +50,7 @@ impl Cardsdata {
                 card.ehcData
                     .as_ref()
                     .expect("No EGK data found!")
-                    .write(&card.iccsn.as_ref().expect("No ICCSN found!"))
+                    .write(card.iccsn.as_ref().expect("No ICCSN found!"))
             }
         } else {
             bail!("No card of type 'EHC' or 'KVK' found! No files written!")

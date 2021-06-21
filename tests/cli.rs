@@ -12,7 +12,7 @@ fn help_is_displayed() {
         .arg("--help")
         .assert()
         .stderr(predicate::str::is_empty())
-        .stdout(predicate::str::similar(format!(
+        .stdout(predicate::str::diff(format!(
             "K2-Creek {}
 Made with ♥︎ by eHealthExperts GmbH
 
@@ -58,7 +58,7 @@ fn usage_is_displayed() {
         command
             .assert()
             .stdout(predicate::str::is_empty())
-            .stderr(predicate::str::similar(format!(
+            .stderr(predicate::str::diff(format!(
                 "error: The following required arguments were not provided:
     --url <URL>
 

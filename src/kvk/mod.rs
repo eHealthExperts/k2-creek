@@ -49,7 +49,7 @@ impl KvkData {
     }
 
     pub fn write(&self) -> anyhow::Result<()> {
-        crate::writer::files::Files::KvkDaten.write_raw(&self.pretty.as_bytes())?;
+        crate::writer::files::Files::KvkDaten.write_raw(self.pretty.as_bytes())?;
         crate::writer::files::Files::KvkBinDaten.write_raw(&self.raw)
     }
 }

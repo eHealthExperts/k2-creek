@@ -5,13 +5,13 @@
 [![codecov](https://codecov.io/gh/eHealthExperts/k2-creek/branch/master/graph/badge.svg)](https://codecov.io/gh/eHealthExperts/k2-creek)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
-A Microsoft Windows [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) that extract data from the electronic health insurance card via [K2](https://k2.ehealthexperts.de/)
+A Microsoft Windows [binary](https://github.com/eHealthExperts/k2-creek/releases/latest) that extract data from the electronic health insurance card via K2
 
 It then extracts relevant fields and writes out some XML/binary files (compatible with WINCrd2XML from Sagem Monetel).
 
 ## Requirements
 
-* [K2](https://k2.ehealthexperts.de/) from eHealth Experts GmbH
+* **K2** from eHealth Experts GmbH
 
 ## Usage
 

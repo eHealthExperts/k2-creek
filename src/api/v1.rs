@@ -37,7 +37,7 @@ impl Write for Carddata {
 
         match (&self.kvkData, &self.iccsn) {
             (Some(kvk_data), None) => kvk_data.write(),
-            (None, Some(iccsn)) => self.eGKData.write(&iccsn),
+            (None, Some(iccsn)) => self.eGKData.write(iccsn),
             _ => bail!("Neither an ICCSN nor KVK data found!"),
         }
     }

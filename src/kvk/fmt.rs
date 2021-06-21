@@ -35,13 +35,13 @@ impl Display for super::Model {
         )?;
 
         if let Some(t) = &self.t {
-            writeln!(f, "Titel:                {}", fmt!(&t))?;
+            writeln!(f, "Titel:                {}", fmt!(t))?;
         }
 
         writeln!(f, "VorName:              {}", fmt!(&self.v))?;
 
         if let Some(nz) = &self.nz {
-            writeln!(f, "NamensZusatz:         {}", fmt!(&nz))?;
+            writeln!(f, "NamensZusatz:         {}", fmt!(nz))?;
         }
 
         writeln!(
@@ -53,11 +53,11 @@ impl Display for super::Model {
         )?;
 
         if let Some(sn) = &self.sn {
-            writeln!(f, "Straßenname:          {}", fmt!(&sn))?;
+            writeln!(f, "Straßenname:          {}", fmt!(sn))?;
         }
 
         if let Some(wlc) = &self.wlc {
-            writeln!(f, "WohnsitzLänderCode:   {}", fmt!(&wlc))?;
+            writeln!(f, "WohnsitzLänderCode:   {}", fmt!(wlc))?;
         }
 
         write!(

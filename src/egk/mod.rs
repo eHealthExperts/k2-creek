@@ -32,19 +32,19 @@ impl EgkData {
         MFEFGDO::write(iccsn)?;
 
         if let Some(pd) = &self.pd {
-            Files::EgkPersoenlich.write(&pd)?;
+            Files::EgkPersoenlich.write(pd)?;
         }
 
         if let Some(vd) = &self.vd {
-            Files::EgkAllgemein.write(&vd)?;
+            Files::EgkAllgemein.write(vd)?;
         }
 
         if let Some(status_vd) = &self.statusVd {
-            Files::EgkStatusVD.write(&status_vd)?;
+            Files::EgkStatusVD.write(status_vd)?;
         }
 
         if let Some(gvd) = &self.gvd {
-            Files::EgkGeschuetzt.write(&gvd)?;
+            Files::EgkGeschuetzt.write(gvd)?;
         }
 
         if let Some(pn) = &self.pn {

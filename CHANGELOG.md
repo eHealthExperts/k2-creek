@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+* update dependencies
+
+## 1.0.1
+
 * rewrite KVK data parser
 * replace testserver
 * update dependencies
