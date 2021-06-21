@@ -1,6 +1,6 @@
 [package]
 name = "k2-creek"
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Benjamin Wenzel <wenzel@ehealthexperts.de>",
            "Christian Fochler <fochler@ehealthexperts.de>"]
 license = "MIT"
@@ -46,7 +46,7 @@ wiremock = "*"
 winres = "0.1.11"
 
 [package.metadata.winres]
-FileVersion = "1.0.0"
+FileVersion = "1.0.1"
 LegalCopyright = "eHealthExperts GmbH. All rights reserved."
 ProductName = "K2 creek"
-ProductVersion = "1.0.0"
+ProductVersion = "1.0.1"
